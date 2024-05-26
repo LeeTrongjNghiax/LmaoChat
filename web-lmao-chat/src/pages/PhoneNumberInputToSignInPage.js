@@ -7,7 +7,7 @@ export default function PhoneNumberInputToSignInPage() {
   const { theme } = useTheme();
 
   return (
-    <div class={`
+    <div className={`
       transition duration-[500] 
       bg-color-${theme}
       flex min-h-screen flex-col justify-center
@@ -17,13 +17,13 @@ export default function PhoneNumberInputToSignInPage() {
       <div className={`px-6 py-12 lg:px-8 flex-1`}>
         
         {/* Logo and title */}
-        <div class={`sm:mx-auto sm:w-full sm:max-w-sm`}>
+        <div className={`sm:mx-auto sm:w-full sm:max-w-sm`}>
           
           {/* Logo */}
           <Logo />
 
           {/* Title */}
-          <h2 class={`
+          <h2 className={`
             transition duration-[500] 
             text-color-${theme}
             mt-10 text-center text-2xl font-bold leading-9 tracking-tight select-none
@@ -32,14 +32,14 @@ export default function PhoneNumberInputToSignInPage() {
           </h2>
         </div>
 
-        <div class={`mt-10 sm:mx-auto sm:w-full sm:max-w-sm`}>
-          <form class={`space-y-6`} action="#" method="POST">
+        <div className={`mt-10 sm:mx-auto sm:w-full sm:max-w-sm`}>
+          <form className={`space-y-6`} action="#" method="POST">
             
             {/* OTP block */}
             <div>
 
               {/* OTP label */}
-              <label for="otp" class={`
+              <label htmlFor="otp" className={`
                 transition duration-[500] 
                 text-color-${theme}
                 block text-sm font-medium leading-6 select-none
@@ -48,15 +48,15 @@ export default function PhoneNumberInputToSignInPage() {
               </label>
 
               {/* OTP input */}
-              <div class={`mt-2`}>
+              <div className={`mt-2`}>
                 <input
                   id="otp"
                   name="otp"
                   type="tel"
-                  autocomplete="tel"
+                  autoComplete="tel"
                   required
                   placeholder='Your phone number'
-                  class={`
+                  className={`
                     transition duration-[500] 
                     text-color-${theme}
                     bg-color-${theme}
@@ -71,8 +71,11 @@ export default function PhoneNumberInputToSignInPage() {
             <div>
               <button
                 type="submit"
-                class={`
-                  flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 select-none
+                className={`
+                  bg-color-primary-${theme} 
+                  hover:bg-color-primary-hover-${theme} 
+                text-white  
+                  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 select-none px-3 py-1.5 text-sm font-semibold leading-6 shadow-sm flex w-full justify-center rounded-md 
               `}>
                 Send OTP
               </button>

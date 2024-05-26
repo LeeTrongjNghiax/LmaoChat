@@ -7,7 +7,7 @@ export default function SignInPage() {
   const { theme } = useTheme();
 
   return (
-    <div class={`
+    <div className={`
       transition duration-[500] 
       bg-color-${theme}
       flex min-h-screen flex-col justify-center`}
@@ -17,13 +17,13 @@ export default function SignInPage() {
       <div className={`px-6 py-12 lg:px-8 flex-1`}>
         
         {/* Logo and title */}
-        <div class={`sm:mx-auto sm:w-full sm:max-w-sm`}>
+        <div className={`sm:mx-auto sm:w-full sm:max-w-sm`}>
           
           {/* Logo */}
           <Logo />
 
           {/* Title */}
-          <h2 class={`
+          <h2 className={`
             transition duration-[500] 
             text-color-${theme}
             mt-10 text-center text-2xl font-bold leading-9 tracking-tight select-none
@@ -32,14 +32,14 @@ export default function SignInPage() {
           </h2>
         </div>
 
-        <div class={`mt-10 sm:mx-auto sm:w-full sm:max-w-sm`}>
-          <form class={`space-y-6`} action="#" method="POST">
+        <div className={`mt-10 sm:mx-auto sm:w-full sm:max-w-sm`}>
+          <form className={`space-y-6`} action="#" method="POST">
             
             {/* Email block */}
             <div>
 
               {/* Email label */}
-              <label for="email" class={`
+              <label htmlFor="email" className={`
                 transition duration-[500] 
                 text-color-${theme}
                 block text-sm font-medium leading-6 select-none
@@ -48,15 +48,15 @@ export default function SignInPage() {
               </label>
 
               {/* Email input */}
-              <div class={`mt-2`}>
+              <div className={`mt-2`}>
                 <input
                   id="email"
                   name="email"
                   type="email"
-                  autocomplete="email"
+                  autoComplete="email"
                   required
                   placeholder='Your Email'
-                  class={`
+                  className={`
                     transition duration-[500] 
                     text-color-${theme}
                     bg-color-${theme}
@@ -71,24 +71,24 @@ export default function SignInPage() {
             <div>
 
               {/* Password label */}
-              <label for="password" class={`
+              <label htmlFor="password" className={`
                 transition duration-[500] 
                 text-color-${theme}
                 block text-sm font-medium leading-6 select-none
               `}>
                 Password
-              </label>          
+              </label>
 
               {/* Password input */}
-              <div class={`mt-2`}>
+              <div className={`mt-2`}>
                 <input
                   id="password"
                   name="password"
                   type="password"
-                  autocomplete="current-password"
+                  autoComplete="current-password"
                   required
                   placeholder='Your Password'
-                  class={`
+                  className={`
                     transition duration-[500] 
                     text-color-${theme}
                     bg-color-${theme}
@@ -100,18 +100,24 @@ export default function SignInPage() {
             </div>
 
             {/* Sign up and forgot password link */}
-            <div class={`flex items-center justify-between`}>
+            <div className={`flex items-center justify-between`}>
 
               {/* Sign up link */}
               <a href='/PhoneNumberInputToSignInPage' className={`
-                text-sm font-semibold text-indigo-600 hover:text-indigo-500 select-none
+                text-color-primary-${theme} 
+                hover:text-color-primary-hover-${theme}
+                text-sm font-semibold
+                select-none
               `}>
                 Sign up
               </a>
 
               {/* Forgot password link */}
               <a href='/PhoneNumberInputToForgotPasswordPage' className={`
-                text-sm font-semibold text-indigo-600 hover:text-indigo-500 select-none
+                text-color-primary-${theme} 
+                hover:text-color-primary-hover-${theme} 
+                text-sm font-semibold 
+                select-none
               `}>
                 Forgot Password?
               </a>
@@ -121,8 +127,12 @@ export default function SignInPage() {
             <div>
               <button
                 type="submit"
-                class={`
-                  flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 select-none
+                className={`
+                  bg-color-primary-${theme} 
+                  hover:bg-color-primary-hover-${theme} 
+                text-white 
+                  shadow-sm px-3 py-1.5 text-sm font-semibold leading-6 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 select-none
+                  flex w-full justify-center rounded-md 
               `}>
                 Sign in
               </button>
