@@ -4,21 +4,26 @@
 */
 
 import React, { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 
 import { useTheme } from '../contexts/ThemeProvider';
 import Navbar from '../components/Navbar';
 import Logo from '../components/Logo';
 import LoadingPage from './LoadingPage';
 
-export default function SignUpPage(props) {
-  const { phoneNumber } = props;
+/*
+ * @param phoneNumber: string
+ */
+export default function SignUpPage() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [password, setPassword] = useState("");
   const [repeatedPassword, setRepeatedPassword] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const { theme } = useTheme();
-  const [loading, setLoading] = useState(true);
+  const { state } = useLocation();
+  const { phoneNumber } = state;
 
   const handleFirstName = e => {
     setFirstName(e.target.value)

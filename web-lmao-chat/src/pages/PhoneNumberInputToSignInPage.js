@@ -17,7 +17,7 @@ export default function PhoneNumberInputToSignInPage() {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [otp, setOTP] = useState("");
   const [error, setError] = useState("");
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(false);
   const [step, setStep] = useState('INPUT_PHONE_NUMBER');
   const [result, setResult] = useState('');
   const { theme } = useTheme();
@@ -33,9 +33,9 @@ export default function PhoneNumberInputToSignInPage() {
   }
 
   const handleVerification = () => {
-    if (!phoneNumber) {
-      setError("Phone number must not be null");
-      return false;
+    if (!phoneNumber.match(/^0[0-9]{9}$/) ) {
+      setError("Phone Number must have exatly 10 digits and start with 0");
+      return;
     }
 
     return true;
@@ -43,6 +43,8 @@ export default function PhoneNumberInputToSignInPage() {
 
   const handleSendPhoneNumber = () => {
     if (handleVerification()) {
+      document.querySelector("#sendPhoneNumberButton").disabled = true;
+
       let appVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
         'size': 'invisible',
       });
@@ -51,9 +53,11 @@ export default function PhoneNumberInputToSignInPage() {
         .then(confirmationResult => {
           setResult(confirmationResult);
           setStep('VERIFY_OTP');
+          setError(null);
         }).catch(error => {
           setError("Sign in with phone number error: " + error);
           console.error("Sign in with phone number error: " + error);
+          document.querySelector("#sendPhoneNumberButton").disabled = false;
         });
 
       alert`Send OTP successfully!`
@@ -65,7 +69,7 @@ export default function PhoneNumberInputToSignInPage() {
         
     result.confirm(otp).then(result => {
       setStep('VERIFY_SUCCESS');
-      navigate();
+      navigate("/SignUp", { state: { phoneNumber: phoneNumber } })
     })
     .catch(err => {
       setError("Verify OTP error: " + err);
@@ -133,6 +137,7 @@ export default function PhoneNumberInputToSignInPage() {
                         name="phoneNumber"
                         type="tel"
                         autoComplete="tel"
+                        maxLength={10}
                         placeholder='Your Phone Number'
                         value={phoneNumber}
                         onChange={handleChangePhoneNumber}
@@ -156,6 +161,7 @@ export default function PhoneNumberInputToSignInPage() {
                   {/* Submit button */}
                   <div>
                     <button
+                      id='sendPhoneNumberButton'
                       type="submit"
                       onClick={handleSendPhoneNumber}
                       className={`
@@ -164,7 +170,7 @@ export default function PhoneNumberInputToSignInPage() {
                       text-white  
                         focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 select-none px-3 py-1.5 text-sm font-semibold leading-6 shadow-sm flex w-full justify-center rounded-md 
                     `}>
-                      Send OTP
+                      Send Phone Number
                     </button>
                   </div>
                 </>

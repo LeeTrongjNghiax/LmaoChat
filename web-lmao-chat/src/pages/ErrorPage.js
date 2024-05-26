@@ -13,7 +13,7 @@ import { useEffect, useState } from "react";
 export default function ErrorPage() {
   const { theme } = useTheme();
   const error = useRouteError();
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     window.onload = function() {

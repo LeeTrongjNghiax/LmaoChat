@@ -14,7 +14,7 @@ export default function PhoneNumberInputToForgotPasswordPage() {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [error, setErrors] = useState("");
   const { theme } = useTheme();
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const handleChangePhoneNumber = e => {
     setPhoneNumber(e.target.value)

@@ -9,13 +9,15 @@ import { useTheme } from '../contexts/ThemeProvider';
 import Navbar from '../components/Navbar';
 import Logo from '../components/Logo';
 import LoadingPage from './LoadingPage';
+import { useNavigate } from 'react-router-dom';
 
 export default function SignInPage() {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
   const [error, setErrors] = useState("");
   const { theme } = useTheme();
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleChangePhoneNumber = e => {
     setPhoneNumber(e.target.value)
@@ -155,24 +157,28 @@ export default function SignInPage() {
             <div className={`flex items-center justify-between`}>
 
               {/* Sign up link */}
-              <a href='/PhoneNumberInputToSignInPage' className={`
+              <p onClick={() => {
+                navigate('/PhoneNumberInputToSignInPage');
+              }} className={`
                 text-color-primary-${theme} 
                 hover:text-color-primary-hover-${theme}
                 text-sm font-semibold
                 select-none
               `}>
                 Sign up
-              </a>
+              </p>
 
               {/* Forgot password link */}
-              <a href='/PhoneNumberInputToForgotPasswordPage' className={`
+              <p onClick={() => {
+                navigate("/PhoneNumberInputToForgotPasswordPage");
+              }} className={`
                 text-color-primary-${theme} 
                 hover:text-color-primary-hover-${theme} 
                 text-sm font-semibold 
                 select-none
               `}>
                 Forgot Password?
-              </a>
+              </p>
             </div>
 
             {/* Errors */}
