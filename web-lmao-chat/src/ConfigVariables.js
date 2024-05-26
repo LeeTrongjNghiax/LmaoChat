@@ -22,4 +22,4 @@ auth.languageCode = 'en';
 
 const ConfigVariables = {app, auth}
 
-module.exports = ConfigVariables;
+export default ConfigVariables;
