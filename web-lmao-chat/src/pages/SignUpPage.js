@@ -15,15 +15,15 @@ import LoadingPage from './LoadingPage';
  * @param phoneNumber: string
  */
 export default function SignUpPage() {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [password, setPassword] = useState("");
-  const [repeatedPassword, setRepeatedPassword] = useState("");
+  const [firstName, setFirstName] = useState("Le");
+  const [lastName, setLastName] = useState("Nghia");
+  const [password, setPassword] = useState("11111111");
+  const [repeatedPassword, setRepeatedPassword] = useState("11111111");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const { theme } = useTheme();
   const { state } = useLocation();
-  const { phoneNumber } = state;
+  const phoneNumber = state ? state.phoneNumber : "0932659945";
 
   const handleFirstName = e => {
     setFirstName(e.target.value)

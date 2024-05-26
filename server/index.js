@@ -16,7 +16,7 @@ app.use(cors({ origin: true }));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-app.use("/users", USER_ROUTER);
+app.use("/api/users", USER_ROUTER);
 
 io.on("connection", socket => {
   console.log("Socket: A user connected");

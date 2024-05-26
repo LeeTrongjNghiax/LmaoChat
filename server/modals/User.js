@@ -6,7 +6,11 @@ const USER = MONGOOSE.model(
     id: {
       type: MONGOOSE.ObjectId
     },
-    name: {
+    firstName: {
+      type: String,
+      require: true
+    },
+    lastName: {
       type: String,
       require: true
     },
@@ -16,7 +20,7 @@ const USER = MONGOOSE.model(
     },
     email: {
       type: String,
-      require: true
+      require: false
     },
     password: {
       type: String,
@@ -24,6 +28,7 @@ const USER = MONGOOSE.model(
     },
     avatarUrl: {
       type: String,
+      require: false
     },
     friends: [
       {
