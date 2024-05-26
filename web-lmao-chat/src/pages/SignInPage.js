@@ -11,8 +11,39 @@ import Logo from '../components/Logo';
 import LoadingPage from './LoadingPage';
 
 export default function SignInPage() {
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setErrors] = useState("");
   const { theme } = useTheme();
   const [loading, setLoading] = useState(true);
+
+  const handleChangePhoneNumber = e => {
+    setPhoneNumber(e.target.value)
+  }
+
+  const handleChangePassword = e => {
+    setPassword(e.target.value)
+  }
+
+  const handleVerification = () => {
+    if (!phoneNumber) {
+      setErrors("Phone number must not be null");
+      return false;
+    }
+
+    if (!password) {
+      setErrors("Password must not be null");
+      return false;
+    }
+
+    return true;
+  }
+
+  const handleSignIn = () => {
+    if ( handleVerification() ) {
+      alert`Sign in successfully!`
+    }
+  }
 
   useEffect(() => {
     window.onload = function() {
@@ -50,29 +81,31 @@ export default function SignInPage() {
         </div>
 
         <div className={`mt-10 sm:mx-auto sm:w-full sm:max-w-sm`}>
-          <form className={`space-y-6`} action="#" method="POST">
+          <div id='form' className={`space-y-6`}>
             
-            {/* Email block */}
+            {/* Phone Number block */}
             <div>
 
-              {/* Email label */}
-              <label htmlFor="email" className={`
+              {/* Phone Number label */}
+              <label htmlFor="phoneNumber" className={`
                 transition duration-[500] 
                 text-color-${theme}
                 block text-sm font-medium leading-6 select-none
               `}>
-                Email address
+                Phone Number
               </label>
 
-              {/* Email input */}
+              {/* Phone Number input */}
               <div className={`mt-2`}>
                 <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  autoComplete="email"
+                  id="phoneNumber"
+                  name="phoneNumber"
+                  type="tel"
+                  autoComplete="tel"
+                  placeholder='Your Phone Number'
+                  value={phoneNumber}
+                  onChange={handleChangePhoneNumber}
                   required
-                  placeholder='Your Email'
                   className={`
                     transition duration-[500] 
                     text-color-${theme}
@@ -103,8 +136,10 @@ export default function SignInPage() {
                   name="password"
                   type="password"
                   autoComplete="current-password"
-                  required
                   placeholder='Your Password'
+                  value={password}
+                  onChange={handleChangePassword}
+                  required
                   className={`
                     transition duration-[500] 
                     text-color-${theme}
@@ -140,10 +175,16 @@ export default function SignInPage() {
               </a>
             </div>
 
+            {/* Errors */}
+            <div>
+              <p className={`text-red-600`}>{error}</p>
+            </div>
+
             {/* Submit button */}
             <div>
               <button
-                type="submit"
+                // type="submit"
+                onClick={handleSignIn}
                 className={`
                   bg-color-primary-${theme} 
                   hover:bg-color-primary-hover-${theme} 
@@ -155,7 +196,7 @@ export default function SignInPage() {
               </button>
             </div>
             
-          </form>
+          </div>
 
         </div>
       </div>

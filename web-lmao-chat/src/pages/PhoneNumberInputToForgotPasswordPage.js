@@ -11,8 +11,29 @@ import Logo from '../components/Logo';
 import LoadingPage from './LoadingPage';
 
 export default function PhoneNumberInputToForgotPasswordPage() {
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [error, setErrors] = useState("");
   const { theme } = useTheme();
   const [loading, setLoading] = useState(true);
+
+  const handleChangePhoneNumber = e => {
+    setPhoneNumber(e.target.value)
+  }
+
+  const handleVerification = () => {
+    if (!phoneNumber) {
+      setErrors("Phone number must not be null");
+      return false;
+    }
+
+    return true;
+  }
+
+  const handleSendOTP = () => {
+    if ( handleVerification() ) {
+      alert`Send OTP successfully!`
+    }
+  }
 
   useEffect(() => {
     window.onload = function() {
@@ -50,13 +71,13 @@ export default function PhoneNumberInputToForgotPasswordPage() {
         </div>
 
         <div className={`mt-10 sm:mx-auto sm:w-full sm:max-w-sm`}>
-          <form className={`space-y-6`} action="#" method="POST">
+          <div id='form' className={`space-y-6`}>
             
             {/* OTP block */}
             <div>
 
               {/* OTP label */}
-              <label htmlFor="otp" className={`
+              <label htmlFor="phoneNumber" className={`
                 transition duration-[500] 
                 text-color-${theme}
                 block text-sm font-medium leading-6 select-none
@@ -64,15 +85,17 @@ export default function PhoneNumberInputToForgotPasswordPage() {
                 Please input your phone number that we can send OTP code
               </label>
 
-              {/* OTP input */}
+              {/* Phone Number input */}
               <div className={`mt-2`}>
                 <input
-                  id="otp"
-                  name="otp"
+                  id="phoneNumber"
+                  name="phoneNumber"
                   type="tel"
                   autoComplete="tel"
+                  placeholder='Your Phone Number'
+                  value={phoneNumber}
+                  onChange={handleChangePhoneNumber}
                   required
-                  placeholder='Your phone number'
                   className={`
                     transition duration-[500] 
                     text-color-${theme}
@@ -84,10 +107,16 @@ export default function PhoneNumberInputToForgotPasswordPage() {
               </div>
             </div>
 
+            {/* Errors */}
+            <div>
+              <p className={`text-red-600`}>{error}</p>
+            </div>
+
             {/* Submit button */}
             <div>
               <button
                 type="submit"
+                onClick={handleSendOTP}
                 className={`
                   bg-color-primary-${theme} 
                   hover:bg-color-primary-hover-${theme} 
@@ -98,7 +127,7 @@ export default function PhoneNumberInputToForgotPasswordPage() {
               </button>
             </div>
             
-          </form>
+          </div>
 
         </div>
       </div>
