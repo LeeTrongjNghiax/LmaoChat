@@ -32,9 +32,11 @@ export default function Navbar({ size }) {
       transition duration-[500]
       w-full bg-color-${theme} p-3 lg:p-3 flex gap-3
     `}>
-      <ArrowLeft onClick={goBack} color={buttonColor} size={size ? size : 30} className={`
-        cursor-pointer
-      `} />
+      <button>
+        <ArrowLeft onClick={goBack} color={buttonColor} size={size ? size : 30} className={`
+          cursor-pointer
+        `} />
+      </button>
 
       <ChangeThemeButton themeToChange="theme1" />
     </div>

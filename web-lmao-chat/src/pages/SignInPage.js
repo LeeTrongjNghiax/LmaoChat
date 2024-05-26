@@ -168,30 +168,36 @@ export default function SignInPage() {
             <div className={`flex items-center justify-between`}>
 
               {/* Sign up link */}
-              <p onClick={() => {
-                navigate('/PhoneNumberInputToSignInPage');
-              }} className={`
-                text-color-primary-${theme} 
-                hover:text-color-primary-hover-${theme}
-                text-sm font-semibold
-                select-none
-                cursor-pointer
-              `}>
+              <button
+                onClick={() => {
+                  navigate('/PhoneNumberInputToSignInPage');
+                }}
+                className={`
+                  text-color-primary-${theme} 
+                  hover:text-color-primary-hover-${theme}
+                  text-sm font-semibold
+                  select-none
+                  cursor-pointer
+                `}
+              >
                 Sign up
-              </p>
+              </button>
 
               {/* Forgot password link */}
-              <p onClick={() => {
-                navigate("/PhoneNumberInputToForgotPasswordPage");
-              }} className={`
-                text-color-primary-${theme} 
-                hover:text-color-primary-hover-${theme} 
-                text-sm font-semibold 
-                select-none
-                cursor-pointer
-              `}>
+              <button
+                onClick={() => {
+                  navigate("/PhoneNumberInputToForgotPasswordPage");
+                }}
+                className={`
+                  text-color-primary-${theme} 
+                  hover:text-color-primary-hover-${theme} 
+                  text-sm font-semibold 
+                  select-none
+                  cursor-pointer
+                `}
+              >
                 Forgot Password?
-              </p>
+              </button>
             </div>
 
             {/* Errors */}

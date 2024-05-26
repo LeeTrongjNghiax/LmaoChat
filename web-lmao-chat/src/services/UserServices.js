@@ -28,6 +28,7 @@ const login = async (phoneNumber, password) => {
       GlobalVariables.api_host + "/api/users/login", 
       data
     );
+    
     if (response.status === 200) {
       return response.data;
     } else {
