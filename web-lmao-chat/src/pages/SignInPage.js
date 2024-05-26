@@ -164,6 +164,7 @@ export default function SignInPage() {
                 hover:text-color-primary-hover-${theme}
                 text-sm font-semibold
                 select-none
+                cursor-pointer
               `}>
                 Sign up
               </p>
@@ -176,6 +177,7 @@ export default function SignInPage() {
                 hover:text-color-primary-hover-${theme} 
                 text-sm font-semibold 
                 select-none
+                cursor-pointer
               `}>
                 Forgot Password?
               </p>
