@@ -103,7 +103,7 @@ export default function SignInPage() {
             <div class={`flex items-center justify-between`}>
 
               {/* Sign up link */}
-              <a href='/PhoneNumberInputPage' className={`
+              <a href='/PhoneNumberInputToSignInPage' className={`
                 text-sm font-semibold text-indigo-600 hover:text-indigo-500 select-none
               `}>
                 Sign up

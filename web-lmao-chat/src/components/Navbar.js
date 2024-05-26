@@ -5,12 +5,12 @@ import React, { useEffect, useState } from 'react';
 import { ArrowLeft } from 'lucide-react';
 
 export default function Navbar({ size }) {
-  const [buttonColor, setButtonColor] = useState("black");
+  const [buttonColor, setButtonColor] = useState("white");
   const navigate = useNavigate();
   const { theme } = useTheme();
 
   useEffect(() => {
-    theme === "theme1" ? setButtonColor("black") : setButtonColor("white")
+    theme === "theme1" ? setButtonColor("white") : setButtonColor("black")
   });
 
   const goBack = () => {
@@ -22,7 +22,9 @@ export default function Navbar({ size }) {
       transition duration-[500]
       w-full bg-color-${theme} p-3 lg:p-3 flex gap-3
     `}>
-      <ArrowLeft onClick={goBack} color={buttonColor} size={size ? size : 30} />
+      <ArrowLeft onClick={goBack} color={buttonColor} size={size ? size : 30} className={`
+        cursor-pointer
+      `} />
 
       <ChangeThemeButton themeToChange="theme1" />
     </div>

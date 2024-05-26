@@ -9,7 +9,7 @@ import {
   Link,
 } from "react-router-dom";
 
-import PhoneNumberInputPage from './pages/PhoneNumberInputPage';
+import PhoneNumberInputToSignInPage from './pages/PhoneNumberInputToSignInPage';
 import SignInPage from './pages/SignInPage';
 import ErrorPage from './pages/ErrorPage';
 
@@ -24,8 +24,8 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
   },
   {
-    path: "/PhoneNumberInputPage",
-    element: (<PhoneNumberInputPage />),
+    path: "/PhoneNumberInputToSignInPage",
+    element: (<PhoneNumberInputToSignInPage />),
     errorElement: <ErrorPage />,
   },
 ]);

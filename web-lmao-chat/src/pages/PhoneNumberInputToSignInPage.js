@@ -3,15 +3,15 @@ import Navbar from '../components/Navbar';
 import React from 'react';
 import Logo from '../components/Logo';
 
-export default function PhoneNumberInputPage() {
+export default function PhoneNumberInputToSignInPage() {
   const { theme } = useTheme();
 
   return (
     <div class={`
       transition duration-[500] 
       bg-color-${theme}
-      flex min-h-screen flex-col justify-center`}
-    >
+      flex min-h-screen flex-col justify-center
+    `}>
       <Navbar />
 
       <div className={`px-6 py-12 lg:px-8 flex-1`}>

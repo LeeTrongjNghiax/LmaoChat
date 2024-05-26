@@ -6,12 +6,12 @@ module.exports = {
   theme: {
     extend: {
       backgroundColor: {
-        "color-theme1": "white", 
-        "color-theme2": "black", 
+        "color-theme1": "black", 
+        "color-theme2": "white", 
       }, 
       textColor: {
-        "color-theme1": "gray-950", 
-        "color-theme2": "white", 
+        "color-theme1": "white", 
+        "color-theme2": "gray-950", 
       }, 
     },
   },
