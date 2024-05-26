@@ -10,8 +10,8 @@ export default function SignInPage() {
     <div className={`
       transition duration-[500] 
       bg-color-${theme}
-      flex min-h-screen flex-col justify-center`}
-    >
+      flex min-h-screen flex-col justify-center
+    `}>
       <Navbar />
 
       <div className={`px-6 py-12 lg:px-8 flex-1`}>
