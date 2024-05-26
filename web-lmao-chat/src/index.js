@@ -17,12 +17,18 @@ import GlobalVariables from "./GlobalVariables";
 import PhoneNumberInputToForgotPasswordPage from './pages/PhoneNumberInputToForgotPasswordPage';
 import PhoneNumberInputToSignInPage from './pages/PhoneNumberInputToSignInPage';
 import SignInPage from './pages/SignInPage';
+import SignUpPage from './pages/SignUpPage';
 import ErrorPage from './pages/ErrorPage';
 
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: "/1",
     element: (<SignInPage />),
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: "/",
+    element: (<SignUpPage />),
     errorElement: <ErrorPage />,
   },
   {
