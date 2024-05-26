@@ -1,3 +1,17 @@
+/*
+  * Used by 
+  *   index.js
+  *   components
+  *     ChangeThemeButton.js
+  *     Logo.js
+  *     Navbar.js
+  *   pages
+  *     ErrorPage.js
+  *     PhoneNumberInputToForgotPasswordPage.js
+  *     PhoneNumberInputToSignInPage.js
+  *     SignInPage.js
+*/
+
 import React, { createContext, useContext, useEffect, useState } from 'react'
 
 const ThemeContext = createContext();

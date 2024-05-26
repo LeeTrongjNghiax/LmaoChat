@@ -1,8 +1,18 @@
+/*
+  * Used by
+  *   pages
+  *     ErrorPage.js
+  *     PhoneNumberInputToForgotPasswordPage.js
+  *     PhoneNumberInputToSignInPage.js
+  *     SignInPage.js
+*/
+
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { ArrowLeft } from 'lucide-react';
+
 import { useTheme } from '../contexts/ThemeProvider';
 import ChangeThemeButton from './ChangeThemeButton';
-import { useNavigate } from 'react-router-dom';
-import React, { useEffect, useState } from 'react';
-import { ArrowLeft } from 'lucide-react';
 
 export default function Navbar({ size }) {
   const [buttonColor, setButtonColor] = useState("white");

@@ -1,4 +1,9 @@
-import { createContext } from "react";
-import GlobalVariable from "./../GlobalVariable";
+/*
+  * Used by 
+  *   index.js
+*/
 
-export default createContext(GlobalVariable.socket);
+import { createContext } from "react";
+import GlobalVariables from "./../GlobalVariables";
+
+export default createContext(GlobalVariables.socket);

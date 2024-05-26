@@ -1,5 +1,12 @@
+/*
+  * Used by
+  *   components
+  *     Navbar.js
+*/
+
 import React from 'react';
 import { Moon, Sun } from 'lucide-react';
+
 import { useTheme } from '../contexts/ThemeProvider';
 
 export default function ChangeThemeButton({size}) {

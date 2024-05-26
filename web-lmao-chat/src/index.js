@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import reportWebVitals from './reportWebVitals';
-import './index.css';
 import {
   createBrowserRouter,
   RouterProvider,
@@ -9,14 +8,16 @@ import {
   Link,
 } from "react-router-dom";
 
+import './index.css';
+
+import SocketContext from "./contexts/SocketContext";
+import ThemeProvider from "./contexts/ThemeProvider";
+import GlobalVariables from "./GlobalVariables";
+
 import PhoneNumberInputToForgotPasswordPage from './pages/PhoneNumberInputToForgotPasswordPage';
 import PhoneNumberInputToSignInPage from './pages/PhoneNumberInputToSignInPage';
 import SignInPage from './pages/SignInPage';
 import ErrorPage from './pages/ErrorPage';
-
-import SocketContext from "./contexts/SocketContext";
-import ThemeProvider from "./contexts/ThemeProvider";
-import GlobalVariable from "./GlobalVariable";
 
 const router = createBrowserRouter([
   {
@@ -40,10 +41,8 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <ThemeProvider>
-      <SocketContext.Provider value={GlobalVariable.socket}>
-      {/* <main className={`bg-black`}> */}
-          <RouterProvider router={router} />
-        {/* </main> */}
+      <SocketContext.Provider value={GlobalVariables.socket}>
+        <RouterProvider router={router} />
       </SocketContext.Provider>
     </ThemeProvider>
   </React.StrictMode>

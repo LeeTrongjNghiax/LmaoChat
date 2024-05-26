@@ -1,6 +1,12 @@
+/*
+  * Used by 
+  *   index.js
+*/
+
+import React from 'react';
+
 import { useTheme } from '../contexts/ThemeProvider';
 import Navbar from '../components/Navbar';
-import React from 'react';
 import Logo from '../components/Logo';
 
 export default function PhoneNumberInputToForgotPasswordPage() {

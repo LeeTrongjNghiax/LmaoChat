@@ -1,5 +1,11 @@
-import { useTheme } from '../contexts/ThemeProvider';
+/*
+  * Used by 
+  *   index.js
+*/
+
 import { useRouteError } from "react-router-dom";
+
+import { useTheme } from '../contexts/ThemeProvider';
 import Navbar from "../components/Navbar";
 
 export default function ErrorPage() {

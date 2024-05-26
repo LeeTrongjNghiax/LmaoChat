@@ -2,6 +2,7 @@
 
 # variables
 /server/.env
+/web-lmao-chat/src/config.js
 
 # dependencies
 /server/node_modules
