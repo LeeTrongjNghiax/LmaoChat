@@ -3,15 +3,26 @@
   *   index.js
 */
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { useTheme } from '../contexts/ThemeProvider';
 import Navbar from '../components/Navbar';
 import Logo from '../components/Logo';
+import LoadingPage from './LoadingPage';
 
 export default function PhoneNumberInputToForgotPasswordPage() {
   const { theme } = useTheme();
+  const [loading, setLoading] = useState(true);
 
+  useEffect(() => {
+    window.onload = function() {
+      setLoading(false);
+    };
+  }, []);
+
+  if (loading)
+    return <LoadingPage />
+  
   return (
     <div className={`
       transition duration-[500] 

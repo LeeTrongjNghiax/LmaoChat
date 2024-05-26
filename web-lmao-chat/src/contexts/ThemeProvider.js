@@ -7,6 +7,7 @@
   *     Navbar.js
   *   pages
   *     ErrorPage.js
+  *     LoadingPage.js
   *     PhoneNumberInputToForgotPasswordPage.js
   *     PhoneNumberInputToSignInPage.js
   *     SignInPage.js

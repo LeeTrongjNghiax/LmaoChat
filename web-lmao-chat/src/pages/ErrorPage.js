@@ -7,11 +7,23 @@ import { useRouteError } from "react-router-dom";
 
 import { useTheme } from '../contexts/ThemeProvider';
 import Navbar from "../components/Navbar";
+import LoadingPage from "./LoadingPage";
+import { useEffect, useState } from "react";
 
 export default function ErrorPage() {
   const { theme } = useTheme();
   const error = useRouteError();
+  const [loading, setLoading] = useState(true);
 
+  useEffect(() => {
+    window.onload = function() {
+      setLoading(false);
+    };
+  }, []);
+
+  if (loading)
+    return <LoadingPage />
+  
   return (
     <div class={`
       transition duration-[500] 
