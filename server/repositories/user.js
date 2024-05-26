@@ -35,7 +35,12 @@ const addUser = async ({ phoneNumber, firstName, lastName, password }) => {
 
 const login = async ({ phoneNumber, password }) => {
   try {
-    const FOUND_USER = await USER.findOne({ phoneNumber, password }).exec();
+    const HASH_PASSWORD = await bcrypt.hash(
+      password,
+      parseInt(process.env.SALT_ROUNDS)
+    );
+
+    const FOUND_USER = await USER.findOne({ phoneNumber, HASH_PASSWORD }).exec();
     return FOUND_USER;
   } catch (error) {
     console.error("User Repository: Error login user: " + error);
