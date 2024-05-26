@@ -7,10 +7,11 @@
 
 import { io } from "socket.io-client";
 
-const port = 3000;
+const api_port = 3001;
+const socket_port = 3000;
 
-const api_host = " http://localhost:" + port
-const socket = io.connect("http://localhost:" + port);
+const api_host = " http://localhost:" + api_port
+const socket = io.connect("http://localhost:" + socket_port);
 
 const GlobalVariables = {api_host, socket}
 

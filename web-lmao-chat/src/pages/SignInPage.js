@@ -4,17 +4,19 @@
 */
 
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { useTheme } from '../contexts/ThemeProvider';
 import Navbar from '../components/Navbar';
 import Logo from '../components/Logo';
 import LoadingPage from './LoadingPage';
-import { useNavigate } from 'react-router-dom';
+
+import userService from '../services/UserServices';
 
 export default function SignInPage() {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setErrors] = useState("");
+  const [error, setError] = useState("");
   const { theme } = useTheme();
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -29,21 +31,30 @@ export default function SignInPage() {
 
   const handleVerification = () => {
     if (!phoneNumber) {
-      setErrors("Phone number must not be null");
+      setError("Phone number must not be null");
       return false;
     }
 
     if (!password) {
-      setErrors("Password must not be null");
+      setError("Password must not be null");
       return false;
     }
 
     return true;
   }
 
-  const handleSignIn = () => {
-    if ( handleVerification() ) {
+  const handleSignIn = async () => {
+    if (!handleVerification())
+      return;
+
+    const foundUser = await userService.login(phoneNumber, password);
+    
+    if (foundUser.data == null)
+      setError("Phone number or password is incorrect");
+    else {
+      setError("");
       alert`Sign in successfully!`
+      console.log("2");
     }
   }
 
@@ -191,7 +202,6 @@ export default function SignInPage() {
             {/* Submit button */}
             <div>
               <button
-                // type="submit"
                 onClick={handleSignIn}
                 className={`
                   bg-color-primary-${theme} 
