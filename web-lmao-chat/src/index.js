@@ -9,6 +9,7 @@ import {
   Link,
 } from "react-router-dom";
 
+import PhoneNumberInputToForgotPasswordPage from './pages/PhoneNumberInputToForgotPasswordPage';
 import PhoneNumberInputToSignInPage from './pages/PhoneNumberInputToSignInPage';
 import SignInPage from './pages/SignInPage';
 import ErrorPage from './pages/ErrorPage';
@@ -26,6 +27,11 @@ const router = createBrowserRouter([
   {
     path: "/PhoneNumberInputToSignInPage",
     element: (<PhoneNumberInputToSignInPage />),
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: "/PhoneNumberInputToForgotPasswordPage",
+    element: (<PhoneNumberInputToForgotPasswordPage />),
     errorElement: <ErrorPage />,
   },
 ]);

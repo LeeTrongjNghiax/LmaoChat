@@ -110,7 +110,7 @@ export default function SignInPage() {
               </a>
 
               {/* Forgot password link */}
-              <a href='/' className={`
+              <a href='/PhoneNumberInputToForgotPasswordPage' className={`
                 text-sm font-semibold text-indigo-600 hover:text-indigo-500 select-none
               `}>
                 Forgot Password?
