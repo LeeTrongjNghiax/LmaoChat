@@ -1,6 +1,28 @@
 import axios from "axios";
 import GlobalVariables from "../GlobalVariables";
 
+const getUser = async (phoneNumber) => {
+  try {
+    const data = {
+      phoneNumber
+    }
+
+    const response = await axios.post(
+      GlobalVariables.api_host + "/api/users", 
+      data
+    );
+    if (response.status === 200) {
+      return response.data;
+    } else {
+      console.error("Error get user");
+      throw new Error("Error get user");
+    }
+  } catch (error) {
+    console.error("User Service: Get user error: ", error);
+    throw new Error(error);
+  }
+};
+
 const getUsers = async () => {
   try {
     const response = await axios.get(
@@ -42,6 +64,7 @@ const login = async (phoneNumber, password) => {
 };
 
 export default {
+  getUser, 
   getUsers, 
   login, 
 }

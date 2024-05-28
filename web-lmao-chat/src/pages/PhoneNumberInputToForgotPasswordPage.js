@@ -12,6 +12,7 @@ import ConfigVariables from '../ConfigVariables';
 import LoadingPage from './LoadingPage';
 import Navbar from '../components/Navbar';
 import Logo from '../components/Logo';
+import userServices from '../services/UserServices';
 
 export default function PhoneNumberInputToForgotPasswordPage() {
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -41,13 +42,30 @@ export default function PhoneNumberInputToForgotPasswordPage() {
   const handleVerification = () => {
     if (!phoneNumber.match(/^0[0-9]{9}$/) ) {
       setError("Phone Number must have exatly 10 digits and start with 0");
-      return;
+      return false;
     }
 
     return true;
   }
 
-  const handleSendPhoneNumber = () => {
+  const checkIfUserExist = async () => {
+    const foundUser = await userServices.getUser(phoneNumber);
+
+    if (foundUser.data != null)
+      return true;
+    else
+      return false;
+  }
+
+  const handleSendPhoneNumber = async () => {
+    const checkUser = await checkIfUserExist();
+
+    if ( !checkUser ) {
+      document.querySelector("#sendPhoneNumberButton").disabled = false;
+      setError(`User with number ${phoneNumber} don't exist`);
+      return;
+    }
+
     if (handleVerification()) {
       document.querySelector("#sendPhoneNumberButton").disabled = true;
 
