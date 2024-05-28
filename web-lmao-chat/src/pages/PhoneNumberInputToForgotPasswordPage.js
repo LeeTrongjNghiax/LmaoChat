@@ -5,7 +5,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import { useTheme } from '../contexts/ThemeProvider';
 import ConfigVariables from '../ConfigVariables';
@@ -23,6 +23,12 @@ export default function PhoneNumberInputToForgotPasswordPage() {
   const { theme } = useTheme();
   const auth = ConfigVariables.auth;
   const navigate = useNavigate();
+  const state = useLocation();
+
+  useEffect(() => {
+    if (state.state.phoneNumber != undefined)
+      setPhoneNumber(state.state.phoneNumber);
+  }, []);
 
   const handleChangePhoneNumber = e => {
     setPhoneNumber(e.target.value)

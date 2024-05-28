@@ -134,7 +134,7 @@ export default function ResetPasswordPage() {
                 text-color-${theme}
                 block text-sm font-medium leading-6 select-none
               `}>
-                Password
+                Repeat Password
               </label>
 
               {/* Repeated Password input */}

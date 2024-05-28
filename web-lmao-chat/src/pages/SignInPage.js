@@ -170,7 +170,7 @@ export default function SignInPage() {
               {/* Sign up link */}
               <button
                 onClick={() => {
-                  navigate('/PhoneNumberInputToSignInPage');
+                  navigate('/PhoneNumberInputToSignInPage', { state: { phoneNumber: phoneNumber } });
                 }}
                 className={`
                   text-color-primary-${theme} 
@@ -186,7 +186,7 @@ export default function SignInPage() {
               {/* Forgot password link */}
               <button
                 onClick={() => {
-                  navigate("/PhoneNumberInputToForgotPasswordPage");
+                  navigate("/PhoneNumberInputToForgotPasswordPage", { state: { phoneNumber: phoneNumber } });
                 }}
                 className={`
                   text-color-primary-${theme} 
