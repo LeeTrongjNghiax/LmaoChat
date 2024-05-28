@@ -19,6 +19,7 @@ import PhoneNumberInputToSignInPage from './pages/PhoneNumberInputToSignInPage';
 import SignInPage from './pages/SignInPage';
 import SignUpPage from './pages/SignUpPage';
 import ErrorPage from './pages/ErrorPage';
+import ResetPasswordPage from './pages/ResetPasswordPage';
 
 const router = createBrowserRouter([
   {
@@ -39,6 +40,11 @@ const router = createBrowserRouter([
   {
     path: "/PhoneNumberInputToForgotPasswordPage",
     element: (<PhoneNumberInputToForgotPasswordPage />),
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: "/ResetPasswordPage",
+    element: (<ResetPasswordPage />),
     errorElement: <ErrorPage />,
   },
 ]);
