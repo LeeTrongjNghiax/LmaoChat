@@ -121,7 +121,7 @@ export default function PhoneNumberInputToForgotPasswordPage() {
       <div className={`px-6 py-12 lg:px-8 flex-1`}>
         
         {/* Logo and title */}
-        <div className={`sm:mx-auto sm:w-full sm:max-w-sm`}>
+        <div className={`sm:mx-auto sm:max-w-sm`}>
           
           {/* Logo */}
           <Logo />
@@ -136,7 +136,7 @@ export default function PhoneNumberInputToForgotPasswordPage() {
           </h2>
         </div>
 
-        <div className={`mt-10 sm:mx-auto sm:w-full sm:max-w-sm`}>
+        <div className={`mt-10 sm:mx-auto sm:max-w-sm`}>
           <div id='form' className={`space-y-6`}>
             
             {
