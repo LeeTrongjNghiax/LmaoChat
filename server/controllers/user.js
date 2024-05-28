@@ -1,5 +1,21 @@
 const { USER_REPOSITORY } = require("../repositories/index");
 
+const getUser = async (req, res) => {
+  const { phoneNumber } = req.body;
+
+  try {
+    const FOUND_USER = await USER_REPOSITORY.getUser({ phoneNumber });
+    
+    res.status(200).json({
+      message: "Get user sucessfully!",
+      data: FOUND_USER
+    });
+  } catch (error) {
+    console.log("User Controller: Error get user: " + error);
+    throw new Error("User Controller: Error get user: " + error);
+  }
+}
+
 const getUsers = async (req, res) => {
   try {
     const USERS = await USER_REPOSITORY.getUsers();
@@ -61,6 +77,7 @@ const login = async (req, res) => {
 }
 
 module.exports = {
+  getUser, 
   getUsers, 
   addUser, 
   login

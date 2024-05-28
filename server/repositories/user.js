@@ -1,6 +1,16 @@
 const { USER } = require("../modals/index");
 const bcrypt = require("bcrypt");
 
+const getUser = async ({ phoneNumber }) => {
+  try {
+    const FOUND_USER = await USER.findOne({ phoneNumber }).exec();
+    return FOUND_USER;
+  } catch (error) {
+    console.error("User Repository: Error get user: " + error);
+    throw new Error("User Repository: Error get user: " + error);
+  }
+}
+
 const getUsers = async () => {
   try {
     const USERS = await USER.find().exec();
@@ -59,6 +69,7 @@ const login = async ({ phoneNumber, password }) => {
 }
 
 module.exports = {
+  getUser, 
   getUsers, 
   addUser, 
   login
