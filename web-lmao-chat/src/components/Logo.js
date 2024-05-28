@@ -18,6 +18,7 @@ export default function Logo() {
   const color = tailwind.theme.extend.backgroundColor[`color-primary-${theme}`]
 
   return (
-    <Chrome className={`mx-auto h-10 w-auto select-none`} color={color} />
+    // <Chrome className={`mx-auto h-10 w-auto select-none`} color={color} />
+    <img src={require("./LmaoChatLogo.png")} alt='logo' width={50}></img>
   )
 }
