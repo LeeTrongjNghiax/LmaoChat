@@ -4,6 +4,7 @@
 */
 
 import React, { useEffect, useState } from 'react';
+import { LoaderCircle } from 'lucide-react'
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import { useLocation, useNavigate } from 'react-router-dom';
 
@@ -68,6 +69,8 @@ export default function PhoneNumberInputToSignInPage() {
 
     if ( handleVerification() ) {
       document.querySelector("#sendPhoneNumberButton").disabled = true;
+      setLoading("LOAD");
+      setError(null);
 
       let appVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
         'size': 'invisible',
@@ -75,27 +78,40 @@ export default function PhoneNumberInputToSignInPage() {
 
       signInWithPhoneNumber(auth, "+84" + phoneNumber.substring(1), appVerifier)
         .then(confirmationResult => {
+          document.querySelector("#sendPhoneNumberButton").disabled = false;
+          setLoading("NOT_LOAD");
+          setError(null);
           setResult(confirmationResult);
           setStep('VERIFY_OTP');
-          setError(null);
         }).catch(error => {
+          document.querySelector("#sendPhoneNumberButton").disabled = false;
+          setLoading("NOT_LOAD");
           setError("Sign in with phone number error: " + error);
           console.error("Sign in with phone number error: " + error);
-          document.querySelector("#sendPhoneNumberButton").disabled = false;
         });
 
-      alert`Send OTP successfully!`
+      alert`Send Phone Number successfully!`;
     }
   }
 
   const handleSendOTP = () => {
     if (otp === null) return;
+
+    document.querySelector("#sendOTPButton").disabled = true;
+    setLoading("LOAD");
+    setError(null);
         
     result.confirm(otp).then(result => {
+      document.querySelector("#sendOTPButton").disabled = false;
+      setLoading("NOT_LOAD");
+      setError(null);
       setStep('VERIFY_SUCCESS');
-      navigate("/SignUpPage", { state: { phoneNumber: phoneNumber } })
+      alert`Verify OTP successfully!`;
+      navigate("/SignUpPage", { state: { phoneNumber: phoneNumber } });
     })
-    .catch(err => {
+      .catch(err => {
+      document.querySelector("#sendOTPButton").disabled = false;
+      setLoading("NOT_LOAD");
       setError("Verify OTP error: " + err);
       console.error("Verify OTP error: " + err);
     });
@@ -173,6 +189,22 @@ export default function PhoneNumberInputToSignInPage() {
                     <p className={`text-red-600`}>{error}</p>
                   </div>
 
+                  {/* Loading */}
+                  {
+                    loading == "LOAD" ?
+                      <div className={`flex gap-1.5 items-center justify-center`}>
+                      {
+                        theme === "theme1" ?
+                          <LoaderCircle className={`animate-spin`} size={20} color="white" /> :
+                          <LoaderCircle className={`animate-spin`} size={20} color="black" />
+                      }
+                        <p className={`text-color-${theme}`}>
+                          Please wait while we send the OTP code to {phoneNumber}
+                        </p>
+                      </div> :
+                      <></>   
+                  }
+
                   {/* Submit button */}
                   <div>
                     <button
@@ -211,9 +243,7 @@ export default function PhoneNumberInputToSignInPage() {
                       <input
                         id="otp"
                         name="otp"
-                        type="number"
-                        min={0}
-                        max={999999}
+                        maxLength={6}
                         placeholder='Your OTP'
                         value={otp}
                         onChange={handleChangeOTP}
@@ -234,9 +264,26 @@ export default function PhoneNumberInputToSignInPage() {
                     <p className={`text-red-600`}>{error}</p>
                   </div>
 
+                  {/* Loading */}
+                  {
+                    loading == "LOAD" ?
+                      <div className={`flex gap-1.5 items-center justify-center`}>
+                      {
+                        theme === "theme1" ?
+                          <LoaderCircle className={`animate-spin`} size={20} color="white" /> :
+                          <LoaderCircle className={`animate-spin`} size={20} color="black" />
+                      }
+                        <p className={`text-color-${theme}`}>
+                          Please wait while we verify the OTP code that sent to {phoneNumber}
+                        </p>
+                      </div> :
+                      <></>   
+                  }
+
                   {/* Submit button */}
                   <div>
                     <button
+                      id='sendOTPButton'
                       type="submit"
                       onClick={handleSendOTP}
                       className={`
