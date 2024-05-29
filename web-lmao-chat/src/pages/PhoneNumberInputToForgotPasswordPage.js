@@ -100,15 +100,6 @@ export default function PhoneNumberInputToForgotPasswordPage() {
       console.error("Verify OTP error: " + err);
     });
   }
-
-  useEffect(() => {
-    window.onload = function() {
-      setLoading(false);
-    };
-  }, []);
-
-  if (loading)
-    return <LoadingPage />
   
   return (
     <div className={`

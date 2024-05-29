@@ -89,16 +89,7 @@ export default function SignUpPage() {
       navigate("/", { state: { phoneNumber, password } })
     }
   }
-
-  useEffect(() => {
-    window.onload = function() {
-      setLoading(false);
-    };
-  }, []);
-
-  if (loading)
-    return <LoadingPage />
-
+  
   return (
     <div className={`
       transition duration-[500] 

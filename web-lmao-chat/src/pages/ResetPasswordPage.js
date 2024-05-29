@@ -57,15 +57,6 @@ export default function ResetPasswordPage() {
     }
   }
 
-  useEffect(() => {
-    window.onload = function() {
-      setLoading(false);
-    };
-  }, []);
-
-  if (loading)
-    return <LoadingPage />
-
   return (
     <div className={`
       transition duration-[500] 
