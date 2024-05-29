@@ -4,7 +4,7 @@
 */
 
 import React, { useEffect, useState } from 'react';
-import { Eye, EyeOff } from 'lucide-react';
+import { Eye, EyeOff, LoaderCircle } from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import { useTheme } from '../contexts/ThemeProvider';
@@ -59,16 +59,23 @@ export default function SignInPage() {
   }
 
   const handleSignIn = async () => {
+    setError(null);
+
     if (!handleVerification())
       return;
 
+    setLoading("LOAD");
+
     const foundUser = await userService.login(phoneNumber, password);
     
-    if (foundUser.data == null)
+    if (foundUser.data == null) {
+      setLoading("NOT_LOAD");
       setError("Phone number or password is incorrect");
+    }
     else {
-      setError("");
-      alert`Sign in successfully!`
+      setLoading("NOT_LOAD");
+      setError(null);
+      alert`Sign in successfully!`;
     }
   }
   
@@ -235,6 +242,22 @@ export default function SignInPage() {
             <div>
               <p className={`text-red-600`}>{error}</p>
             </div>
+
+            {/* Loading */}
+            {
+              loading === "LOAD" ?
+                <div className={`flex gap-1.5 items-center justify-center`}>
+                {
+                  theme === "theme1" ?
+                    <LoaderCircle className={`animate-spin`} size={20} color="white" /> :
+                    <LoaderCircle className={`animate-spin`} size={20} color="black" />
+                }
+                  <p className={`text-color-${theme}`}>
+                    Please wait while we sign in to your Lmao Chat account
+                  </p>
+                </div> :
+                <></>
+            }
 
             {/* Submit button */}
             <div>

@@ -4,7 +4,7 @@
 */
 
 import React, { useState } from 'react';
-import { Eye, EyeOff } from 'lucide-react';
+import { Eye, EyeOff, LoaderCircle } from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import { useTheme } from '../contexts/ThemeProvider';
@@ -49,9 +49,13 @@ export default function ResetPasswordPage() {
   }
 
   const handleResetPassword = async () => {
+    setError(null);
     if (handleVerification()) {
+      setLoading("LOAD");
       await userService.updateUser(phoneNumber, password, null, null);
-      alert("Reset password successfully!");
+      setLoading("NOT_LOAD");
+      setError(null);
+      alert`Reset password successfully!`;
       navigate("/", { state: { phoneNumber, password } });
     }
   }
@@ -185,6 +189,22 @@ export default function ResetPasswordPage() {
             <div>
               <p className={`text-red-600`}>{error}</p>
             </div>
+
+            {/* Loading */}
+            {
+              loading === "LOAD" ?
+                <div className={`flex gap-1.5 items-center justify-center`}>
+                {
+                  theme === "theme1" ?
+                    <LoaderCircle className={`animate-spin`} size={20} color="white" /> :
+                    <LoaderCircle className={`animate-spin`} size={20} color="black" />
+                }
+                  <p className={`text-color-${theme}`}>
+                    Please wait while we reset password of your Lmao Chat account
+                  </p>
+                </div> :
+                <></>
+            }
 
             {/* Submit button */}
             <div>

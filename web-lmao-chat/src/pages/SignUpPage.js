@@ -4,7 +4,7 @@
 */
 
 import React, { useState } from 'react';
-import { Eye, EyeOff } from 'lucide-react';
+import { Eye, EyeOff, LoaderCircle } from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import { useTheme } from '../contexts/ThemeProvider';
@@ -73,7 +73,7 @@ export default function SignUpPage() {
       return false;
     }
 
-    if ( !(password == repeatedPassword) ) {
+    if ( !(password === repeatedPassword) ) {
       setError("Password and Repeated password must be the same");
       return false;
     }
@@ -82,8 +82,12 @@ export default function SignUpPage() {
   }
   
   const handleSignUp = async () => {
+    setError(null);
     if (handleVerification()) {
+      setLoading("LOAD");
       await userService.addUser(phoneNumber, firstName, lastName, password);
+      setLoading("NOT_LOAD");
+      setError(null);
       alert`Sign Up successfully!`;
       navigate("/", { state: { phoneNumber, password } })
     }
@@ -317,6 +321,22 @@ export default function SignUpPage() {
             <div>
               <p className={`text-red-600`}>{error}</p>
             </div>
+
+            {/* Loading */}
+            {
+              loading === "LOAD" ?
+                <div className={`flex gap-1.5 items-center justify-center`}>
+                {
+                  theme === "theme1" ?
+                    <LoaderCircle className={`animate-spin`} size={20} color="white" /> :
+                    <LoaderCircle className={`animate-spin`} size={20} color="black" />
+                }
+                  <p className={`text-color-${theme}`}>
+                    Please wait while we sign up to your Lmao Chat account
+                  </p>
+                </div> :
+                <></>
+            }
 
             {/* Submit button */}
             <div>

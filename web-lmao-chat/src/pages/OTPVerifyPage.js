@@ -213,7 +213,7 @@ export default function OTPVerifyPage() {
                           Please wait while we send the OTP code to {phoneNumber}
                         </p>
                       </div> :
-                      <></>   
+                      <></>
                   }
 
                   {/* Submit button */}
@@ -288,7 +288,7 @@ export default function OTPVerifyPage() {
                           Please wait while we verify the OTP code that sent to {phoneNumber}
                         </p>
                       </div> :
-                      <></>   
+                      <></>
                   }
 
                   {/* Submit button */}
