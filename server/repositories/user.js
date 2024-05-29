@@ -70,13 +70,18 @@ const login = async ({ phoneNumber, password }) => {
 
 const updateUser = async ({ phoneNumber, password, email, avatarUrl }) => {
   try {
-    const HASH_PASSWORD = await bcrypt.hash(
-      password,
-      parseInt(process.env.SALT_ROUNDS)
-    );
+    let HASH_PASSWORD;
 
     const filter = { phoneNumber };
-    const update = { password: HASH_PASSWORD };
+    const update = {};
+
+    if (password) {
+      HASH_PASSWORD = await bcrypt.hash(
+        password,
+        parseInt(process.env.SALT_ROUNDS)
+      );
+      update.password = HASH_PASSWORD;
+    }
 
     if (email)
       update.email = email;
