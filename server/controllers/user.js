@@ -76,9 +76,34 @@ const login = async (req, res) => {
   }
 }
 
+const updateUser = async (req, res) => {
+  const phoneNumber = req.params.phoneNumber;
+  const { password, email, avatarUrl } = req.body;
+
+  try {
+    const UPDATED_USER = await USER_REPOSITORY.updateUser({ phoneNumber, password, email, avatarUrl });
+    
+    if (UPDATED_USER)
+      res.status(200).json({
+        message: "Update sucessfully!",
+        data: UPDATED_USER
+      });
+    else
+      res.status(200).json({
+        message: "Update failed!",
+        data: UPDATED_USER
+      });
+
+  } catch (error) {
+    console.log("User Controller: Error update user: " + error);
+    throw new Error("User Controller: Error update user: " + error);
+  }
+}
+
 module.exports = {
   getUser, 
   getUsers, 
   addUser, 
-  login
+  login, 
+  updateUser
 }

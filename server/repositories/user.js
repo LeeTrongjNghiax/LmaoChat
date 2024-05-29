@@ -68,9 +68,33 @@ const login = async ({ phoneNumber, password }) => {
   }
 }
 
+const updateUser = async ({ phoneNumber, password, email, avatarUrl }) => {
+  console.log({ phoneNumber, password, email, avatarUrl });
+
+  try {
+    const HASH_PASSWORD = await bcrypt.hash(
+      password,
+      parseInt(process.env.SALT_ROUNDS)
+    );
+
+    const filter = { phoneNumber };
+    const update = { password: HASH_PASSWORD, email, avatarUrl };
+
+    const UPDATED_USER = await USER.findOneAndUpdate(
+      filter, update, { new: true }
+    );
+
+    return UPDATED_USER;
+  } catch (error) {
+    console.error("User Repository: Error update user: " + error);
+    throw new Error("User Repository: Error update user: " + error);
+  }
+}
+
 module.exports = {
   getUser, 
   getUsers, 
   addUser, 
-  login
+  login, 
+  updateUser
 }
