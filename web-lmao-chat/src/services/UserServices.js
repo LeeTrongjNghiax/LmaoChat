@@ -84,9 +84,33 @@ const login = async (phoneNumber, password) => {
   }
 };
 
+const updateUser = async (phoneNumber, password, email, avatarUrl) => {
+  try {
+    const data = {
+      password, email, avatarUrl
+    }
+
+    const response = await axios.put(
+      GlobalVariables.api_host + "/api/users/" + phoneNumber, 
+      data
+    );
+    
+    if (response.status === 200) {
+      return response.data;
+    } else {
+      console.error("Error update user");
+      throw new Error("Error update user");
+    }
+  } catch (error) {
+    console.error("User Service: Update user error: ", error);
+    throw new Error(error);
+  }
+};
+
 export default {
   getUser, 
   getUsers, 
   addUser, 
   login, 
+  updateUser
 }

@@ -69,8 +69,6 @@ const login = async ({ phoneNumber, password }) => {
 }
 
 const updateUser = async ({ phoneNumber, password, email, avatarUrl }) => {
-  console.log({ phoneNumber, password, email, avatarUrl });
-
   try {
     const HASH_PASSWORD = await bcrypt.hash(
       password,

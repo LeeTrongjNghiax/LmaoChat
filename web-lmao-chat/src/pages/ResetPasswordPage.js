@@ -4,7 +4,7 @@
 */
 
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import { useTheme } from '../contexts/ThemeProvider';
 import Navbar from '../components/Navbar';
@@ -20,6 +20,8 @@ export default function ResetPasswordPage() {
   const { theme } = useTheme();
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const state = useLocation();
+  const phoneNumber = state.state.phoneNumber;
 
   const handleChangePassword = e => {
     setPassword(e.target.value)
@@ -46,8 +48,9 @@ export default function ResetPasswordPage() {
 
   const handleResetPassword = async () => {
     if (handleVerification()) {
+      await userService.updateUser(phoneNumber, password, null, null);
       alert("Reset password successfully!");
-      navigate("/", { state: { password } });
+      navigate("/", { state: { phoneNumber, password } });
     }
   }
 

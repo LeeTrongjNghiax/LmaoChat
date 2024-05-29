@@ -25,7 +25,7 @@ export default function SignUpPage() {
   const [loading, setLoading] = useState(false);
   const { theme } = useTheme();
   const { state } = useLocation();
-  const phoneNumber = state ? state.phoneNumber : "0932659945";
+  const phoneNumber = state ? state.phoneNumber : "";
   const navigate = useNavigate();
 
   const handleFirstName = e => {
