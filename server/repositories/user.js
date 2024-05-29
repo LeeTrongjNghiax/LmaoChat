@@ -78,7 +78,13 @@ const updateUser = async ({ phoneNumber, password, email, avatarUrl }) => {
     );
 
     const filter = { phoneNumber };
-    const update = { password: HASH_PASSWORD, email, avatarUrl };
+    const update = { password: HASH_PASSWORD };
+
+    if (email)
+      update.email = email;
+
+    if (avatarUrl)
+      update.avatarUrl = avatarUrl;
 
     const UPDATED_USER = await USER.findOneAndUpdate(
       filter, update, { new: true }
