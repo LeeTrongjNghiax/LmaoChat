@@ -4,12 +4,14 @@
 */
 
 import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import { useTheme } from '../contexts/ThemeProvider';
 import Navbar from '../components/Navbar';
 import Logo from '../components/Logo';
 import LoadingPage from './LoadingPage';
+
+import userService from '../services/UserServices';
 
 /*
  * @param phoneNumber: string
@@ -24,6 +26,7 @@ export default function SignUpPage() {
   const { theme } = useTheme();
   const { state } = useLocation();
   const phoneNumber = state ? state.phoneNumber : "0932659945";
+  const navigate = useNavigate();
 
   const handleFirstName = e => {
     setFirstName(e.target.value)
@@ -76,9 +79,11 @@ export default function SignUpPage() {
     return true;
   }
   
-  const handleSignUp = () => {
+  const handleSignUp = async () => {
     if (handleVerification()) {
+      await userService.addUser(phoneNumber, firstName, lastName, password);
       alert`Sign Up successfully!`;
+      navigate("/", { state: { phoneNumber, password } })
     }
   }
 

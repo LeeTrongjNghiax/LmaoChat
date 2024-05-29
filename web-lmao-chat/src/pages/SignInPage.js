@@ -26,8 +26,13 @@ export default function SignInPage() {
   const state = useLocation();
 
   useEffect(() => {
-    if (state.state != null)
-      setPassword(state.state.password);
+    if (state.state != null) {
+      if ( Object.hasOwn(state.state, 'phoneNumber') )
+        setPhoneNumber(state.state.phoneNumber);
+
+      if ( Object.hasOwn(state.state, 'password') )
+        setPassword(state.state.password);
+    }
   }, []);
 
   const handleChangePhoneNumber = e => {
@@ -63,7 +68,6 @@ export default function SignInPage() {
     else {
       setError("");
       alert`Sign in successfully!`
-      console.log("2");
     }
   }
 

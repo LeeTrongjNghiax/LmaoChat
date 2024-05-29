@@ -35,6 +35,32 @@ const getUsers = async () => {
   }
 };
 
+const addUser = async (phoneNumber, firstName, lastName, password) => {
+  try {
+    const data = {
+      phoneNumber, 
+      firstName, 
+      lastName,
+      password
+    }
+
+    const response = await axios.post(
+      GlobalVariables.api_host + "/api/users", 
+      data
+    );
+
+    if (response.status === 200) {
+      return response.data;
+    } else {
+      console.error("Error add user");
+      throw new Error("Error add user");
+    }
+  } catch (error) {
+    console.error("User Service: Add user error: ", error);
+    throw new Error(error);
+  }
+};
+
 const login = async (phoneNumber, password) => {
   try {
     const data = {
@@ -61,5 +87,6 @@ const login = async (phoneNumber, password) => {
 export default {
   getUser, 
   getUsers, 
+  addUser, 
   login, 
 }

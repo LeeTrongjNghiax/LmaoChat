@@ -93,7 +93,7 @@ export default function PhoneNumberInputToSignInPage() {
         
     result.confirm(otp).then(result => {
       setStep('VERIFY_SUCCESS');
-      navigate("/SignUp", { state: { phoneNumber: phoneNumber } })
+      navigate("/SignUpPage", { state: { phoneNumber: phoneNumber } })
     })
     .catch(err => {
       setError("Verify OTP error: " + err);
