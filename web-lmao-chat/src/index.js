@@ -12,12 +12,11 @@ import SocketContext from "./contexts/SocketContext";
 import ThemeProvider from "./contexts/ThemeProvider";
 import GlobalVariables from "./GlobalVariables";
 
-import PhoneNumberInputToForgotPasswordPage from './pages/PhoneNumberInputToForgotPasswordPage';
-import PhoneNumberInputToSignInPage from './pages/PhoneNumberInputToSignInPage';
 import SignInPage from './pages/SignInPage';
 import SignUpPage from './pages/SignUpPage';
 import ErrorPage from './pages/ErrorPage';
 import ResetPasswordPage from './pages/ResetPasswordPage';
+import OTPVerifyPage from './pages/OTPVerifyPage';
 
 const router = createBrowserRouter([
   {
@@ -31,13 +30,8 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
   },
   {
-    path: "/PhoneNumberInputToSignInPage",
-    element: (<PhoneNumberInputToSignInPage />),
-    errorElement: <ErrorPage />,
-  },
-  {
-    path: "/PhoneNumberInputToForgotPasswordPage",
-    element: (<PhoneNumberInputToForgotPasswordPage />),
+    path: "/OTPVerifyPage",
+    element: (<OTPVerifyPage />),
     errorElement: <ErrorPage />,
   },
   {

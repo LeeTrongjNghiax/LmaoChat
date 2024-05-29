@@ -10,12 +10,11 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 import { useTheme } from '../contexts/ThemeProvider';
 import ConfigVariables from '../ConfigVariables';
-import LoadingPage from './LoadingPage';
 import Navbar from '../components/Navbar';
 import Logo from '../components/Logo';
 import userServices from '../services/UserServices';
 
-export default function PhoneNumberInputToSignInPage() {
+export default function OTPVerifyPage() {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [otp, setOTP] = useState("");
   const [error, setError] = useState("");
@@ -26,9 +25,10 @@ export default function PhoneNumberInputToSignInPage() {
   const auth = ConfigVariables.auth;
   const navigate = useNavigate();
   const state = useLocation();
+  const destination = state.state.destination;
 
   useEffect(() => {
-    if (state.state.phoneNumber != undefined)
+    if (state.state.phoneNumber !== undefined)
       setPhoneNumber(state.state.phoneNumber);
   }, []);
 
@@ -61,13 +61,19 @@ export default function PhoneNumberInputToSignInPage() {
   const handleSendPhoneNumber = async () => {
     const checkUser = await checkIfUserExist();
 
-    if ( checkUser ) {
+    if ( !checkUser && destination === "ResetPasswordPage" ) {
       document.querySelector("#sendPhoneNumberButton").disabled = false;
-      setError(`User with number ${phoneNumber} already exist`);
+      setError(`User with number ${phoneNumber} don't exist`);
       return;
     }
 
-    if ( handleVerification() ) {
+    if ( checkUser && destination === "SignUpPage" ) {
+      document.querySelector("#sendPhoneNumberButton").disabled = false;
+      setError(`User with number ${phoneNumber} exist`);
+      return;
+    }
+
+    if (handleVerification()) {
       document.querySelector("#sendPhoneNumberButton").disabled = true;
       setLoading("LOAD");
       setError(null);
@@ -90,7 +96,7 @@ export default function PhoneNumberInputToSignInPage() {
           console.error("Sign in with phone number error: " + error);
         });
 
-      alert`Send Phone Number successfully!`;
+      alert`Send OTP successfully!`
     }
   }
 
@@ -107,9 +113,9 @@ export default function PhoneNumberInputToSignInPage() {
       setError(null);
       setStep('VERIFY_SUCCESS');
       alert`Verify OTP successfully!`;
-      navigate("/SignUpPage", { state: { phoneNumber: phoneNumber } });
+      navigate("/" + destination, { state: { phoneNumber: phoneNumber } });
     })
-      .catch(err => {
+    .catch(err => {
       document.querySelector("#sendOTPButton").disabled = false;
       setLoading("NOT_LOAD");
       setError("Verify OTP error: " + err);
@@ -139,7 +145,11 @@ export default function PhoneNumberInputToSignInPage() {
             text-color-${theme}
             mt-10 text-center text-2xl font-bold leading-9 tracking-tight select-none
           `}>
-            Sign up to your Lmao Chat account
+            {
+              destination === "ResetPassword" ?
+                "Get password back in your Lmao Chat account" :
+                "Sign up to your Lmao Chat account"
+            }
           </h2>
         </div>
 
@@ -191,7 +201,7 @@ export default function PhoneNumberInputToSignInPage() {
 
                   {/* Loading */}
                   {
-                    loading == "LOAD" ?
+                    loading === "LOAD" ?
                       <div className={`flex gap-1.5 items-center justify-center`}>
                       {
                         theme === "theme1" ?
@@ -266,7 +276,7 @@ export default function PhoneNumberInputToSignInPage() {
 
                   {/* Loading */}
                   {
-                    loading == "LOAD" ?
+                    loading === "LOAD" ?
                       <div className={`flex gap-1.5 items-center justify-center`}>
                       {
                         theme === "theme1" ?

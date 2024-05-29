@@ -190,7 +190,13 @@ export default function SignInPage() {
               {/* Sign up link */}
               <button
                 onClick={() => {
-                  navigate('/PhoneNumberInputToSignInPage', { state: { phoneNumber } });
+                  // navigate('/PhoneNumberInputToSignInPage', { state: { phoneNumber } });
+                  navigate('/OTPVerifyPage', {
+                    state: {
+                      phoneNumber, 
+                      destination: "SignUpPage"
+                    }
+                  });
                 }}
                 className={`
                   text-color-primary-${theme} 
@@ -206,7 +212,13 @@ export default function SignInPage() {
               {/* Forgot password link */}
               <button
                 onClick={() => {
-                  navigate("/PhoneNumberInputToForgotPasswordPage", { state: { phoneNumber } });
+                  // navigate("/PhoneNumberInputToForgotPasswordPage", { state: { phoneNumber } });
+                  navigate('/OTPVerifyPage', {
+                    state: {
+                      phoneNumber, 
+                      destination: "ResetPasswordPage"
+                    }
+                  });
                 }}
                 className={`
                   text-color-primary-${theme} 
