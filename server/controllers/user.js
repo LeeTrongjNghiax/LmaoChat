@@ -1,7 +1,8 @@
 const { USER_REPOSITORY } = require("../repositories/index");
 
 const getUser = async (req, res) => {
-  const { phoneNumber } = req.body;
+  const phoneNumber = req.params.phoneNumber;
+  console.log(req.params);
 
   try {
     const FOUND_USER = await USER_REPOSITORY.getUser({ phoneNumber });
