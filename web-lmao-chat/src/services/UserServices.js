@@ -3,13 +3,8 @@ import GlobalVariables from "../GlobalVariables";
 
 const getUser = async (phoneNumber) => {
   try {
-    const data = {
-      phoneNumber
-    }
-
-    const response = await axios.post(
-      GlobalVariables.api_host + "/api/users", 
-      data
+    const response = await axios.get(
+      GlobalVariables.api_host + "/api/users/" + phoneNumber, 
     );
     if (response.status === 200) {
       return response.data;
