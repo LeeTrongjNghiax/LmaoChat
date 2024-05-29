@@ -4,6 +4,7 @@
 */
 
 import React, { useEffect, useState } from 'react';
+import { Eye, EyeOff } from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import { useTheme } from '../contexts/ThemeProvider';
@@ -16,6 +17,8 @@ import userService from '../services/UserServices';
 export default function ResetPasswordPage() {
   const [password, setPassword] = useState("");
   const [repeatedPassword, setRepeatedPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [showRepeatedPassword, setShowRepeatedPassword] = useState(false);
   const [error, setError] = useState("");
   const { theme } = useTheme();
   const [loading, setLoading] = useState(false);
@@ -105,11 +108,13 @@ export default function ResetPasswordPage() {
               </label>
 
               {/* Password input */}
-              <div className={`mt-2`}>
+              <div className={`mt-2 flex p-1.5 rounded-md ring-1 ring-gray-300 gap-1.5`}>
                 <input
                   id="password"
                   name="password"
-                  type="password"
+                  type={
+                    showPassword ? "text" : "password"
+                  }
                   autoComplete="current-password"
                   placeholder='Your Password'
                   value={password}
@@ -120,9 +125,21 @@ export default function ResetPasswordPage() {
                     text-color-${theme}
                     bg-color-${theme}
                     ${theme ? 'placeholder:text-gray-400' : 'placeholder:text-white'} 
-                    block w-full rounded-md border-0 p-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 select-none
+                    w-full shadow-sm sm:text-sm select-none focus:outline-none
                   `}
                 />
+
+                <button onClick={() => setShowPassword(!showPassword)}>
+                  {
+                    showPassword ? 
+                      (theme === "theme1" ?
+                        <EyeOff color="white" /> :
+                        <EyeOff color="black" />) :
+                      (theme === "theme1" ?
+                        <Eye color="white" /> :
+                        <Eye color="black" />)
+                  }
+                </button>
               </div>
             </div>
             
@@ -139,11 +156,13 @@ export default function ResetPasswordPage() {
               </label>
 
               {/* Repeated Password input */}
-              <div className={`mt-2`}>
+              <div className={`mt-2 flex p-1.5 rounded-md ring-1 ring-gray-300 gap-1.5`}>
                 <input
                   id="repeatedPassword"
                   name="repeatedPassword"
-                  type="password"
+                  type={
+                    showRepeatedPassword ? "text" : "password"
+                  }
                   autoComplete="current-password"
                   placeholder='Repeated Password'
                   value={repeatedPassword}
@@ -154,9 +173,21 @@ export default function ResetPasswordPage() {
                     text-color-${theme}
                     bg-color-${theme}
                     ${theme ? 'placeholder:text-gray-400' : 'placeholder:text-white'} 
-                    block w-full rounded-md border-0 p-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 select-none
+                    w-full shadow-sm sm:text-sm select-none focus:outline-none
                   `}
                 />
+
+                <button onClick={() => setShowRepeatedPassword(!showRepeatedPassword)}>
+                  {
+                    showRepeatedPassword ? 
+                      (theme === "theme1" ?
+                        <EyeOff color="white" /> :
+                        <EyeOff color="black" />) :
+                      (theme === "theme1" ?
+                        <Eye color="white" /> :
+                        <Eye color="black" />)
+                  }
+                </button>
               </div>
             </div>
 
