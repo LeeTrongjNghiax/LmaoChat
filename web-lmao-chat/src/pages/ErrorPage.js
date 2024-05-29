@@ -3,12 +3,13 @@
   *   index.js
 */
 
+import { useEffect, useState } from "react";
 import { useRouteError } from "react-router-dom";
 
-import { useTheme } from '../contexts/ThemeProvider';
 import Navbar from "../components/Navbar";
 import LoadingPage from "./LoadingPage";
-import { useEffect, useState } from "react";
+
+import { useTheme } from '../contexts/ThemeProvider';
 
 export default function ErrorPage() {
   const { theme } = useTheme();

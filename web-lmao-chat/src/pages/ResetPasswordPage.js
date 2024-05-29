@@ -3,14 +3,13 @@
   *   index.js
 */
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Eye, EyeOff } from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import { useTheme } from '../contexts/ThemeProvider';
 import Navbar from '../components/Navbar';
 import Logo from '../components/Logo';
-import LoadingPage from './LoadingPage';
 
 import userService from '../services/UserServices';
 

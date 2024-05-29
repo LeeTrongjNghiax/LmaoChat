@@ -3,15 +3,16 @@
   *   index.js
 */
 
-import React, { useEffect, useState } from 'react';
 import { LoaderCircle } from 'lucide-react'
-import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
+import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 
 import { useTheme } from '../contexts/ThemeProvider';
 import ConfigVariables from '../ConfigVariables';
 import Navbar from '../components/Navbar';
 import Logo from '../components/Logo';
+
 import userServices from '../services/UserServices';
 
 export default function OTPVerifyPage() {

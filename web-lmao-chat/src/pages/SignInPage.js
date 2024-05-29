@@ -10,7 +10,6 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useTheme } from '../contexts/ThemeProvider';
 import Navbar from '../components/Navbar';
 import Logo from '../components/Logo';
-import LoadingPage from './LoadingPage';
 
 import userService from '../services/UserServices';
 
