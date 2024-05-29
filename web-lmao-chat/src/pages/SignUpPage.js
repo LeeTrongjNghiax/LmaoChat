@@ -68,7 +68,7 @@ export default function SignUpPage() {
       return false;
     }
 
-    if ( !password == repeatedPassword ) {
+    if ( !(password == repeatedPassword) ) {
       setError("Password and Repeated password must be the same");
       return false;
     }

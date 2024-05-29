@@ -4,7 +4,7 @@
 */
 
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import { useTheme } from '../contexts/ThemeProvider';
 import Navbar from '../components/Navbar';
@@ -13,6 +13,9 @@ import LoadingPage from './LoadingPage';
 
 import userService from '../services/UserServices';
 
+/*
+ * @param password: string
+ */
 export default function SignInPage() {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
@@ -20,6 +23,12 @@ export default function SignInPage() {
   const { theme } = useTheme();
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const state = useLocation();
+
+  useEffect(() => {
+    if (state.state != null)
+      setPassword(state.state.password);
+  }, []);
 
   const handleChangePhoneNumber = e => {
     setPhoneNumber(e.target.value)

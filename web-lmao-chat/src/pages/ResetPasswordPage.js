@@ -15,7 +15,7 @@ import userService from '../services/UserServices';
 
 export default function ResetPasswordPage() {
   const [password, setPassword] = useState("");
-  const [repeatedPassword, setRepeatedPassword] = useState("11111111");
+  const [repeatedPassword, setRepeatedPassword] = useState("");
   const [error, setError] = useState("");
   const { theme } = useTheme();
   const [loading, setLoading] = useState(false);
@@ -30,27 +30,25 @@ export default function ResetPasswordPage() {
   }
 
   const handleVerification = () => {
-    if (!password) {
-      setError("Password must not be null");
+    const passwordMinCharacters = 8;
+    if ( !(password.length >= passwordMinCharacters) ) {
+      setError(`Password must have at least ${passwordMinCharacters} characters`);
+      return false;
+    }
+
+    if ( !(password == repeatedPassword) ) {
+      setError("Password and Repeated password must be the same");
       return false;
     }
 
     return true;
   }
 
-  const handleSignIn = async () => {
-    if (!handleVerification())
-      return;
-
-    // const foundUser = await userService.login(phoneNumber, password);
-    
-    // if (foundUser.data == null)
-    //   setError("Phone number or password is incorrect");
-    // else {
-    //   setError("");
-    //   alert`Sign in successfully!`
-    //   console.log("2");
-    // }
+  const handleResetPassword = async () => {
+    if (handleVerification()) {
+      alert("Reset password successfully!");
+      navigate("/", { state: { password } });
+    }
   }
 
   useEffect(() => {
@@ -167,7 +165,7 @@ export default function ResetPasswordPage() {
             {/* Submit button */}
             <div>
               <button
-                onClick={handleSignIn}
+                onClick={handleResetPassword}
                 className={`
                   bg-color-primary-${theme} 
                   hover:bg-color-primary-hover-${theme} 
