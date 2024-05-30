@@ -19,12 +19,12 @@ import { AsyncStorage } from '@react-native-async-storage/async-storage';
 const ThemeContext = createContext();
 
 export default function ThemeProvider({ children }) {
-  const [theme, setTheme] = useState("theme1");
+  const [theme, setTheme] = useState("theme2");
 
   useEffect(() => {
     async function getTheme() {
       try {
-        const savedTheme = await AsyncStorage.getItem('theme') || "theme1";
+        const savedTheme = await AsyncStorage.getItem('theme') || "theme2";
         setTheme(savedTheme);
       } catch (error) {
         console.log("Error getting theme: " + error);
@@ -34,6 +34,8 @@ export default function ThemeProvider({ children }) {
   }, []);
 
   const toggleTheme = async newTheme => {
+    console.log("-----------------");
+    console.log(newTheme);
     setTheme(newTheme);
     try {
       await AsyncStorage.setItem('theme', newTheme);

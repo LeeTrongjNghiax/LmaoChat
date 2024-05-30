@@ -12,6 +12,7 @@ import { ArrowLeft } from 'lucide-react-native';
 
 import { useTheme } from '../contexts/ThemeProvider';
 import ChangeThemeButton from './ChangeThemeButton';
+import { Button, Pressable, View } from 'react-native';
 
 export default function Navbar({ size }) {
   const [buttonColor, setButtonColor] = useState("white");
@@ -26,17 +27,17 @@ export default function Navbar({ size }) {
   }
 
   return (
-    <div className={`
+    <View className={`
       transition duration-[500]
       w-full bg-color-${theme} p-3 lg:p-3 flex gap-3
     `}>
-      <button>
-        <ArrowLeft onClick={goBack} color={buttonColor} size={size ? size : 30} className={`
+      <Pressable title='Go Back'>
+        <ArrowLeft onPress={goBack} color={buttonColor} size={size ? size : 30} className={`
           cursor-pointer
         `} />
-      </button>
+      </Pressable>
 
       <ChangeThemeButton themeToChange="theme1" />
-    </div>
+    </View>
   )
 }

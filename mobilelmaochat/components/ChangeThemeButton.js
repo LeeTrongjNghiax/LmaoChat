@@ -8,6 +8,7 @@ import React from 'react';
 import { Moon, Sun } from 'lucide-react-native';
 
 import { useTheme } from '../contexts/ThemeProvider';
+import { Pressable, View } from 'react-native';
 
 export default function ChangeThemeButton({size}) {
   const { toggleTheme, theme } = useTheme();
@@ -26,17 +27,18 @@ export default function ChangeThemeButton({size}) {
   }
   
   return (
-    <div>
-      <button
+    <View>
+      <Pressable
+        title='Change Theme'
         className={`bg-color-red`}
-        onClick={changeTheme}
+        onPress={changeTheme}
       >
         {
           theme === "theme1" ?
             <Sun color="white" size={size ? size : 30} /> :
             <Moon color="black" size={size ? size : 30} />
         }
-      </button>
-    </div>
+      </Pressable>
+    </View>
   )
 }
