@@ -13,21 +13,33 @@
   *     SignInPage.js
 */
 
-import React, { createContext, useContext, useEffect, useState } from 'react'
+import React, { createContext, useContext, useEffect, useState } from 'react';
+import { AsyncStorage } from '@react-native-async-storage/async-storage';
 
 const ThemeContext = createContext();
 
 export default function ThemeProvider({ children }) {
   const [theme, setTheme] = useState("theme1");
 
-  // useEffect(() => {
-  //   const savedTheme = localStorage.getItem("theme") || "theme1";
-  //   setTheme(savedTheme);
-  // }, []);
+  useEffect(() => {
+    async function getTheme() {
+      try {
+        const savedTheme = await AsyncStorage.getItem('theme') || "theme1";
+        setTheme(savedTheme);
+      } catch (error) {
+        console.log("Error getting theme: " + error);
+      }
+    }
+    getTheme();
+  }, []);
 
-  const toggleTheme = newTheme => {
+  const toggleTheme = async newTheme => {
     setTheme(newTheme);
-    localStorage.setItem("theme", newTheme);
+    try {
+      await AsyncStorage.setItem('theme', newTheme);
+    } catch (error) {
+      console.log("Error saving theme: " + error);
+    }
   }
 
   return (
