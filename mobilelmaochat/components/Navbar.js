@@ -8,15 +8,13 @@
 */
 
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react-native';
 
 import { useTheme } from '../contexts/ThemeProvider';
 import ChangeThemeButton from './ChangeThemeButton';
 
 export default function Navbar({ size }) {
   const [buttonColor, setButtonColor] = useState("white");
-  const navigate = useNavigate();
   const { theme } = useTheme();
 
   useEffect(() => {
@@ -24,7 +22,7 @@ export default function Navbar({ size }) {
   });
 
   const goBack = () => {
-    navigate(-1);
+    // navigate(-1);
   }
 
   return (

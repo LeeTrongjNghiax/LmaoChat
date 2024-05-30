@@ -34,4 +34,4 @@ function Main() {
   )
 }
 
-AppRegistry.registerComponent(appName, () => Main);
+AppRegistry.registerComponent("mobilelmaochat", () => Main);

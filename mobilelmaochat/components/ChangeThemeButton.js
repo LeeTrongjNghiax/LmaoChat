@@ -5,7 +5,7 @@
 */
 
 import React from 'react';
-import { Moon, Sun } from 'lucide-react';
+import { Moon, Sun } from 'lucide-react-native';
 
 import { useTheme } from '../contexts/ThemeProvider';
 
