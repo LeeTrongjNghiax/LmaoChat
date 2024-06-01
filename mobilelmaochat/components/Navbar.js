@@ -12,11 +12,14 @@ import { ArrowLeft } from 'lucide-react-native';
 
 import { useTheme } from '../contexts/ThemeProvider';
 import ChangeThemeButton from './ChangeThemeButton';
-import { Button, Pressable, View } from 'react-native';
+import { Pressable, View } from 'react-native';
+import tailwind from '../tailwind.config';
 
 export default function Navbar({ size }) {
   const [buttonColor, setButtonColor] = useState("white");
   const { theme } = useTheme();
+
+  const bgColor = tailwind.theme.extend.backgroundColor[`color-${theme}`];
 
   useEffect(() => {
     theme === "theme1" ? setButtonColor("white") : setButtonColor("black")
@@ -27,10 +30,15 @@ export default function Navbar({ size }) {
   }
 
   return (
-    <View className={`
-      transition duration-[500]
-      w-full bg-color-${theme} p-3 lg:p-3 flex gap-3
-    `}>
+    <View
+      className={`
+        transition duration-[500]
+        w-screen p-3 flex gap-3 flex-row
+      `}
+      style={{
+        backgroundColor: bgColor
+      }}
+    >
       <Pressable title='Go Back'>
         <ArrowLeft onPress={goBack} color={buttonColor} size={size ? size : 30} className={`
           cursor-pointer

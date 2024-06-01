@@ -27,18 +27,16 @@ export default function ChangeThemeButton({size}) {
   }
   
   return (
-    <View>
-      <Pressable
-        title='Change Theme'
-        className={`bg-color-red`}
-        onPress={changeTheme}
-      >
-        {
-          theme === "theme1" ?
-            <Sun color="white" size={size ? size : 30} /> :
-            <Moon color="black" size={size ? size : 30} />
-        }
-      </Pressable>
-    </View>
+    <Pressable
+      title='Change Theme'
+      className={`p-3`}
+      onPress={changeTheme}
+    >
+      {
+        theme === "theme1" ?
+          <Sun color="white" size={size ? size : 30} /> :
+          <Moon color="black" size={size ? size : 30} />
+      }
+    </Pressable>
   )
 }

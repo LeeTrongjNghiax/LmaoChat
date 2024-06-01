@@ -14,15 +14,15 @@ module.exports = {
   theme: {
     extend: {
       backgroundColor: {
-        "color-theme1": "black", 
+        "color-theme1": "#000000", 
         "color-theme2": "white", 
-        "color-primary-theme1": "royalBlue", 
+        "color-primary-theme1": "#4169e1", 
         "color-primary-hover-theme1": "red", 
         "color-primary-theme2": "mediumBlue", 
         "color-primary-hover-theme2": "red", 
       }, 
       textColor: {
-        "color-theme1": "white", 
+        "color-theme1": "#ffffff", 
         "color-theme2": "gray-950", 
         "color-primary-theme1": "royalBlue", 
         "color-primary-hover-theme1": "red", 

@@ -12,7 +12,8 @@ import Navbar from '../components/Navbar';
 import Logo from '../components/Logo';
 
 import userService from '../services/UserServices';
-import { Button, Pressable, ScrollView, Text, TextInput, View } from 'react-native';
+import { Pressable, ScrollView, Text, TextInput, View } from 'react-native';
+import tailwind from '../tailwind.config';
 
 /*
  * @param password: string
@@ -27,6 +28,11 @@ export default function SignInPage() {
   const [loading, setLoading] = useState(false);
   // const navigate = useNavigate();
   // const state = null;
+
+  const bgColor = tailwind.theme.extend.backgroundColor[`color-${theme}`];
+  const textColor = tailwind.theme.extend.textColor[`color-${theme}`];
+  console.log(bgColor);
+  console.log(textColor);
 
   useEffect(() => {
     // if (state.state != null) {
@@ -85,7 +91,7 @@ export default function SignInPage() {
     <ScrollView>
       <View className={`
         transition duration-[500] 
-        bg-color-${theme}
+        bg-[${bgColor}]
         flex min-h-screen flex-col justify-center
       `}>
         <Navbar />
@@ -101,7 +107,7 @@ export default function SignInPage() {
             {/* Title */}
             <Text className={`
               transition duration-[500] 
-              text-color-${theme}
+              text-[${textColor}]
               mt-10 text-center text-2xl font-bold leading-9 tracking-tight select-none
             `}>
               Sign in to your Lmao Chat account
