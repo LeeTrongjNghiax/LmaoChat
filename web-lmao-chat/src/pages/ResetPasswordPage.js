@@ -12,6 +12,7 @@ import Navbar from '../components/Navbar';
 import Logo from '../components/Logo';
 
 import userService from '../services/UserServices';
+import ExportColor from '../GlobalVariables';
 
 export default function ResetPasswordPage() {
   const [password, setPassword] = useState("");
@@ -22,8 +23,23 @@ export default function ResetPasswordPage() {
   const { theme } = useTheme();
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const state = useLocation();
-  const phoneNumber = state.state.phoneNumber;
+  const { state } = useLocation();
+  let phoneNumber;
+
+  if (state != null)
+    if ( Object.hasOwn(state, 'phoneNumber') )
+      phoneNumber = state.phoneNumber
+    else
+      phoneNumber = "0932659945"
+
+  const {
+    backgroundColor,
+    borderColor,
+    buttonColor,
+    iconColor,
+    linkColor,
+    textColor,
+  } = ExportColor();
 
   const handleChangePassword = e => {
     setPassword(e.target.value)
@@ -61,11 +77,15 @@ export default function ResetPasswordPage() {
   }
 
   return (
-    <div className={`
-      transition duration-[500] 
-      bg-color-${theme}
-      flex min-h-screen flex-col justify-center
-    `}>
+    <div
+      className={`
+        transition duration-[500] 
+        flex min-h-screen flex-col justify-center
+      `}
+      style={{
+        background: backgroundColor
+      }}  
+    >
       <Navbar />
 
       <div className={`px-6 py-12 lg:px-8 flex-1`}>
@@ -77,11 +97,15 @@ export default function ResetPasswordPage() {
           <Logo />
 
           {/* Title */}
-          <h2 className={`
-            transition duration-[500] 
-            text-color-${theme}
-            mt-10 text-center text-2xl font-bold leading-9 tracking-tight select-none
-          `}>
+          <h2
+            className={`
+              transition duration-[500] 
+              mt-10 text-center text-2xl font-bold leading-9 tracking-tight select-none
+            `}
+            style={{
+              color: textColor
+            }}  
+          >
             Reset password of your Lmao Chat account
           </h2>
         </div>
@@ -93,11 +117,16 @@ export default function ResetPasswordPage() {
             <div>
 
               {/* Password label */}
-              <label htmlFor="password" className={`
-                transition duration-[500] 
-                text-color-${theme}
-                block text-sm font-medium leading-6 select-none
-              `}>
+              <label
+                htmlFor="password"
+                className={`
+                  transition duration-[500] 
+                  block text-sm font-medium leading-6 select-none
+                `}
+                style={{
+                  color: textColor
+                }}
+              >
                 Password
               </label>
 
@@ -116,22 +145,20 @@ export default function ResetPasswordPage() {
                   required
                   className={`
                     transition duration-[500] 
-                    text-color-${theme}
-                    bg-color-${theme}
                     ${theme ? 'placeholder:text-gray-400' : 'placeholder:text-white'} 
                     w-full shadow-sm sm:text-sm select-none focus:outline-none
                   `}
+                  style={{
+                    background: backgroundColor, 
+                    color: textColor
+                  }}
                 />
 
                 <button onClick={() => setShowPassword(!showPassword)}>
                   {
                     showPassword ? 
-                      (theme === "theme1" ?
-                        <EyeOff color="white" /> :
-                        <EyeOff color="black" />) :
-                      (theme === "theme1" ?
-                        <Eye color="white" /> :
-                        <Eye color="black" />)
+                      <EyeOff color={iconColor} /> :
+                      <Eye color={iconColor} />
                   }
                 </button>
               </div>
@@ -141,11 +168,16 @@ export default function ResetPasswordPage() {
             <div>
 
               {/* Repeated Password label */}
-              <label htmlFor="repeatedPassword" className={`
-                transition duration-[500] 
-                text-color-${theme}
-                block text-sm font-medium leading-6 select-none
-              `}>
+              <label
+                htmlFor="repeatedPassword"
+                className={`
+                  transition duration-[500] 
+                  block text-sm font-medium leading-6 select-none
+                `}
+                style={{
+                  color: textColor
+                }}
+              >
                 Repeat Password
               </label>
 
@@ -164,22 +196,20 @@ export default function ResetPasswordPage() {
                   required
                   className={`
                     transition duration-[500] 
-                    text-color-${theme}
-                    bg-color-${theme}
                     ${theme ? 'placeholder:text-gray-400' : 'placeholder:text-white'} 
                     w-full shadow-sm sm:text-sm select-none focus:outline-none
                   `}
+                  style={{
+                    background: backgroundColor, 
+                    color: textColor
+                  }}
                 />
 
                 <button onClick={() => setShowRepeatedPassword(!showRepeatedPassword)}>
                   {
                     showRepeatedPassword ? 
-                      (theme === "theme1" ?
-                        <EyeOff color="white" /> :
-                        <EyeOff color="black" />) :
-                      (theme === "theme1" ?
-                        <Eye color="white" /> :
-                        <Eye color="black" />)
+                      <EyeOff color={iconColor} /> :
+                      <Eye color={iconColor} />
                   }
                 </button>
               </div>
@@ -194,12 +224,9 @@ export default function ResetPasswordPage() {
             {
               loading === "LOAD" ?
                 <div className={`flex gap-1.5 items-center justify-center`}>
-                {
-                  theme === "theme1" ?
-                    <LoaderCircle className={`animate-spin`} size={20} color="white" /> :
-                    <LoaderCircle className={`animate-spin`} size={20} color="black" />
-                }
-                  <p className={`text-color-${theme}`}>
+                  <LoaderCircle className={`animate-spin`} size={20} color={iconColor} />
+                    
+                  <p style={{color: textColor}}>
                     Please wait while we reset password of your Lmao Chat account
                   </p>
                 </div> :
@@ -211,12 +238,14 @@ export default function ResetPasswordPage() {
               <button
                 onClick={handleResetPassword}
                 className={`
-                  bg-color-primary-${theme} 
-                  hover:bg-color-primary-hover-${theme} 
                 text-white 
                   shadow-sm px-3 py-1.5 text-sm font-semibold leading-6 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 select-none
                   flex w-full justify-center rounded-md 
-              `}>
+                `}
+                style={{
+                  background: buttonColor
+                }}
+              >
                 Reset Password
               </button>
             </div>

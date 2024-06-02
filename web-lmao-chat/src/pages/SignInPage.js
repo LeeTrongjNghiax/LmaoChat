@@ -10,6 +10,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useTheme } from '../contexts/ThemeProvider';
 import Navbar from '../components/Navbar';
 import Logo from '../components/Logo';
+import ExportColor from '../GlobalVariables';
 
 import userService from '../services/UserServices';
 
@@ -24,15 +25,26 @@ export default function SignInPage() {
   const { theme } = useTheme();
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const state = useLocation();
+  const { state } = useLocation();
+  
+  const {
+    backgroundColor,
+    buttonColor,
+    iconColor,
+    linkColor,
+    textColor,
+  } = ExportColor();
 
   useEffect(() => {
-    if (state.state != null) {
-      if ( Object.hasOwn(state.state, 'phoneNumber') )
-        setPhoneNumber(state.state.phoneNumber);
 
-      if ( Object.hasOwn(state.state, 'password') )
-        setPassword(state.state.password);
+    if (state != null) {
+      if ( Object.hasOwn(state, 'phoneNumber') )
+        if (state.phoneNumber != undefined)
+          setPhoneNumber(state.phoneNumber);
+
+      if ( Object.hasOwn(state, 'password') )
+        if (state.password != undefined)
+          setPassword(state.password);
     }
   }, []);
 
@@ -81,11 +93,15 @@ export default function SignInPage() {
   }
   
   return (
-    <div className={`
-      transition duration-[500] 
-      bg-color-${theme}
-      flex min-h-screen flex-col justify-center
-    `}>
+    <div
+      className={`
+        transition duration-[500] 
+        flex min-h-screen flex-col justify-center
+      `}
+      style={{
+        background: backgroundColor
+      }}
+    >
       <Navbar />
 
       <div className={`px-6 py-12 flex-1`}>
@@ -97,11 +113,15 @@ export default function SignInPage() {
           <Logo />
 
           {/* Title */}
-          <h2 className={`
-            transition duration-[500] 
-            text-color-${theme}
-            mt-10 text-center text-2xl font-bold leading-9 tracking-tight select-none
-          `}>
+          <h2
+            className={`
+              transition duration-[500] 
+              mt-10 text-center text-2xl font-bold leading-9 tracking-tight select-none
+            `}
+            style={{
+              color: textColor
+            }}
+          >
             Sign in to your Lmao Chat account
           </h2>
         </div>
@@ -113,11 +133,16 @@ export default function SignInPage() {
             <div>
 
               {/* Phone Number label */}
-              <label htmlFor="phoneNumber" className={`
-                transition duration-[500] 
-                text-color-${theme}
-                block text-sm font-medium leading-6 select-none
-              `}>
+              <label
+                htmlFor="phoneNumber"
+                className={`
+                  transition duration-[500] 
+                  block text-sm font-medium leading-6 select-none
+                `}
+                style={{
+                  color: textColor
+                }}
+              >
                 Phone Number
               </label>
 
@@ -134,11 +159,13 @@ export default function SignInPage() {
                   required
                   className={`
                     transition duration-[500] 
-                    text-color-${theme}
-                    bg-color-${theme}
                     ${theme ? 'placeholder:text-gray-400' : 'placeholder:text-white'} 
                     block w-full rounded-md border-0 p-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 select-none
                   `}
+                  style={{
+                    background: backgroundColor, 
+                    color: textColor
+                  }}
                 />
               </div>
             </div>
@@ -147,11 +174,16 @@ export default function SignInPage() {
             <div>
 
               {/* Password label */}
-              <label htmlFor="password" className={`
-                transition duration-[500] 
-                text-color-${theme}
-                block text-sm font-medium leading-6 select-none
-              `}>
+              <label
+                htmlFor="password"
+                className={`
+                  transition duration-[500] 
+                  block text-sm font-medium leading-6 select-none
+                `}
+                style={{
+                  color: textColor
+                }}
+              >
                 Password
               </label>
 
@@ -170,22 +202,24 @@ export default function SignInPage() {
                   required
                   className={`
                     transition duration-[500] 
-                    text-color-${theme}
-                    bg-color-${theme}
                     ${theme ? 'placeholder:text-gray-400' : 'placeholder:text-white'} 
                     w-full shadow-sm sm:text-sm select-none focus:outline-none
                   `}
+                  style={{
+                    background: backgroundColor, 
+                    color: textColor
+                  }}
                 />
 
                 <button onClick={() => setShowPassword(!showPassword)}>
                   {
                     showPassword ? 
                       (theme === "theme1" ?
-                        <EyeOff color="white" /> :
-                        <EyeOff color="black" />) :
+                        <EyeOff color={iconColor} /> :
+                        <EyeOff color={iconColor} />) :
                       (theme === "theme1" ?
-                        <Eye color="white" /> :
-                        <Eye color="black" />)
+                        <Eye color={iconColor} /> :
+                        <Eye color={iconColor} />)
                   }
                 </button>
               </div>
@@ -206,12 +240,11 @@ export default function SignInPage() {
                   });
                 }}
                 className={`
-                  text-color-primary-${theme} 
-                  hover:text-color-primary-hover-${theme}
-                  text-sm font-semibold
-                  select-none
-                  cursor-pointer
+                  text-sm font-semibold select-none
                 `}
+                style={{
+                  color: linkColor, 
+                }}
               >
                 Sign up
               </button>
@@ -228,12 +261,11 @@ export default function SignInPage() {
                   });
                 }}
                 className={`
-                  text-color-primary-${theme} 
-                  hover:text-color-primary-hover-${theme} 
-                  text-sm font-semibold 
-                  select-none
-                  cursor-pointer
+                  text-sm font-semibold select-none
                 `}
+                style={{
+                  color: linkColor, 
+                }}
               >
                 Forgot Password?
               </button>
@@ -253,7 +285,7 @@ export default function SignInPage() {
                     <LoaderCircle className={`animate-spin`} size={20} color="white" /> :
                     <LoaderCircle className={`animate-spin`} size={20} color="black" />
                 }
-                  <p className={`text-color-${theme}`}>
+                  <p style={{color: textColor}}>
                     Please wait while we sign in to your Lmao Chat account
                   </p>
                 </div> :
@@ -265,12 +297,14 @@ export default function SignInPage() {
               <button
                 onClick={handleSignIn}
                 className={`
-                  bg-color-primary-${theme} 
-                  hover:bg-color-primary-hover-${theme} 
                 text-white 
                   shadow-sm px-3 py-1.5 text-sm font-semibold leading-6 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 select-none
                   flex w-full justify-center rounded-md 
-              `}>
+                `}
+                style={{
+                  backgroundColor: buttonColor
+                }}  
+              >
                 Sign in
               </button>
             </div>

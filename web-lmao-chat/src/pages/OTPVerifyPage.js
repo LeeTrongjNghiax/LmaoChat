@@ -14,6 +14,7 @@ import Navbar from '../components/Navbar';
 import Logo from '../components/Logo';
 
 import userServices from '../services/UserServices';
+import ExportColor from '../GlobalVariables';
 
 export default function OTPVerifyPage() {
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -25,12 +26,21 @@ export default function OTPVerifyPage() {
   const { theme } = useTheme();
   const auth = ConfigVariables.auth;
   const navigate = useNavigate();
-  const state = useLocation();
-  const destination = state.state.destination;
+  const { state } = useLocation();
+  const destination = state.destination;
+
+  const {
+    backgroundColor,
+    borderColor,
+    buttonColor,
+    iconColor,
+    linkColor,
+    textColor,
+  } = ExportColor();
 
   useEffect(() => {
-    if (state.state.phoneNumber !== undefined)
-      setPhoneNumber(state.state.phoneNumber);
+    if (state.phoneNumber !== undefined)
+      setPhoneNumber(state.phoneNumber);
   }, []);
 
   const handleChangePhoneNumber = e => {
@@ -125,11 +135,15 @@ export default function OTPVerifyPage() {
   }
   
   return (
-    <div className={`
-      transition duration-[500] 
-      bg-color-${theme}
-      flex min-h-screen flex-col justify-center
-    `}>
+    <div
+      className={`
+        transition duration-[500] 
+        flex min-h-screen flex-col justify-center
+      `}
+      style={{
+        background: backgroundColor
+      }}
+    >
       <Navbar />
 
       <div className={`px-6 py-12 lg:px-8 flex-1`}>
@@ -141,11 +155,15 @@ export default function OTPVerifyPage() {
           <Logo />
 
           {/* Title */}
-          <h2 className={`
-            transition duration-[500] 
-            text-color-${theme}
-            mt-10 text-center text-2xl font-bold leading-9 tracking-tight select-none
-          `}>
+          <h2
+            className={`
+              transition duration-[500] 
+              mt-10 text-center text-2xl font-bold leading-9 tracking-tight select-none
+            `}
+            style={{
+              color: textColor
+            }}
+          >
             {
               destination === "ResetPassword" ?
                 "Get password back in your Lmao Chat account" :
@@ -164,11 +182,16 @@ export default function OTPVerifyPage() {
                   <div>
 
                     {/* Phone Number label */}
-                    <label htmlFor="phoneNumber" className={`
-                      transition duration-[500] 
-                      text-color-${theme}
-                      block text-sm font-medium leading-6 select-none
-                    `}>
+                    <label
+                      htmlFor="phoneNumber"
+                      className={`
+                        transition duration-[500] 
+                        block text-sm font-medium leading-6 select-none
+                      `}
+                      style={{
+                        color: textColor
+                      }}
+                    >
                       Please input your phone number that we can send OTP code
                     </label>
 
@@ -186,11 +209,13 @@ export default function OTPVerifyPage() {
                         required
                         className={`
                           transition duration-[500] 
-                          text-color-${theme}
-                          bg-color-${theme}
                           ${theme ? 'placeholder:text-gray-400' : 'placeholder:text-white'} 
                           block w-full rounded-md border-0 p-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 select-none
                         `}
+                        style={{
+                          background: backgroundColor, 
+                          color: textColor
+                        }}
                       />
                     </div>
                   </div>
@@ -209,7 +234,7 @@ export default function OTPVerifyPage() {
                           <LoaderCircle className={`animate-spin`} size={20} color="white" /> :
                           <LoaderCircle className={`animate-spin`} size={20} color="black" />
                       }
-                        <p className={`text-color-${theme}`}>
+                        <p style={{color: textColor}}>
                           Please wait while we send the OTP code to {phoneNumber}
                         </p>
                       </div> :
@@ -223,11 +248,13 @@ export default function OTPVerifyPage() {
                       type="submit"
                       onClick={handleSendPhoneNumber}
                       className={`
-                        bg-color-primary-${theme} 
-                        hover:bg-color-primary-hover-${theme} 
                       text-white  
                         focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 select-none px-3 py-1.5 text-sm font-semibold leading-6 shadow-sm flex w-full justify-center rounded-md 
-                    `}>
+                      `}
+                      style={{
+                        background: buttonColor
+                      }}
+                    >
                       Send Phone Number
                     </button>
                   </div>
@@ -241,11 +268,16 @@ export default function OTPVerifyPage() {
                   <div>
 
                     {/* OTP label */}
-                    <label htmlFor="otp" className={`
-                      transition duration-[500] 
-                      text-color-${theme}
-                      block text-sm font-medium leading-6 select-none
-                    `}>
+                    <label 
+                      htmlFor="otp"
+                      className={`
+                        transition duration-[500] 
+                        block text-sm font-medium leading-6 select-none
+                      `}
+                      style={{
+                        color: textColor
+                      }}
+                    >
                       Please input the OTP code that just sent to {phoneNumber}
                     </label>
 
@@ -261,11 +293,13 @@ export default function OTPVerifyPage() {
                         required
                         className={`
                           transition duration-[500] 
-                          text-color-${theme}
-                          bg-color-${theme}
                           ${theme ? 'placeholder:text-gray-400' : 'placeholder:text-white'} 
                           block w-full rounded-md border-0 p-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 select-none
                         `}
+                        style={{
+                          background: backgroundColor, 
+                          color: textColor
+                        }}
                       />
                     </div>
                   </div>
@@ -281,10 +315,10 @@ export default function OTPVerifyPage() {
                       <div className={`flex gap-1.5 items-center justify-center`}>
                       {
                         theme === "theme1" ?
-                          <LoaderCircle className={`animate-spin`} size={20} color="white" /> :
-                          <LoaderCircle className={`animate-spin`} size={20} color="black" />
+                          <LoaderCircle className={`animate-spin`} size={20} color={iconColor} /> :
+                          <LoaderCircle className={`animate-spin`} size={20} color={iconColor} />
                       }
-                        <p className={`text-color-${theme}`}>
+                        <p style={{color: textColor}}>
                           Please wait while we verify the OTP code that sent to {phoneNumber}
                         </p>
                       </div> :
@@ -298,11 +332,13 @@ export default function OTPVerifyPage() {
                       type="submit"
                       onClick={handleSendOTP}
                       className={`
-                        bg-color-primary-${theme} 
-                        hover:bg-color-primary-hover-${theme} 
                       text-white  
                         focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 select-none px-3 py-1.5 text-sm font-semibold leading-6 shadow-sm flex w-full justify-center rounded-md 
-                    `}>
+                      `}
+                      style={{
+                        background: buttonColor
+                      }}
+                    >
                       Send OTP
                     </button>
                   </div>

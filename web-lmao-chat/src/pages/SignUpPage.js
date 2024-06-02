@@ -12,6 +12,7 @@ import Navbar from '../components/Navbar';
 import Logo from '../components/Logo';
 
 import userService from '../services/UserServices';
+import ExportColor from '../GlobalVariables';
 
 /*
  * @param phoneNumber: string
@@ -29,6 +30,15 @@ export default function SignUpPage() {
   const { state } = useLocation();
   const phoneNumber = state ? state.phoneNumber : "";
   const navigate = useNavigate();
+
+  const {
+    backgroundColor,
+    borderColor,
+    buttonColor,
+    iconColor,
+    linkColor,
+    textColor,
+  } = ExportColor();
 
   const handleFirstName = e => {
     setFirstName(e.target.value)
@@ -94,11 +104,15 @@ export default function SignUpPage() {
   }
   
   return (
-    <div className={`
-      transition duration-[500] 
-      bg-color-${theme}
-      flex min-h-screen flex-col justify-center
-    `}>
+    <div
+      className={`
+        transition duration-[500] 
+          flex min-h-screen flex-col justify-center
+      `}
+      style={{
+        background: backgroundColor
+      }}
+    >
       <Navbar />
 
       <div className={`px-6 py-12 lg:px-8 flex-1`}>
@@ -110,11 +124,15 @@ export default function SignUpPage() {
           <Logo />
 
           {/* Title */}
-          <h2 className={`
-            transition duration-[500] 
-            text-color-${theme}
-            mt-10 text-center text-2xl font-bold leading-9 tracking-tight select-none
-          `}>
+          <h2
+            className={`
+              transition duration-[500] 
+              mt-10 text-center text-2xl font-bold leading-9 tracking-tight select-none
+            `}
+            style={{
+              color: textColor
+            }}
+          >
             Sign up to your Lmao Chat account
           </h2>
         </div>
@@ -126,11 +144,16 @@ export default function SignUpPage() {
             <div>
 
               {/* Phone Number label */}
-              <label htmlFor="phoneNumber" className={`
-                transition duration-[500] 
-                text-color-${theme}
-                block text-sm font-medium leading-6 select-none
-              `}>
+              <label
+                htmlFor="phoneNumber"
+                className={`
+                  transition duration-[500] 
+                  block text-sm font-medium leading-6 select-none
+                `}
+                style={{
+                  color: textColor
+                }}
+              >
                 Phone Number
               </label>
 
@@ -146,11 +169,13 @@ export default function SignUpPage() {
                   readOnly
                   className={`
                     transition duration-[500] 
-                    text-color-${theme}
-                    bg-color-${theme}
                     ${theme ? 'placeholder:text-gray-400' : 'placeholder:text-white'} 
                     block w-full rounded-md border-0 p-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 select-none
                   `}
+                  style={{
+                    background: backgroundColor, 
+                    color: textColor
+                  }}
                 />
               </div>
             </div>
@@ -159,11 +184,16 @@ export default function SignUpPage() {
             <div>
 
               {/* First Name label */}
-              <label htmlFor="firstName" className={`
-                transition duration-[500] 
-                text-color-${theme}
-                block text-sm font-medium leading-6 select-none
-              `}>
+              <label
+                htmlFor="firstName"
+                className={`
+                  transition duration-[500] 
+                  block text-sm font-medium leading-6 select-none
+                `}
+                style={{
+                  color: textColor
+                }}
+              >
                 First Name
               </label>
 
@@ -179,11 +209,13 @@ export default function SignUpPage() {
                   onChange={handleFirstName}
                   className={`
                     transition duration-[500] 
-                    text-color-${theme}
-                    bg-color-${theme}
                     ${theme ? 'placeholder:text-gray-400' : 'placeholder:text-white'} 
                     block w-full rounded-md border-0 p-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 select-none
                   `}
+                  style={{
+                    background: backgroundColor, 
+                    color: textColor
+                  }}
                 />
               </div>
             </div>
@@ -192,11 +224,16 @@ export default function SignUpPage() {
             <div>
 
               {/* Last Name label */}
-              <label htmlFor="lastName" className={`
-                transition duration-[500] 
-                text-color-${theme}
-                block text-sm font-medium leading-6 select-none
-              `}>
+              <label
+                htmlFor="lastName"
+                className={`
+                  transition duration-[500] 
+                  block text-sm font-medium leading-6 select-none
+                `}
+                style={{
+                  color: textColor
+                }}
+              >
                 Last Name
               </label>
 
@@ -212,11 +249,13 @@ export default function SignUpPage() {
                   onChange={handleLastName}
                   className={`
                     transition duration-[500] 
-                    text-color-${theme}
-                    bg-color-${theme}
                     ${theme ? 'placeholder:text-gray-400' : 'placeholder:text-white'} 
                     block w-full rounded-md border-0 p-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 select-none
                   `}
+                  style={{
+                    background: backgroundColor, 
+                    color: textColor
+                  }}
                 />
               </div>
             </div>
@@ -225,11 +264,16 @@ export default function SignUpPage() {
             <div>
 
               {/* Password label */}
-              <label htmlFor="password" className={`
-                transition duration-[500] 
-                text-color-${theme}
-                block text-sm font-medium leading-6 select-none
-              `}>
+              <label
+                htmlFor="password"
+                className={`
+                  transition duration-[500] 
+                  block text-sm font-medium leading-6 select-none
+                `}
+                style={{
+                  color: textColor
+                }}
+              >
                 Password
               </label>
 
@@ -248,22 +292,20 @@ export default function SignUpPage() {
                   required
                   className={`
                     transition duration-[500] 
-                    text-color-${theme}
-                    bg-color-${theme}
                     ${theme ? 'placeholder:text-gray-400' : 'placeholder:text-white'} 
                     w-full shadow-sm sm:text-sm select-none focus:outline-none
                   `}
+                  style={{
+                    background: backgroundColor, 
+                    color: textColor
+                  }}
                 />
 
                 <button onClick={() => setShowPassword(!showPassword)}>
                   {
                     showPassword ? 
-                      (theme === "theme1" ?
-                        <EyeOff color="white" /> :
-                        <EyeOff color="black" />) :
-                      (theme === "theme1" ?
-                        <Eye color="white" /> :
-                        <Eye color="black" />)
+                      <EyeOff color={iconColor} /> :
+                      <Eye color={iconColor} />
                   }
                 </button>
               </div>
@@ -273,12 +315,17 @@ export default function SignUpPage() {
             <div>
 
               {/* Repeated Password label */}
-              <label htmlFor="repeatedPassword" className={`
-                transition duration-[500] 
-                text-color-${theme}
-                block text-sm font-medium leading-6 select-none
-              `}>
-                Password
+              <label
+                htmlFor="repeatedPassword"
+                className={`
+                  transition duration-[500] 
+                  block text-sm font-medium leading-6 select-none
+                `}
+                style={{
+                  color: textColor
+                }}
+              >
+                Repeated Password
               </label>
 
               {/* Repeated Password input */}
@@ -296,22 +343,20 @@ export default function SignUpPage() {
                   required
                   className={`
                     transition duration-[500] 
-                    text-color-${theme}
-                    bg-color-${theme}
                     ${theme ? 'placeholder:text-gray-400' : 'placeholder:text-white'} 
                     w-full shadow-sm sm:text-sm select-none focus:outline-none
                   `}
+                  style={{
+                    background: backgroundColor, 
+                    color: textColor
+                  }}
                 />
 
                 <button onClick={() => setShowRepeatedPassword(!showRepeatedPassword)}>
                   {
                     showRepeatedPassword ? 
-                      (theme === "theme1" ?
-                        <EyeOff color="white" /> :
-                        <EyeOff color="black" />) :
-                      (theme === "theme1" ?
-                        <Eye color="white" /> :
-                        <Eye color="black" />)
+                    <EyeOff color={iconColor} /> :
+                    <Eye color={iconColor} />
                   }
                 </button>
               </div>
@@ -328,10 +373,10 @@ export default function SignUpPage() {
                 <div className={`flex gap-1.5 items-center justify-center`}>
                 {
                   theme === "theme1" ?
-                    <LoaderCircle className={`animate-spin`} size={20} color="white" /> :
-                    <LoaderCircle className={`animate-spin`} size={20} color="black" />
+                    <LoaderCircle className={`animate-spin`} size={20} color={iconColor} /> :
+                    <LoaderCircle className={`animate-spin`} size={20} color={iconColor} />
                 }
-                  <p className={`text-color-${theme}`}>
+                  <p style={{color: textColor}}>
                     Please wait while we sign up to your Lmao Chat account
                   </p>
                 </div> :
@@ -344,12 +389,14 @@ export default function SignUpPage() {
                 // type="submit"
                 onClick={handleSignUp}
                 className={`
-                  bg-color-primary-${theme} 
-                  hover:bg-color-primary-hover-${theme} 
                 text-white 
                   shadow-sm px-3 py-1.5 text-sm font-semibold leading-6 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 select-none
                   flex w-full justify-center rounded-md 
-              `}>
+                `}
+                style={{
+                  background: buttonColor
+                }}
+              >
                 Sign up
               </button>
             </div>

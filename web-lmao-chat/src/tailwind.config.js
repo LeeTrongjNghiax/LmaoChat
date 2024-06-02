@@ -6,49 +6,39 @@ module.exports = {
   theme: {
     extend: {
       backgroundColor: {
-        "color-theme1": "black", 
-        "color-theme2": "white", 
-        "color-primary-theme1": "royalBlue", 
-        "color-primary-hover-theme1": "red", 
-        "color-primary-theme2": "mediumBlue", 
-        "color-primary-hover-theme2": "red", 
-      }, 
-      textColor: {
-        "color-theme1": "white", 
-        "color-theme2": "black", 
-        "color-primary-theme1": "royalBlue", 
-        "color-primary-hover-theme1": "red", 
-        "color-primary-theme2": "mediumBlue", 
-        "color-primary-hover-theme2": "red", 
+        "color-primary-theme1": "black", 
+        "color-primary-theme2": "white", 
       }, 
       borderColor: {
-        "color-theme1": "red-800", 
-        "color-theme2": "blue-800", 
+        "color-primary-theme1": "black", 
+        "color-primary-theme2": "white", 
+      }, 
+      buttonColor: {
+        "color-primary-theme1": "#4169e1", 
+        "color-primary-theme2": "blue",
+      }, 
+      chatBackgroundColor: {
+        "color-primary-theme1": "#121212", 
+        "color-primary-theme2": "#eeeeee",
+      }, 
+      iconColor: {
+        "color-primary-theme1": "white", 
+        "color-primary-theme2": "black", 
+      }, 
+      textColor: {
+        "color-primary-theme1": "white", 
+        "color-primary-theme2": "black", 
+      }, 
+      linkColor: {
+        // "color-primary-theme1": "#1f0cc4", 
+        "color-primary-theme1": "#4169e1", 
+        // "color-primary-theme2": "#180d33",
+        "color-primary-theme2": "blue",
       }
     },
   },
   safelist: [
-    {
-      pattern: /text-color-(theme1|theme2)/
-    }, 
-    {
-      pattern: /text-color-primary-(theme1|theme2)/
-    }, 
-    {
-      pattern: /text-color-primary-hover-(theme1|theme2)/
-    }, 
-    {
-      pattern: /bg-color-(theme1|theme2)/
-    }, 
-    {
-      pattern: /bg-color-primary-(theme1|theme2)/
-    }, 
-    {
-      pattern: /bg-color-primary-hover-(theme1|theme2)/
-    }, 
-    {
-      pattern: /border-color-(theme1|theme2)/
-    }, 
+    
   ], 
   plugins: [],
 }

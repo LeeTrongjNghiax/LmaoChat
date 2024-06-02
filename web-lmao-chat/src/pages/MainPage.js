@@ -1,5 +1,5 @@
 import React from 'react'
-import { MessageCircle, UserPlus, Users, Settings, Search, Phone, Video, MoreHorizontal, Mic, Laugh, Paperclip, Send } from 'lucide-react';
+import { MessageCircle, UserPlus, Users, Settings, Search, Phone, Video, MoreHorizontal, SmilePlus, Mic, Paperclip, Send } from 'lucide-react';
 
 import { useTheme } from '../contexts/ThemeProvider';
 import Logo from '../components/Logo';
@@ -7,53 +7,73 @@ import ChangeThemeButton from '../components/ChangeThemeButton';
 import AvatarFallback from '../components/AvatarFallback';
 import Friend from '../components/Friend';
 import Message from '../components/Message';
+import ExportColor from '../GlobalVariables';
 
 export default function MainPage() {
   const { theme } = useTheme();
-  const borderColor = theme === "theme1" ? "gray-900" : "blue-800";
   const iconSize = 30;
+
+  const {
+    backgroundColor,
+    buttonColor,
+    chatBackgroundColor, 
+    iconColor,
+    textColor,
+  } = ExportColor();
 
   const handleOpenModal = () => {
 
   }
 
   return (
-    <div className={`
-      transition duration-[500] 
-      bg-blue-950
-      flex min-h-screen justify-center
-      h-screen
-    `}>
+    <div
+      className={`
+        transition duration-[500] 
+        flex min-h-screen justify-center
+        h-screen
+      `}
+      style={{
+        background: chatBackgroundColor
+      }}
+    >
       
       {/* Sidebar */}
-      <div className={`
-        transition duration-[500]
-        bg-color-${theme}
-        text-color-${theme}
-        rounded-3xl m-1 flex flex-col gap-5 items-center text-sm font-medium leading-6 select-none p-5
-      `}>
+      <div
+        className={`
+          transition duration-[500]
+          rounded-3xl m-1 flex flex-col gap-5 items-center text-sm font-medium leading-6 select-none p-5
+        `}
+        style={{
+          background: backgroundColor, 
+          color: textColor
+        }}
+      >
         <Logo />
 
         <button title='All messages'>
-          <MessageCircle size={iconSize} />
+          <MessageCircle size={iconSize} color={iconColor} />
         </button>
 
-        <ChangeThemeButton size={iconSize} />
+        <ChangeThemeButton size={iconSize} color={iconColor} />
 
         <button title='Click to open setting' onClick={handleOpenModal}>
-          <Settings size={iconSize} />
+          <Settings size={iconSize} color={iconColor} />
         </button>
 
         <AvatarFallback name={"Le Trong Nghia"} />
       </div>
 
       {/* Friends */}
-      <div className={`
-        transition duration-[500]
-        bg-color-${theme}
-        text-color-${theme}
-        rounded-3xl m-1 flex flex-col gap-5 items-center text-sm font-medium leading-6 select-none p-5
-      `}>
+      <div
+        className={`
+          transition duration-[500]
+          rounded-3xl m-1 flex flex-col gap-5 items-center text-sm font-medium leading-6 select-none p-5
+        `}
+        style={{
+          background: backgroundColor, 
+          color: textColor
+        }}
+      >
 
         {/* Header */}
         <div className={`flex gap-5 w-full`}>
@@ -62,12 +82,12 @@ export default function MainPage() {
           <div className={`flex gap-5 ml-auto`}>
             {/* Add Friend */}
             <button className={`ml-auto`} title='Click to add friend'>
-              <UserPlus size={iconSize}/>
+              <UserPlus size={iconSize} color={iconColor} />
             </button>
 
             {/* Create Group */}
             <button className={`ml-auto`} title='Click to create group'>
-              <Users size={iconSize} />
+              <Users size={iconSize} color={iconColor} />
             </button>
           </div>
         </div>
@@ -85,16 +105,18 @@ export default function MainPage() {
               required
               className={`
                 transition duration-[500] 
-                text-color-${theme}
-                bg-color-${theme}
                 ${theme ? 'placeholder:text-gray-400' : 'placeholder:text-white'} 
                 w-full shadow-sm sm:text-sm select-none focus:outline-none
               `}
+              style={{
+                background: backgroundColor, 
+                color: textColor
+              }}
             />
           </div>
 
           <button>
-            <Search size={iconSize} />
+            <Search size={iconSize} color={iconColor} />
           </button>
         </div>
 
@@ -112,12 +134,16 @@ export default function MainPage() {
       </div>
 
       {/* Chats */}
-      <div className={`
-        transition duration-[500]
-        bg-color-${theme}
-        text-color-${theme}
-        w-full rounded-3xl m-1 flex-1 flex flex-col gap-5 items-center text-sm font-medium leading-6 select-none p-5
-      `}>
+      <div
+        className={`
+          transition duration-[500]
+          w-full rounded-3xl m-1 flex-1 flex flex-col gap-5 items-center text-sm font-medium leading-6 select-none p-5
+        `}
+        style={{
+          background: backgroundColor, 
+          color: textColor
+        }}
+      >
         
         {/* Header */}
         <div className={`flex gap-5 w-full items-center`}>
@@ -134,17 +160,17 @@ export default function MainPage() {
           <div className={`flex gap-5 ml-auto`}>
             {/* Call */}
             <button title='Click to call with current friend'>
-              <Phone size={iconSize} />
+              <Phone size={iconSize} color={iconColor} />
             </button>
 
             {/* Video */}
             <button title='Click to call video with current friend'>
-              <Video size={iconSize} />
+              <Video size={iconSize} color={iconColor} />
             </button>
             
             {/* Video */}
             <button title='Click to see more information'>
-              <MoreHorizontal size={iconSize} />
+              <MoreHorizontal size={iconSize} color={iconColor} />
             </button>
           </div>
         </div>
@@ -174,32 +200,34 @@ export default function MainPage() {
               required
               className={`
                 transition duration-[500] 
-                text-color-${theme}
-                bg-color-${theme}
                 ${theme ? 'placeholder:text-gray-400' : 'placeholder:text-white'} 
                 w-full shadow-sm sm:text-sm select-none focus:outline-none
               `}
+              style={{
+                background: backgroundColor, 
+                color: textColor
+              }}
             />
           </div>
 
           {/* Emoji */}
-          <button title='Click to send audio message'>
-            <Mic size={iconSize} />
+          <button title='Click to add emoji to your message'>
+            <SmilePlus size={iconSize} color={iconColor} />
           </button>
 
-          {/* Emoji */}
-          <button title='Click to add emoji to your message'>
-            <Laugh size={iconSize}/>
+          {/* Voice */}
+          <button title='Click to send audio message'>
+            <Mic size={iconSize} color={iconColor} />
           </button>
 
           {/* Send file */}
           <button title='Click to send file from your computer'>
-            <Paperclip size={iconSize} />
+            <Paperclip size={iconSize} color={iconColor} />
           </button>
 
           {/* Send */}
           <button title='Click to send your message'>
-            <Send size={iconSize} />
+            <Send size={iconSize} color={iconColor} />
           </button>
         </div>
       </div>

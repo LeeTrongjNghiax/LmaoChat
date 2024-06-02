@@ -1,5 +1,5 @@
 import axios from "axios";
-import GlobalVariables from "../GlobalVariables";
+import { GlobalVariables } from "../GlobalVariables";
 
 const getUser = async (phoneNumber) => {
   try {
