@@ -13,7 +13,7 @@ export default function AvatarFallback({name}) {
       text-white
       size-10 flex items-center justify-center rounded-full
     `}>
-      {getNameInit(name)}
+      {getNameInit(name ? name : "undefined")}
     </div>
   )
 }
