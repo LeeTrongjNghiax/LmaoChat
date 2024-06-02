@@ -15,12 +15,16 @@ module.exports = {
       }, 
       textColor: {
         "color-theme1": "white", 
-        "color-theme2": "gray-950", 
+        "color-theme2": "black", 
         "color-primary-theme1": "royalBlue", 
         "color-primary-hover-theme1": "red", 
         "color-primary-theme2": "mediumBlue", 
         "color-primary-hover-theme2": "red", 
       }, 
+      borderColor: {
+        "color-theme1": "red-800", 
+        "color-theme2": "blue-800", 
+      }
     },
   },
   safelist: [
@@ -41,6 +45,9 @@ module.exports = {
     }, 
     {
       pattern: /bg-color-primary-hover-(theme1|theme2)/
+    }, 
+    {
+      pattern: /border-color-(theme1|theme2)/
     }, 
   ], 
   plugins: [],

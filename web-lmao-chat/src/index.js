@@ -17,6 +17,7 @@ import SignUpPage from './pages/SignUpPage';
 import ErrorPage from './pages/ErrorPage';
 import ResetPasswordPage from './pages/ResetPasswordPage';
 import OTPVerifyPage from './pages/OTPVerifyPage';
+import MainPage from './pages/MainPage';
 
 const router = createBrowserRouter([
   {
@@ -37,6 +38,11 @@ const router = createBrowserRouter([
   {
     path: "/ResetPasswordPage",
     element: (<ResetPasswordPage />),
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: "/MainPage",
+    element: (<MainPage />),
     errorElement: <ErrorPage />,
   },
 ]);

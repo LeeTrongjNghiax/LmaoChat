@@ -76,6 +76,7 @@ export default function SignInPage() {
       setLoading("NOT_LOAD");
       setError(null);
       alert`Sign in successfully!`;
+      navigate("/MainPage", { state: { user: foundUser.data } });
     }
   }
   

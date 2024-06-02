@@ -28,13 +28,13 @@ export default function ChangeThemeButton({size}) {
   return (
     <div>
       <button
-        className={`bg-color-red`}
+        className={`bg-${theme}`}
         onClick={changeTheme}
       >
         {
           theme === "theme1" ?
-            <Sun color="white" size={size ? size : 30} /> :
-            <Moon color="black" size={size ? size : 30} />
+            <Sun size={size ? size : 30} /> :
+            <Moon size={size ? size : 30} />
         }
       </button>
     </div>
