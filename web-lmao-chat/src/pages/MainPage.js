@@ -1,5 +1,5 @@
 import React from 'react'
-import { MessageCircle, UserPlus, Users, Search, Phone, Video, MoreHorizontal, Mic, Laugh, Paperclip, Send } from 'lucide-react';
+import { MessageCircle, UserPlus, Users, Settings, Search, Phone, Video, MoreHorizontal, Mic, Laugh, Paperclip, Send } from 'lucide-react';
 
 import { useTheme } from '../contexts/ThemeProvider';
 import Logo from '../components/Logo';
@@ -12,6 +12,10 @@ export default function MainPage() {
   const { theme } = useTheme();
   const borderColor = theme === "theme1" ? "gray-900" : "blue-800";
   const iconSize = 30;
+
+  const handleOpenModal = () => {
+
+  }
 
   return (
     <div className={`
@@ -30,11 +34,15 @@ export default function MainPage() {
       `}>
         <Logo />
 
-        <button>
+        <button title='All messages'>
           <MessageCircle size={iconSize} />
         </button>
 
         <ChangeThemeButton size={iconSize} />
+
+        <button title='Click to open setting' onClick={handleOpenModal}>
+          <Settings size={iconSize} />
+        </button>
 
         <AvatarFallback name={"Le Trong Nghia"} />
       </div>
@@ -68,7 +76,6 @@ export default function MainPage() {
         <div className={`flex gap-5`}>
           <div className={`flex p-1.5 rounded-md ring-1 ring-gray-300 gap-1.5`}>
             <input
-              id="password"
               name="password"
               type="password"
               autoComplete="current-password"
@@ -158,7 +165,6 @@ export default function MainPage() {
           {/* Search Chats */}
           <div className={`flex flex-1 p-1.5 rounded-md ring-1 ring-gray-300 gap-1.5`}>
             <input
-              id="password"
               name="password"
               type="password"
               autoComplete="current-password"
