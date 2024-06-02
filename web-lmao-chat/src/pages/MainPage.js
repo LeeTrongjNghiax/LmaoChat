@@ -1,5 +1,5 @@
 import React from 'react'
-import { MessageCircle, UserPlus, Users, Phone, Video, Laugh, MoreHorizontal, Paperclip, Send } from 'lucide-react';
+import { MessageCircle, UserPlus, Users, Search, Phone, Video, MoreHorizontal, Mic, Laugh, Paperclip, Send } from 'lucide-react';
 
 import { useTheme } from '../contexts/ThemeProvider';
 import Logo from '../components/Logo';
@@ -53,36 +53,42 @@ export default function MainPage() {
 
           <div className={`flex gap-5 ml-auto`}>
             {/* Add Friend */}
-            <button className={`ml-auto`}>
+            <button className={`ml-auto`} title='Click to add friend'>
               <UserPlus size={iconSize}/>
             </button>
 
             {/* Create Group */}
-            <button className={`ml-auto`}>
+            <button className={`ml-auto`} title='Click to create group'>
               <Users size={iconSize} />
             </button>
           </div>
         </div>
 
         {/* Search Chats */}
-        <div className={`flex p-1.5 rounded-md ring-1 ring-gray-300 gap-1.5`}>
-          <input
-            id="password"
-            name="password"
-            type="password"
-            autoComplete="current-password"
-            placeholder='Search Message'
-            // value={password}
-            // onChange={handleChangePassword}
-            required
-            className={`
-              transition duration-[500] 
-              text-color-${theme}
-              bg-color-${theme}
-              ${theme ? 'placeholder:text-gray-400' : 'placeholder:text-white'} 
-              w-full shadow-sm sm:text-sm select-none focus:outline-none
-            `}
-          />
+        <div className={`flex gap-5`}>
+          <div className={`flex p-1.5 rounded-md ring-1 ring-gray-300 gap-1.5`}>
+            <input
+              id="password"
+              name="password"
+              type="password"
+              autoComplete="current-password"
+              placeholder='Search Message'
+              // value={password}
+              // onChange={handleChangePassword}
+              required
+              className={`
+                transition duration-[500] 
+                text-color-${theme}
+                bg-color-${theme}
+                ${theme ? 'placeholder:text-gray-400' : 'placeholder:text-white'} 
+                w-full shadow-sm sm:text-sm select-none focus:outline-none
+              `}
+            />
+          </div>
+
+          <button>
+            <Search size={iconSize} />
+          </button>
         </div>
 
         {/* Friends */}
@@ -120,17 +126,17 @@ export default function MainPage() {
 
           <div className={`flex gap-5 ml-auto`}>
             {/* Call */}
-            <button>
+            <button title='Click to call with current friend'>
               <Phone size={iconSize} />
             </button>
 
             {/* Video */}
-            <button>
+            <button title='Click to call video with current friend'>
               <Video size={iconSize} />
             </button>
             
             {/* Video */}
-            <button>
+            <button title='Click to see more information'>
               <MoreHorizontal size={iconSize} />
             </button>
           </div>
@@ -148,11 +154,6 @@ export default function MainPage() {
 
         {/* Chat input */}
         <div className={`w-full flex gap-5 items-center`}>
-
-          {/* Emoji */}
-          <button>
-            <Laugh size={iconSize}/>
-          </button>
 
           {/* Search Chats */}
           <div className={`flex flex-1 p-1.5 rounded-md ring-1 ring-gray-300 gap-1.5`}>
@@ -175,13 +176,23 @@ export default function MainPage() {
             />
           </div>
 
+          {/* Emoji */}
+          <button title='Click to send audio message'>
+            <Mic size={iconSize} />
+          </button>
+
+          {/* Emoji */}
+          <button title='Click to add emoji to your message'>
+            <Laugh size={iconSize}/>
+          </button>
+
           {/* Send file */}
-          <button>
+          <button title='Click to send file from your computer'>
             <Paperclip size={iconSize} />
           </button>
 
           {/* Send */}
-          <button>
+          <button title='Click to send your message'>
             <Send size={iconSize} />
           </button>
         </div>

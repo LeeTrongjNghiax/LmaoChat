@@ -1,4 +1,6 @@
 import React from 'react'
+import { MoreVertical } from 'lucide-react';
+
 import AvatarFallback from './AvatarFallback'
 
 export default function Message({dir, name, dateSent, content}) {
@@ -14,8 +16,14 @@ export default function Message({dir, name, dateSent, content}) {
         </div>
       </div>
 
-      <div className={`w-fit p-1.5 rounded-lg bg-blue-900 text-white`}>
-        {content ? content : "undefined"}
+      <div className={`flex gap-5 items-center`}>
+        <div className={`w-fit p-1.5 rounded-lg bg-blue-900 text-white`}>
+          {content ? content : "undefined"}
+        </div>
+
+        <button title='More options for message'>
+          <MoreVertical size={20} />
+        </button>
       </div>
     </div>
   )
