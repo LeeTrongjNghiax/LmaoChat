@@ -46,7 +46,7 @@ export default function SignInPage() {
         if (state.password !== undefined)
           setPassword(state.password);
     }
-  }, []);
+  }, [state]);
 
   const handleChangePhoneNumber = e => {
     setPhoneNumber(e.target.value)

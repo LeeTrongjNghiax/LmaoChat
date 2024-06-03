@@ -181,6 +181,24 @@ export default function MainPage() {
         {/* Chat History */}
         <div className={`w-full p-1.5 flex flex-col flex-1 gap-1.5 overflow-y-scroll`}>
           {/* Message 1 */}
+          <Message name="Le Trong Nghia" dateSent="12/02/2002 9:00:00" content="Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey "/>
+
+          {/* Message 2 */}
+          <Message dir="ltr" name="Lmao Lmao" dateSent="12/02/2002 9:00:00" content="Hello"/>
+
+          {/* Message 1 */}
+          <Message name="Le Trong Nghia" dateSent="12/02/2002 9:00:00" content="Hey"/>
+
+          {/* Message 2 */}
+          <Message dir="ltr" name="Lmao Lmao" dateSent="12/02/2002 9:00:00" content="Hello"/>
+
+          {/* Message 1 */}
+          <Message name="Le Trong Nghia" dateSent="12/02/2002 9:00:00" content="Hey"/>
+
+          {/* Message 2 */}
+          <Message dir="ltr" name="Lmao Lmao" dateSent="12/02/2002 9:00:00" content="Hello"/>
+
+          {/* Message 1 */}
           <Message name="Le Trong Nghia" dateSent="12/02/2002 9:00:00" content="Hey"/>
 
           {/* Message 2 */}

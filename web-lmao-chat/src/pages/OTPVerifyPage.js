@@ -41,7 +41,7 @@ export default function OTPVerifyPage() {
       if ( Object.hasOwn(state, 'phoneNumber') )
         if (state.phoneNumber !== undefined)
           setPhoneNumber(state.phoneNumber);
-  }, []);
+  }, [state]);
 
   const handleChangePhoneNumber = e => {
     setPhoneNumber(e.target.value)

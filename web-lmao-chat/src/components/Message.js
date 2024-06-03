@@ -32,7 +32,7 @@ export default function Message({dir, name, dateSent, content}) {
         <div
           className={`
             transition duration-[500] 
-            w-fit p-1.5 rounded-lg
+            w-fit p-1.5 rounded-lg max-w-xl
           `}
           style={{
             background: chatBackgroundColor, 
@@ -51,47 +51,37 @@ export default function Message({dir, name, dateSent, content}) {
             id='moreOption'
             className={`
               ${isOpen ? "flex" : "hidden"}
-              top-5 absolute flex-col gap-1.5 p-1.5 rounded-xl
+              top-7 absolute flex-col gap-1.5 p-1.5 rounded-xl
             `}
             style={{
               background: chatBackgroundColor, 
               color: textColor
             }}  
           >
-            <div className={`flex gap-1.5 items-center`}>
-              <button title='Click to add emoji to message'>
-                <SmilePlus />
-              </button>
+            <button className={`flex gap-1.5 items-center`} title='Click to add emoji to message'>
+              <SmilePlus />
               <p>Emoji</p>
-            </div>
+            </button>
             
-            <div className={`flex gap-1.5 items-center`}>
-              <button title='Click to reply message'>
-                <MessageSquareReply />
-              </button>
+            <button className={`flex gap-1.5 items-center`} title='Click to reply message'>
+              <MessageSquareReply />
               <p>Reply</p>
-            </div>
+            </button>
 
-            <div className={`flex gap-1.5 items-center`}>
-              <button title='Click to share message'>
-                <MessageSquareShare />
-              </button>
+            <button className={`flex gap-1.5 items-center`} title='Click to share message'>
+              <MessageSquareShare />
               <p>Share</p>
-            </div>
+            </button>
 
-            <div className={`flex gap-1.5 items-center`}>
-              <button title='Click to remove message'>
-                <MessageSquareOff />
-              </button>
+            <button className={`flex gap-1.5 items-center`} title='Click to remove message'>
+              <MessageSquareOff />
               <p>Remove</p>
-            </div>
+            </button>
 
-            <div className={`flex gap-1.5 items-center`}>
-              <button title='Click to delete message'>
-                <MessageSquareX />
-              </button>
+            <button className={`flex gap-1.5 items-center`} title='Click to delete message'>
+              <MessageSquareX />
               <p>Delete</p>
-            </div>
+            </button>
 
           </div>
         </div>
