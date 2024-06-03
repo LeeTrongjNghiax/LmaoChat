@@ -33,10 +33,8 @@ export default function SignUpPage() {
 
   const {
     backgroundColor,
-    borderColor,
     buttonColor,
     iconColor,
-    linkColor,
     textColor,
   } = ExportColor();
 

@@ -8,12 +8,7 @@ export default function Message({dir, name, dateSent, content}) {
   const [isOpen, setIsOpen] = useState(false);
 
   const {
-    backgroundColor,
-    borderColor,
-    buttonColor,
     chatBackgroundColor, 
-    iconColor,
-    linkColor,
     textColor,
   } = ExportColor();
 

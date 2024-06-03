@@ -39,11 +39,11 @@ export default function SignInPage() {
 
     if (state != null) {
       if ( Object.hasOwn(state, 'phoneNumber') )
-        if (state.phoneNumber != undefined)
+        if (state.phoneNumber !== undefined)
           setPhoneNumber(state.phoneNumber);
 
       if ( Object.hasOwn(state, 'password') )
-        if (state.password != undefined)
+        if (state.password !== undefined)
           setPassword(state.password);
     }
   }, []);

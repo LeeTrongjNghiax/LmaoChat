@@ -107,10 +107,12 @@ const updateUser = async (phoneNumber, password, email, avatarUrl) => {
   }
 };
 
-export default {
+const UserServices = {
   getUser, 
   getUsers, 
   addUser, 
   login, 
   updateUser
 }
+
+export default UserServices;

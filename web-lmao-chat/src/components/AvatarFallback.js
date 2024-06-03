@@ -1,15 +1,10 @@
 import React from 'react'
 
-import { useTheme } from '../contexts/ThemeProvider';
 import ExportColor from '../GlobalVariables';
 
 export default function AvatarFallback({name}) {
-  const { theme } = useTheme();
-
   const {
-    chatBackgroundColor, 
     linkColor,
-    textColor,
   } = ExportColor();
 
   const getNameInit = name => name.match(/(\b\S)?/g).join("").match(/(^\S|\S$)?/g).join("").toUpperCase();

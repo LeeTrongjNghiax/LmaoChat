@@ -31,16 +31,16 @@ export default function OTPVerifyPage() {
 
   const {
     backgroundColor,
-    borderColor,
     buttonColor,
     iconColor,
-    linkColor,
     textColor,
   } = ExportColor();
 
   useEffect(() => {
-    if (state.phoneNumber !== undefined)
-      setPhoneNumber(state.phoneNumber);
+    if (state != null)
+      if ( Object.hasOwn(state, 'phoneNumber') )
+        if (state.phoneNumber !== undefined)
+          setPhoneNumber(state.phoneNumber);
   }, []);
 
   const handleChangePhoneNumber = e => {

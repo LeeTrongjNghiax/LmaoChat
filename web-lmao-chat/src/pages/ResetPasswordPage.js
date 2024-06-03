@@ -34,10 +34,8 @@ export default function ResetPasswordPage() {
 
   const {
     backgroundColor,
-    borderColor,
     buttonColor,
     iconColor,
-    linkColor,
     textColor,
   } = ExportColor();
 
@@ -56,7 +54,7 @@ export default function ResetPasswordPage() {
       return false;
     }
 
-    if ( !(password == repeatedPassword) ) {
+    if ( !(password === repeatedPassword) ) {
       setError("Password and Repeated password must be the same");
       return false;
     }

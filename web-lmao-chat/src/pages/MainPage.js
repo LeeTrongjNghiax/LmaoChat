@@ -1,5 +1,5 @@
 import React from 'react'
-import { MessageCircle, UserPlus, Users, Settings, Search, Phone, Video, MoreHorizontal, SmilePlus, Mic, Paperclip, Send } from 'lucide-react';
+import { MessageCircle, UserPlus, Users, Settings, LogOut, Search, Phone, Video, MoreHorizontal, SmilePlus, Mic, Paperclip, Send } from 'lucide-react';
 
 import { useTheme } from '../contexts/ThemeProvider';
 import Logo from '../components/Logo';
@@ -15,7 +15,6 @@ export default function MainPage() {
 
   const {
     backgroundColor,
-    buttonColor,
     chatBackgroundColor, 
     iconColor,
     textColor,
@@ -58,6 +57,10 @@ export default function MainPage() {
 
         <button title='Click to open setting' onClick={handleOpenModal}>
           <Settings size={iconSize} color={iconColor} />
+        </button>
+
+        <button>
+          <LogOut size={iconSize} color={iconColor} />
         </button>
 
         <AvatarFallback name={"Le Trong Nghia"} />

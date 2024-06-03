@@ -7,21 +7,21 @@
   *     SignInPage.js
 */
 
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
 
 import { useTheme } from '../contexts/ThemeProvider';
 import ChangeThemeButton from './ChangeThemeButton';
+import ExportColor from '../GlobalVariables';
 
 export default function Navbar({ size }) {
-  const [buttonColor, setButtonColor] = useState("white");
   const navigate = useNavigate();
   const { theme } = useTheme();
 
-  useEffect(() => {
-    theme === "theme1" ? setButtonColor("white") : setButtonColor("black")
-  });
+  const {
+    iconColor,
+  } = ExportColor();
 
   const goBack = () => {
     navigate(-1);
@@ -33,7 +33,7 @@ export default function Navbar({ size }) {
       w-full bg-color-${theme} p-3 lg:p-3 flex gap-3
     `}>
       <button>
-        <ArrowLeft onClick={goBack} color={buttonColor} size={size ? size : 30} className={`
+        <ArrowLeft onClick={goBack} color={iconColor} size={size ? size : 30} className={`
           cursor-pointer
         `} />
       </button>
