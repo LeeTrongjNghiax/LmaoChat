@@ -3,7 +3,7 @@ import AvatarFallback from './AvatarFallback'
 
 export default function Friend({name, newMessage}) {
   return (
-    <button className={`flex gap-5 justify-start items-center`}>
+    <div className={`flex gap-5 justify-start items-center`}>
       {/* Avatar */}
       <AvatarFallback name={name ? name : "undefined"} />
 
@@ -14,6 +14,6 @@ export default function Friend({name, newMessage}) {
         {/* New Message */}
         <p>{newMessage ? newMessage : ""}</p>
       </div>
-    </button>
+    </div>
   )
 }

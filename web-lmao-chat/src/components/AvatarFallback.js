@@ -2,7 +2,7 @@ import React from 'react'
 
 import ExportColor from '../GlobalVariables';
 
-export default function AvatarFallback({name}) {
+export default function AvatarFallback({name, size}) {
   const {
     linkColor,
   } = ExportColor();
@@ -14,10 +14,14 @@ export default function AvatarFallback({name}) {
       className={`
         transition duration-[500] 
         text-white
-        size-10 flex items-center justify-center rounded-full
+        flex items-center justify-center 
       `}
       style={{
         background: `linear-gradient(90deg, transparent, ${linkColor})`, 
+        width: size ? size : 40, 
+        borderRadius: size ? (size / 2) : 20, 
+        fontSize: size ? size / 2 : 20, 
+        aspectRatio: 1 / 1, 
         // background: linkColor, 
         // color: textColor
       }}
