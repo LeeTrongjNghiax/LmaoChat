@@ -1,7 +1,10 @@
-import React from 'react'
-import AvatarFallback from './AvatarFallback'
+import { ReactElement } from 'react';
 
-export default function Friend({name, newMessage}) {
+import AvatarFallback from './AvatarFallback.tsx';
+
+export default function Friend(
+  { name, newMessage } : { name: string, newMessage: string }
+): ReactElement {
   return (
     <div className={`flex gap-5 justify-start items-center`}>
       {/* Avatar */}

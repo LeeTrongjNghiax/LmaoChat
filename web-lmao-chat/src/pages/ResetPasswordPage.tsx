@@ -1,30 +1,24 @@
-/*
-  * Used by 
-  *   index.js
-*/
-
-import React, { useState } from 'react';
-import { Eye, EyeOff, LoaderCircle } from 'lucide-react';
+import { BaseSyntheticEvent, ReactElement, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { Eye, EyeOff, LoaderCircle } from 'lucide-react';
 
-import { useTheme } from '../contexts/ThemeProvider';
 import Navbar from '../components/Navbar.tsx';
-import Logo from '../components/Logo';
+import Logo from '../components/Logo.tsx';
+import { useTheme } from '../contexts/ThemeProvider.js';
+import userService from '../services/UserServices.js';
+import ExportColor from '../GlobalVariables.js';
 
-import userService from '../services/UserServices';
-import ExportColor from '../GlobalVariables';
-
-export default function ResetPasswordPage() {
+export default function ResetPasswordPage(): ReactElement {
   const [password, setPassword] = useState("");
   const [repeatedPassword, setRepeatedPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showRepeatedPassword, setShowRepeatedPassword] = useState(false);
-  const [error, setError] = useState("");
+  const [error, setError] = useState<string | null>("");
   const { theme } = useTheme();
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState("");
   const navigate = useNavigate();
   const { state } = useLocation();
-  let phoneNumber;
+  let phoneNumber: string;
 
   if (state != null)
     if ( Object.hasOwn(state, 'phoneNumber') )
@@ -39,11 +33,11 @@ export default function ResetPasswordPage() {
     textColor,
   } = ExportColor();
 
-  const handleChangePassword = e => {
+  const handleChangePassword = (e: BaseSyntheticEvent) => {
     setPassword(e.target.value)
   }
 
-  const handleChangeRepeatedPassword = e => {
+  const handleChangeRepeatedPassword = (e: BaseSyntheticEvent) => {
     setRepeatedPassword(e.target.value)
   }
 

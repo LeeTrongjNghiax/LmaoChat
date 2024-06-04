@@ -1,13 +1,19 @@
-import React from 'react'
+import { PropsWithChildren, ReactElement } from 'react';
 
 import ExportColor from '../GlobalVariables';
 
-export default function AvatarFallback({name, size}) {
+interface Props extends PropsWithChildren<any> {
+  name?: string, 
+  size?: number
+}
+
+export default function AvatarFallback({name, size}: Props): ReactElement {
   const {
     linkColor,
   } = ExportColor();
 
-  const getNameInit = name => name.match(/(\b\S)?/g).join("").match(/(^\S|\S$)?/g).join("").toUpperCase();
+  const getNameInit = (name: string = "") =>
+    name!.match(/(\b\S)?/g)!.join("")!.match(/(^\S|\S$)?/g)!.join("").toUpperCase();
 
   return (
     <div
@@ -26,7 +32,7 @@ export default function AvatarFallback({name, size}) {
         // color: textColor
       }}
     >
-      {getNameInit(name ? name : "undefined")}
+      {getNameInit(name ? name : "")}
     </div>
   )
 }

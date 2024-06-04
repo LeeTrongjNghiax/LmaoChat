@@ -1,17 +1,13 @@
-/*
-  * Used by
-  *   components
-  *     Navbar.js
-*/
-
-import React, { ReactElement } from 'react';
+import { PropsWithChildren, ReactElement } from 'react';
 import { Moon, Sun } from 'lucide-react';
 
 import { useTheme } from '../contexts/ThemeProvider';
 
-export default function ChangeThemeButton(
-  { size }: { size: number }
-): ReactElement {
+interface Props extends PropsWithChildren<any>{
+  size?: number
+}
+
+export default function ChangeThemeButton({ size }: Props): ReactElement {
   const { toggleTheme, theme } = useTheme();
 
   const changeTheme = () => {

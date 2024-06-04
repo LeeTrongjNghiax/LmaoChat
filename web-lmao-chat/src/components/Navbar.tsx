@@ -1,23 +1,16 @@
-/*
-  * Used by
-  *   pages
-  *     ErrorPage.js
-  *     PhoneNumberInputToForgotPasswordPage.js
-  *     PhoneNumberInputToSignInPage.js
-  *     SignInPage.js
-*/
-
-import React from 'react';
+import { PropsWithChildren } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
 
-import { useTheme } from '../contexts/ThemeProvider';
 import ChangeThemeButton from './ChangeThemeButton.tsx';
+import { useTheme } from '../contexts/ThemeProvider';
 import ExportColor from '../GlobalVariables';
 
-export default function Navbar( 
-  {size} : {size: number}
-) {
+interface Props extends PropsWithChildren<any>{
+  size?: number
+}
+
+export default function Navbar( {size}: Props ) {
   const navigate = useNavigate();
   const { theme } = useTheme();
 

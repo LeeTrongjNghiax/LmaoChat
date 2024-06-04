@@ -1,13 +1,13 @@
-import React, { MouseEventHandler, ReactElement, useState } from 'react'
+import { MouseEventHandler, ReactElement, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { MessageCircle, UserPlus, Users, Settings, LogOut, Search, Phone, Video, MoreHorizontal, SmilePlus, Mic, Paperclip, Send, ImagePlus, Save } from 'lucide-react';
 
-import Logo from '../components/Logo.js';
+import AvatarFallback from '../components/AvatarFallback.tsx';
 import ChangeThemeButton from '../components/ChangeThemeButton.tsx';
-import AvatarFallback from '../components/AvatarFallback.js';
-import Friend from '../components/Friend.js';
-import Message from '../components/Message.js';
+import Friend from '../components/Friend.tsx';
+import Logo from '../components/Logo.tsx';
+import Message from '../components/Message.tsx';
 import ExportColor from '../GlobalVariables.js';
-import { useLocation, useNavigate } from 'react-router-dom';
 
 function Sidebar(
   { backgroundColor, textColor, iconColor, iconSize, user, handleOpenSetting, handleLogOut, handleOpenPersonalInfo } :

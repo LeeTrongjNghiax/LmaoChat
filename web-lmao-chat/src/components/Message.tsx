@@ -1,10 +1,17 @@
-import React, { useState } from 'react'
+import { PropsWithChildren, ReactElement, useState } from 'react';
 import { MoreVertical, SmilePlus, MessageSquareReply, MessageSquareShare, MessageSquareOff, MessageSquareX } from 'lucide-react';
 
-import AvatarFallback from './AvatarFallback'
+import AvatarFallback from './AvatarFallback.tsx';
 import ExportColor from '../GlobalVariables';
 
-export default function Message({dir, name, dateSent, content}) {
+interface Props extends PropsWithChildren<any>{
+  dir?: string, 
+  name: string, 
+  dateSent: string, 
+  content: string
+}
+
+export default function Message({ dir, name, dateSent, content } : Props): ReactElement {
   const [isOpen, setIsOpen] = useState(false);
 
   const {

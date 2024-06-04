@@ -1,27 +1,18 @@
-/*
-  * Used by 
-  *   index.js
-*/
-
-import React, { ReactElement, useEffect, useState } from 'react';
-import { Eye, EyeOff, LoaderCircle } from 'lucide-react';
+import { BaseSyntheticEvent, ReactElement, useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { Eye, EyeOff, LoaderCircle } from 'lucide-react';
 
-import { useTheme } from '../contexts/ThemeProvider';
+import Logo from '../components/Logo.tsx';
 import Navbar from '../components/Navbar.tsx';
-import Logo from '../components/Logo';
+import { useTheme } from '../contexts/ThemeProvider';
+import userService from '../services/UserServices';
 import ExportColor from '../GlobalVariables';
 
-import userService from '../services/UserServices';
-
-/*
- * @param password: string
- */
 export default function SignInPage(): ReactElement {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [error, setError] = useState<String | null>("");
+  const [error, setError] = useState<string | null>("");
   const { theme } = useTheme();
   const [loading, setLoading] = useState("NOT_LOAD");
   const navigate = useNavigate();
@@ -48,11 +39,11 @@ export default function SignInPage(): ReactElement {
     }
   }, [state]);
 
-  const handleChangePhoneNumber = (e: any) => {
+  const handleChangePhoneNumber = (e: BaseSyntheticEvent) => {
     setPhoneNumber(e.target.value)
   }
 
-  const handleChangePassword = (e: any) => {
+  const handleChangePassword = (e: BaseSyntheticEvent) => {
     setPassword(e.target.value)
   }
 

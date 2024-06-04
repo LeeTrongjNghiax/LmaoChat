@@ -1,22 +1,13 @@
-/*
-  * Used by 
-  *   index.js
-*/
-
-import React, { ReactElement, useState } from 'react';
-import { Eye, EyeOff, LoaderCircle } from 'lucide-react';
+import { BaseSyntheticEvent, ReactElement, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { Eye, EyeOff, LoaderCircle } from 'lucide-react';
 
-import { useTheme } from '../contexts/ThemeProvider.js';
+import Logo from '../components/Logo.tsx';
 import Navbar from '../components/Navbar.tsx';
-import Logo from '../components/Logo.js';
-
+import { useTheme } from '../contexts/ThemeProvider.js';
 import userService from '../services/UserServices.js';
 import ExportColor from '../GlobalVariables.js';
 
-/*
- * @param phoneNumber: string
- */
 export default function SignUpPage(): ReactElement {
   const [firstName, setFirstName] = useState("Le");
   const [lastName, setLastName] = useState("Nghia");
@@ -24,7 +15,7 @@ export default function SignUpPage(): ReactElement {
   const [showPassword, setShowPassword] = useState(false);
   const [showRepeatedPassword, setShowRepeatedPassword] = useState(false);
   const [repeatedPassword, setRepeatedPassword] = useState("11111111");
-  const [error, setError] = useState<String | null>("");
+  const [error, setError] = useState<string | null>("");
   const [loading, setLoading] = useState("");
   const { theme } = useTheme();
   const { state } = useLocation();
@@ -38,19 +29,19 @@ export default function SignUpPage(): ReactElement {
     textColor,
   } = ExportColor();
 
-  const handleFirstName = (e: any) => {
+  const handleFirstName = (e: BaseSyntheticEvent) => {
     setFirstName(e.target.value)
   }
 
-  const handleLastName = (e: any) => {
+  const handleLastName = (e: BaseSyntheticEvent) => {
     setLastName(e.target.value)
   }
 
-  const handleChangePassword = (e: any) => {
+  const handleChangePassword = (e: BaseSyntheticEvent) => {
     setPassword(e.target.value)
   }
 
-  const handleChangeRepeatedPassword = (e: any) => {
+  const handleChangeRepeatedPassword = (e: BaseSyntheticEvent) => {
     setRepeatedPassword(e.target.value)
   }
 

@@ -14,8 +14,8 @@ import GlobalVariables from "./GlobalVariables";
 
 import SignInPage from './pages/SignInPage.tsx';
 import SignUpPage from './pages/SignUpPage.tsx';
-import ErrorPage from './pages/ErrorPage';
-import ResetPasswordPage from './pages/ResetPasswordPage';
+import ErrorPage from './pages/ErrorPage.tsx';
+import ResetPasswordPage from './pages/ResetPasswordPage.tsx';
 import OTPVerifyPage from './pages/OTPVerifyPage.tsx';
 import MainPage from './pages/MainPage.tsx';
 

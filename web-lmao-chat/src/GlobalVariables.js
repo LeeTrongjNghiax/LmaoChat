@@ -1,10 +1,3 @@
-/*
-  * Used by 
-  *   index.js
-  *   pages
-  *     SocketContext.js
-*/
-
 import { io } from "socket.io-client";
 
 import tailwind from "./tailwind.config.js";

@@ -1,25 +1,19 @@
-/*
-  * Used by 
-  *   index.js
-*/
-
-import { LoaderCircle } from 'lucide-react'
-import React, { ReactElement, useEffect, useState } from 'react';
+import React, { BaseSyntheticEvent, ReactElement, useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { LoaderCircle } from 'lucide-react'
 import { ConfirmationResult, RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 
-import { useTheme } from '../contexts/ThemeProvider.js';
-import ConfigVariables from '../ConfigVariables.js';
+import Logo from '../components/Logo.tsx';
 import Navbar from '../components/Navbar.tsx';
-import Logo from '../components/Logo.js';
-
+import { useTheme } from '../contexts/ThemeProvider.js';
 import userServices from '../services/UserServices.js';
+import ConfigVariables from '../ConfigVariables.js';
 import ExportColor from '../GlobalVariables.js';
 
 export default function OTPVerifyPage(): ReactElement {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [otp, setOTP] = useState("");
-  const [error, setError] = useState<String | null>("");
+  const [error, setError] = useState<string | null>("");
   const [loading, setLoading] = useState("");
   const [step, setStep] = useState('INPUT_PHONE_NUMBER');
   const [result, setResult] = useState<ConfirmationResult>();
@@ -45,11 +39,11 @@ export default function OTPVerifyPage(): ReactElement {
           setPhoneNumber(state.phoneNumber);
   }, [state]);
 
-  const handleChangePhoneNumber = (e: any) => {
+  const handleChangePhoneNumber = (e: BaseSyntheticEvent) => {
     setPhoneNumber(e.target.value)
   }
 
-  const handleChangeOTP = (e: any) => {
+  const handleChangeOTP = (e: BaseSyntheticEvent) => {
     setOTP(e.target.value)
   }
 
@@ -116,13 +110,13 @@ export default function OTPVerifyPage(): ReactElement {
   const handleSendOTP = () => {
     if (otp === null) return;
 
-    sendPhoneNumberButton.disabled = true;
+    sendOTPButton.disabled = true;
     setLoading("LOAD");
     setError(null);
 
     if (result !== undefined)
       result.confirm(otp).then(() => {
-        sendPhoneNumberButton.disabled = false;
+        sendOTPButton.disabled = false;
         setLoading("NOT_LOAD");
         setError(null);
         setStep('VERIFY_SUCCESS');
@@ -130,7 +124,7 @@ export default function OTPVerifyPage(): ReactElement {
         navigate("/" + destination, { state: { phoneNumber: phoneNumber } });
       })
       .catch(err => {
-        sendPhoneNumberButton.disabled = false;
+        sendOTPButton.disabled = false;
         setLoading("NOT_LOAD");
         setError("Verify OTP error: " + err);
         console.error("Verify OTP error: " + err);
@@ -168,7 +162,7 @@ export default function OTPVerifyPage(): ReactElement {
             }}
           >
             {
-              destination === "ResetPassword" ?
+              destination === "ResetPasswordPage" ?
                 "Get password back in your Lmao Chat account" :
                 "Sign up to your Lmao Chat account"
             }
