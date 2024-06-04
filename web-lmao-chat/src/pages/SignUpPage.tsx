@@ -342,8 +342,8 @@ export default function SignUpPage(): ReactElement {
                 <button onClick={() => setShowRepeatedPassword(!showRepeatedPassword)}>
                   {
                     showRepeatedPassword ? 
-                    <EyeOff color={iconColor} /> :
-                    <Eye color={iconColor} />
+                      <EyeOff color={iconColor} /> :
+                      <Eye color={iconColor} />
                   }
                 </button>
               </div>
