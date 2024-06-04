@@ -4,12 +4,14 @@
   *     Navbar.js
 */
 
-import React from 'react';
+import React, { ReactElement } from 'react';
 import { Moon, Sun } from 'lucide-react';
 
 import { useTheme } from '../contexts/ThemeProvider';
 
-export default function ChangeThemeButton({size}) {
+export default function ChangeThemeButton(
+  { size }: { size: number }
+): ReactElement {
   const { toggleTheme, theme } = useTheme();
 
   const changeTheme = () => {

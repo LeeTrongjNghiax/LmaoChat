@@ -8,7 +8,7 @@ import { Eye, EyeOff, LoaderCircle } from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import { useTheme } from '../contexts/ThemeProvider';
-import Navbar from '../components/Navbar';
+import Navbar from '../components/Navbar.tsx';
 import Logo from '../components/Logo';
 
 import userService from '../services/UserServices';

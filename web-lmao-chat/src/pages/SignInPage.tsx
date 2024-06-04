@@ -3,12 +3,12 @@
   *   index.js
 */
 
-import React, { useEffect, useState } from 'react';
+import React, { ReactElement, useEffect, useState } from 'react';
 import { Eye, EyeOff, LoaderCircle } from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import { useTheme } from '../contexts/ThemeProvider';
-import Navbar from '../components/Navbar';
+import Navbar from '../components/Navbar.tsx';
 import Logo from '../components/Logo';
 import ExportColor from '../GlobalVariables';
 
@@ -17,13 +17,13 @@ import userService from '../services/UserServices';
 /*
  * @param password: string
  */
-export default function SignInPage() {
+export default function SignInPage(): ReactElement {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [error, setError] = useState("");
+  const [error, setError] = useState<String | null>("");
   const { theme } = useTheme();
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState("NOT_LOAD");
   const navigate = useNavigate();
   const { state } = useLocation();
   
@@ -48,11 +48,11 @@ export default function SignInPage() {
     }
   }, [state]);
 
-  const handleChangePhoneNumber = e => {
+  const handleChangePhoneNumber = (e: any) => {
     setPhoneNumber(e.target.value)
   }
 
-  const handleChangePassword = e => {
+  const handleChangePassword = (e: any) => {
     setPassword(e.target.value)
   }
 

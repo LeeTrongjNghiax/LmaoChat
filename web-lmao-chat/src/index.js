@@ -12,12 +12,12 @@ import SocketContext from "./contexts/SocketContext";
 import ThemeProvider from "./contexts/ThemeProvider";
 import GlobalVariables from "./GlobalVariables";
 
-import SignInPage from './pages/SignInPage';
-import SignUpPage from './pages/SignUpPage';
+import SignInPage from './pages/SignInPage.tsx';
+import SignUpPage from './pages/SignUpPage.tsx';
 import ErrorPage from './pages/ErrorPage';
 import ResetPasswordPage from './pages/ResetPasswordPage';
-import OTPVerifyPage from './pages/OTPVerifyPage';
-import MainPage from './pages/MainPage';
+import OTPVerifyPage from './pages/OTPVerifyPage.tsx';
+import MainPage from './pages/MainPage.tsx';
 
 const router = createBrowserRouter([
   {

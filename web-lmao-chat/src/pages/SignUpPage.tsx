@@ -3,29 +3,29 @@
   *   index.js
 */
 
-import React, { useState } from 'react';
+import React, { ReactElement, useState } from 'react';
 import { Eye, EyeOff, LoaderCircle } from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-import { useTheme } from '../contexts/ThemeProvider';
-import Navbar from '../components/Navbar';
-import Logo from '../components/Logo';
+import { useTheme } from '../contexts/ThemeProvider.js';
+import Navbar from '../components/Navbar.tsx';
+import Logo from '../components/Logo.js';
 
-import userService from '../services/UserServices';
-import ExportColor from '../GlobalVariables';
+import userService from '../services/UserServices.js';
+import ExportColor from '../GlobalVariables.js';
 
 /*
  * @param phoneNumber: string
  */
-export default function SignUpPage() {
+export default function SignUpPage(): ReactElement {
   const [firstName, setFirstName] = useState("Le");
   const [lastName, setLastName] = useState("Nghia");
   const [password, setPassword] = useState("11111111");
   const [showPassword, setShowPassword] = useState(false);
   const [showRepeatedPassword, setShowRepeatedPassword] = useState(false);
   const [repeatedPassword, setRepeatedPassword] = useState("11111111");
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<String | null>("");
+  const [loading, setLoading] = useState("");
   const { theme } = useTheme();
   const { state } = useLocation();
   const phoneNumber = state ? state.phoneNumber : "";
@@ -38,19 +38,19 @@ export default function SignUpPage() {
     textColor,
   } = ExportColor();
 
-  const handleFirstName = e => {
+  const handleFirstName = (e: any) => {
     setFirstName(e.target.value)
   }
 
-  const handleLastName = e => {
+  const handleLastName = (e: any) => {
     setLastName(e.target.value)
   }
 
-  const handleChangePassword = e => {
+  const handleChangePassword = (e: any) => {
     setPassword(e.target.value)
   }
 
-  const handleChangeRepeatedPassword = e => {
+  const handleChangeRepeatedPassword = (e: any) => {
     setRepeatedPassword(e.target.value)
   }
 

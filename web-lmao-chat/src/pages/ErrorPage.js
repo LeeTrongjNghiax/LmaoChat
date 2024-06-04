@@ -6,7 +6,7 @@
 import { useEffect, useState } from "react";
 import { useRouteError } from "react-router-dom";
 
-import Navbar from "../components/Navbar";
+import Navbar from "../components/Navbar.tsx";
 import LoadingPage from "./LoadingPage";
 
 import { useTheme } from '../contexts/ThemeProvider';

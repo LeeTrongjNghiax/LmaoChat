@@ -4,30 +4,32 @@
 */
 
 import { LoaderCircle } from 'lucide-react'
-import React, { useEffect, useState } from 'react';
+import React, { ReactElement, useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
+import { ConfirmationResult, RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 
-import { useTheme } from '../contexts/ThemeProvider';
-import ConfigVariables from '../ConfigVariables';
-import Navbar from '../components/Navbar';
-import Logo from '../components/Logo';
+import { useTheme } from '../contexts/ThemeProvider.js';
+import ConfigVariables from '../ConfigVariables.js';
+import Navbar from '../components/Navbar.tsx';
+import Logo from '../components/Logo.js';
 
-import userServices from '../services/UserServices';
-import ExportColor from '../GlobalVariables';
+import userServices from '../services/UserServices.js';
+import ExportColor from '../GlobalVariables.js';
 
-export default function OTPVerifyPage() {
+export default function OTPVerifyPage(): ReactElement {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [otp, setOTP] = useState("");
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<String | null>("");
+  const [loading, setLoading] = useState("");
   const [step, setStep] = useState('INPUT_PHONE_NUMBER');
-  const [result, setResult] = useState('');
+  const [result, setResult] = useState<ConfirmationResult>();
   const { theme } = useTheme();
   const auth = ConfigVariables.auth;
   const navigate = useNavigate();
   const { state } = useLocation();
   const destination = state.destination;
+  const sendPhoneNumberButton: HTMLButtonElement = document.querySelector("#sendPhoneNumberButton")!;
+  const sendOTPButton: HTMLButtonElement = document.querySelector("#sendOTPButton")!;
 
   const {
     backgroundColor,
@@ -43,11 +45,11 @@ export default function OTPVerifyPage() {
           setPhoneNumber(state.phoneNumber);
   }, [state]);
 
-  const handleChangePhoneNumber = e => {
+  const handleChangePhoneNumber = (e: any) => {
     setPhoneNumber(e.target.value)
   }
 
-  const handleChangeOTP = e => {
+  const handleChangeOTP = (e: any) => {
     setOTP(e.target.value)
   }
 
@@ -73,19 +75,19 @@ export default function OTPVerifyPage() {
     const checkUser = await checkIfUserExist();
 
     if ( !checkUser && destination === "ResetPasswordPage" ) {
-      document.querySelector("#sendPhoneNumberButton").disabled = false;
+      sendPhoneNumberButton.disabled = false;
       setError(`User with number ${phoneNumber} don't exist`);
       return;
     }
 
     if ( checkUser && destination === "SignUpPage" ) {
-      document.querySelector("#sendPhoneNumberButton").disabled = false;
+      sendPhoneNumberButton.disabled = false;
       setError(`User with number ${phoneNumber} exist`);
       return;
     }
 
     if (handleVerification()) {
-      document.querySelector("#sendPhoneNumberButton").disabled = true;
+      sendPhoneNumberButton.disabled = true;
       setLoading("LOAD");
       setError(null);
 
@@ -95,13 +97,13 @@ export default function OTPVerifyPage() {
 
       signInWithPhoneNumber(auth, "+84" + phoneNumber.substring(1), appVerifier)
         .then(confirmationResult => {
-          document.querySelector("#sendPhoneNumberButton").disabled = false;
+          sendPhoneNumberButton.disabled = false;
           setLoading("NOT_LOAD");
           setError(null);
           setResult(confirmationResult);
           setStep('VERIFY_OTP');
         }).catch(error => {
-          document.querySelector("#sendPhoneNumberButton").disabled = false;
+          sendPhoneNumberButton.disabled = false;
           setLoading("NOT_LOAD");
           setError("Sign in with phone number error: " + error);
           console.error("Sign in with phone number error: " + error);
@@ -114,24 +116,25 @@ export default function OTPVerifyPage() {
   const handleSendOTP = () => {
     if (otp === null) return;
 
-    document.querySelector("#sendOTPButton").disabled = true;
+    sendPhoneNumberButton.disabled = true;
     setLoading("LOAD");
     setError(null);
-        
-    result.confirm(otp).then(result => {
-      document.querySelector("#sendOTPButton").disabled = false;
-      setLoading("NOT_LOAD");
-      setError(null);
-      setStep('VERIFY_SUCCESS');
-      alert`Verify OTP successfully!`;
-      navigate("/" + destination, { state: { phoneNumber: phoneNumber } });
-    })
-    .catch(err => {
-      document.querySelector("#sendOTPButton").disabled = false;
-      setLoading("NOT_LOAD");
-      setError("Verify OTP error: " + err);
-      console.error("Verify OTP error: " + err);
-    });
+
+    if (result !== undefined)
+      result.confirm(otp).then(() => {
+        sendPhoneNumberButton.disabled = false;
+        setLoading("NOT_LOAD");
+        setError(null);
+        setStep('VERIFY_SUCCESS');
+        alert`Verify OTP successfully!`;
+        navigate("/" + destination, { state: { phoneNumber: phoneNumber } });
+      })
+      .catch(err => {
+        sendPhoneNumberButton.disabled = false;
+        setLoading("NOT_LOAD");
+        setError("Verify OTP error: " + err);
+        console.error("Verify OTP error: " + err);
+      }); 
   }
   
   return (

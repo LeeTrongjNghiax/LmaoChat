@@ -12,10 +12,12 @@ import { useNavigate } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
 
 import { useTheme } from '../contexts/ThemeProvider';
-import ChangeThemeButton from './ChangeThemeButton';
+import ChangeThemeButton from './ChangeThemeButton.tsx';
 import ExportColor from '../GlobalVariables';
 
-export default function Navbar({ size }) {
+export default function Navbar( 
+  {size} : {size: number}
+) {
   const navigate = useNavigate();
   const { theme } = useTheme();
 
@@ -32,13 +34,11 @@ export default function Navbar({ size }) {
       transition duration-[500]
       w-full bg-color-${theme} p-3 lg:p-3 flex gap-3
     `}>
-      <button>
-        <ArrowLeft onClick={goBack} color={iconColor} size={size ? size : 30} className={`
-          cursor-pointer
-        `} />
+      <button onClick={goBack}>
+        <ArrowLeft color={iconColor} size={size ? size : 30} />
       </button>
 
-      <ChangeThemeButton themeToChange="theme1" />
+      <ChangeThemeButton />
     </div>
   )
 }
