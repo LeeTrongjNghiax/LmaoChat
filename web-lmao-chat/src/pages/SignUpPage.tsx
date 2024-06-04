@@ -4,7 +4,6 @@ import { Eye, EyeOff, LoaderCircle } from 'lucide-react';
 
 import Logo from '../components/Logo.tsx';
 import Navbar from '../components/Navbar.tsx';
-import { useTheme } from '../contexts/ThemeProvider.js';
 import userService from '../services/UserServices.js';
 import ExportColor from '../GlobalVariables.js';
 
@@ -17,7 +16,6 @@ export default function SignUpPage(): ReactElement {
   const [repeatedPassword, setRepeatedPassword] = useState("11111111");
   const [error, setError] = useState<string | null>("");
   const [loading, setLoading] = useState("");
-  const { theme } = useTheme();
   const { state } = useLocation();
   const phoneNumber = state ? state.phoneNumber : "";
   const navigate = useNavigate();
@@ -158,7 +156,7 @@ export default function SignUpPage(): ReactElement {
                   readOnly
                   className={`
                     transition duration-[500] 
-                    ${theme ? 'placeholder:text-gray-400' : 'placeholder:text-white'} 
+                    placeholder:text-gray-400
                     block w-full rounded-md border-0 p-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 select-none
                   `}
                   style={{
@@ -198,7 +196,7 @@ export default function SignUpPage(): ReactElement {
                   onChange={handleFirstName}
                   className={`
                     transition duration-[500] 
-                    ${theme ? 'placeholder:text-gray-400' : 'placeholder:text-white'} 
+                    placeholder:text-gray-400
                     block w-full rounded-md border-0 p-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 select-none
                   `}
                   style={{
@@ -238,7 +236,7 @@ export default function SignUpPage(): ReactElement {
                   onChange={handleLastName}
                   className={`
                     transition duration-[500] 
-                    ${theme ? 'placeholder:text-gray-400' : 'placeholder:text-white'} 
+                    placeholder:text-gray-400
                     block w-full rounded-md border-0 p-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 select-none
                   `}
                   style={{
@@ -281,7 +279,7 @@ export default function SignUpPage(): ReactElement {
                   required
                   className={`
                     transition duration-[500] 
-                    ${theme ? 'placeholder:text-gray-400' : 'placeholder:text-white'} 
+                    placeholder:text-gray-400
                     w-full shadow-sm sm:text-sm select-none focus:outline-none
                   `}
                   style={{
@@ -332,7 +330,7 @@ export default function SignUpPage(): ReactElement {
                   required
                   className={`
                     transition duration-[500] 
-                    ${theme ? 'placeholder:text-gray-400' : 'placeholder:text-white'} 
+                    placeholder:text-gray-400
                     w-full shadow-sm sm:text-sm select-none focus:outline-none
                   `}
                   style={{
@@ -360,11 +358,7 @@ export default function SignUpPage(): ReactElement {
             {
               loading === "LOAD" ?
                 <div className={`flex gap-1.5 items-center justify-center`}>
-                {
-                  theme === "theme1" ?
-                    <LoaderCircle className={`animate-spin`} size={20} color={iconColor} /> :
-                    <LoaderCircle className={`animate-spin`} size={20} color={iconColor} />
-                }
+                  <LoaderCircle className={`animate-spin`} size={20} color={iconColor} />
                   <p style={{color: textColor}}>
                     Please wait while we sign up to your Lmao Chat account
                   </p>

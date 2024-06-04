@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
 
 import ChangeThemeButton from './ChangeThemeButton.tsx';
-import { useTheme } from '../contexts/ThemeProvider';
 import ExportColor from '../GlobalVariables';
 
 interface Props extends PropsWithChildren<any>{
@@ -12,9 +11,9 @@ interface Props extends PropsWithChildren<any>{
 
 export default function Navbar( {size}: Props ) {
   const navigate = useNavigate();
-  const { theme } = useTheme();
 
   const {
+    backgroundColor, 
     iconColor,
   } = ExportColor();
 
@@ -23,10 +22,15 @@ export default function Navbar( {size}: Props ) {
   }
 
   return (
-    <div className={`
-      transition duration-[500]
-      w-full bg-color-${theme} p-3 lg:p-3 flex gap-3
-    `}>
+    <div
+      className={`
+        transition duration-[500]
+        w-full p-3 lg:p-3 flex gap-3
+      `}
+      style={{
+        background: backgroundColor
+      }}
+    >
       <button onClick={goBack}>
         <ArrowLeft color={iconColor} size={size ? size : 30} />
       </button>

@@ -464,7 +464,7 @@ export default function MainPage(): ReactElement {
   const [currentTab, setCurrentTab] = useState("CHATS");
   const { state } = useLocation();
   const navigate = useNavigate();
-  const user = state ? state.user : {};
+  const user = state ? state.user ? state.user : {} : {};
   const iconSize = 30;
 
   const {
@@ -472,11 +472,6 @@ export default function MainPage(): ReactElement {
     chatBackgroundColor, 
     iconColor,
     textColor,
-  }: {
-    backgroundColor: string,
-    chatBackgroundColor: string, 
-    iconColor: string,
-    textColor: string,
   } = ExportColor();
 
   const handleOpenChats = () => {
@@ -493,7 +488,7 @@ export default function MainPage(): ReactElement {
 
   const handleLogOut = () => {
     if (window.confirm("Are you sure you want to log out?"))
-      navigate(-1);
+      navigate("/", { state: { user: null} });
   }
 
   return (

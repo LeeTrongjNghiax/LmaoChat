@@ -5,7 +5,6 @@ import { ConfirmationResult, RecaptchaVerifier, signInWithPhoneNumber } from "fi
 
 import Logo from '../components/Logo.tsx';
 import Navbar from '../components/Navbar.tsx';
-import { useTheme } from '../contexts/ThemeProvider.js';
 import userServices from '../services/UserServices.js';
 import ConfigVariables from '../ConfigVariables.js';
 import ExportColor from '../GlobalVariables.js';
@@ -17,7 +16,6 @@ export default function OTPVerifyPage(): ReactElement {
   const [loading, setLoading] = useState("");
   const [step, setStep] = useState('INPUT_PHONE_NUMBER');
   const [result, setResult] = useState<ConfirmationResult>();
-  const { theme } = useTheme();
   const auth = ConfigVariables.auth;
   const navigate = useNavigate();
   const { state } = useLocation();
@@ -206,7 +204,7 @@ export default function OTPVerifyPage(): ReactElement {
                         required
                         className={`
                           transition duration-[500] 
-                          ${theme ? 'placeholder:text-gray-400' : 'placeholder:text-white'} 
+                          placeholder:text-gray-400
                           block w-full rounded-md border-0 p-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 select-none
                         `}
                         style={{
@@ -226,11 +224,7 @@ export default function OTPVerifyPage(): ReactElement {
                   {
                     loading === "LOAD" ?
                       <div className={`flex gap-1.5 items-center justify-center`}>
-                      {
-                        theme === "theme1" ?
-                          <LoaderCircle className={`animate-spin`} size={20} color="white" /> :
-                          <LoaderCircle className={`animate-spin`} size={20} color="black" />
-                      }
+                        <LoaderCircle className={`animate-spin`} size={20} color={iconColor} />
                         <p style={{color: textColor}}>
                           Please wait while we send the OTP code to {phoneNumber}
                         </p>
@@ -290,7 +284,7 @@ export default function OTPVerifyPage(): ReactElement {
                         required
                         className={`
                           transition duration-[500] 
-                          ${theme ? 'placeholder:text-gray-400' : 'placeholder:text-white'} 
+                          placeholder:text-gray-400
                           block w-full rounded-md border-0 p-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 select-none
                         `}
                         style={{
@@ -310,11 +304,7 @@ export default function OTPVerifyPage(): ReactElement {
                   {
                     loading === "LOAD" ?
                       <div className={`flex gap-1.5 items-center justify-center`}>
-                      {
-                        theme === "theme1" ?
-                          <LoaderCircle className={`animate-spin`} size={20} color={iconColor} /> :
-                          <LoaderCircle className={`animate-spin`} size={20} color={iconColor} />
-                      }
+                        <LoaderCircle className={`animate-spin`} size={20} color={iconColor} />
                         <p style={{color: textColor}}>
                           Please wait while we verify the OTP code that sent to {phoneNumber}
                         </p>

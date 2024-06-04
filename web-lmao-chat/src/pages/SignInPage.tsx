@@ -4,7 +4,6 @@ import { Eye, EyeOff, LoaderCircle } from 'lucide-react';
 
 import Logo from '../components/Logo.tsx';
 import Navbar from '../components/Navbar.tsx';
-import { useTheme } from '../contexts/ThemeProvider';
 import userService from '../services/UserServices';
 import ExportColor from '../GlobalVariables';
 
@@ -13,7 +12,6 @@ export default function SignInPage(): ReactElement {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState<string | null>("");
-  const { theme } = useTheme();
   const [loading, setLoading] = useState("NOT_LOAD");
   const navigate = useNavigate();
   const { state } = useLocation();
@@ -150,7 +148,7 @@ export default function SignInPage(): ReactElement {
                   required
                   className={`
                     transition duration-[500] 
-                    ${theme ? 'placeholder:text-gray-400' : 'placeholder:text-white'} 
+                    placeholder:text-gray-400
                     block w-full rounded-md border-0 p-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 select-none
                   `}
                   style={{
@@ -193,7 +191,7 @@ export default function SignInPage(): ReactElement {
                   required
                   className={`
                     transition duration-[500] 
-                    ${theme ? 'placeholder:text-gray-400' : 'placeholder:text-white'} 
+                    placeholder:text-gray-400
                     w-full shadow-sm sm:text-sm select-none focus:outline-none
                   `}
                   style={{
@@ -205,12 +203,8 @@ export default function SignInPage(): ReactElement {
                 <button onClick={() => setShowPassword(!showPassword)}>
                   {
                     showPassword ? 
-                      (theme === "theme1" ?
-                        <EyeOff color={iconColor} /> :
-                        <EyeOff color={iconColor} />) :
-                      (theme === "theme1" ?
-                        <Eye color={iconColor} /> :
-                        <Eye color={iconColor} />)
+                      <EyeOff color={iconColor} /> :
+                      <Eye color={iconColor} />
                   }
                 </button>
               </div>
@@ -271,11 +265,7 @@ export default function SignInPage(): ReactElement {
             {
               loading === "LOAD" ?
                 <div className={`flex gap-1.5 items-center justify-center`}>
-                {
-                  theme === "theme1" ?
-                    <LoaderCircle className={`animate-spin`} size={20} color="white" /> :
-                    <LoaderCircle className={`animate-spin`} size={20} color="black" />
-                }
+                  <LoaderCircle className={`animate-spin`} size={20} color={iconColor} />
                   <p style={{color: textColor}}>
                     Please wait while we sign in to your Lmao Chat account
                   </p>

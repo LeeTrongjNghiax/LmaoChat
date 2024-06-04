@@ -4,7 +4,6 @@ import { Eye, EyeOff, LoaderCircle } from 'lucide-react';
 
 import Navbar from '../components/Navbar.tsx';
 import Logo from '../components/Logo.tsx';
-import { useTheme } from '../contexts/ThemeProvider.js';
 import userService from '../services/UserServices.js';
 import ExportColor from '../GlobalVariables.js';
 
@@ -14,7 +13,6 @@ export default function ResetPasswordPage(): ReactElement {
   const [showPassword, setShowPassword] = useState(false);
   const [showRepeatedPassword, setShowRepeatedPassword] = useState(false);
   const [error, setError] = useState<string | null>("");
-  const { theme } = useTheme();
   const [loading, setLoading] = useState("");
   const navigate = useNavigate();
   const { state } = useLocation();
@@ -137,7 +135,7 @@ export default function ResetPasswordPage(): ReactElement {
                   required
                   className={`
                     transition duration-[500] 
-                    ${theme ? 'placeholder:text-gray-400' : 'placeholder:text-white'} 
+                    placeholder:text-gray-400
                     w-full shadow-sm sm:text-sm select-none focus:outline-none
                   `}
                   style={{
@@ -188,7 +186,7 @@ export default function ResetPasswordPage(): ReactElement {
                   required
                   className={`
                     transition duration-[500] 
-                    ${theme ? 'placeholder:text-gray-400' : 'placeholder:text-white'} 
+                    placeholder:text-gray-400
                     w-full shadow-sm sm:text-sm select-none focus:outline-none
                   `}
                   style={{
