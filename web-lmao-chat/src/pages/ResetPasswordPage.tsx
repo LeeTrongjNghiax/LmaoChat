@@ -136,11 +136,12 @@ export default function ResetPasswordPage(): ReactElement {
                   className={`
                     transition duration-[500] 
                     placeholder:text-gray-400
-                    w-full shadow-sm sm:text-sm select-none focus:outline-none
+                    w-full sm:text-sm select-none focus:outline-none
                   `}
                   style={{
                     background: backgroundColor, 
-                    color: textColor
+                    color: textColor, 
+                    colorScheme: "dark"
                   }}
                 />
 
@@ -187,11 +188,12 @@ export default function ResetPasswordPage(): ReactElement {
                   className={`
                     transition duration-[500] 
                     placeholder:text-gray-400
-                    w-full shadow-sm sm:text-sm select-none focus:outline-none
+                    w-full sm:text-sm select-none focus:outline-none
                   `}
                   style={{
                     background: backgroundColor, 
-                    color: textColor
+                    color: textColor, 
+                    colorScheme: "dark"
                   }}
                 />
 
@@ -229,7 +231,7 @@ export default function ResetPasswordPage(): ReactElement {
                 onClick={handleResetPassword}
                 className={`
                 text-white 
-                  shadow-sm px-3 py-1.5 text-sm font-semibold leading-6 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 select-none
+                  px-3 py-1.5 text-sm font-semibold leading-6 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 select-none
                   flex w-full justify-center rounded-md 
                 `}
                 style={{

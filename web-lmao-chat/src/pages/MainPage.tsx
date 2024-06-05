@@ -109,7 +109,7 @@ function Friends(
             className={`
               transition duration-[500] 
               placeholder:text-gray-400
-              w-full shadow-sm sm:text-sm select-none focus:outline-none
+              w-full sm:text-sm select-none focus:outline-none
             `}
             style={{
               background: backgroundColor, 
@@ -235,11 +235,12 @@ function Chats(
             className={`
               transition duration-[500] 
               placeholder:text-gray-400
-              w-full shadow-sm sm:text-sm select-none focus:outline-none
+              w-full sm:text-sm select-none focus:outline-none
             `}
             style={{
               background: backgroundColor, 
-              color: textColor
+              color: textColor, 
+              colorScheme: "dark"
             }}
           />
         </div>
@@ -338,11 +339,12 @@ function PersonalInfor(
                   className={`
                     transition duration-[500] 
                     placeholder:text-gray-400
-                    w-full shadow-sm sm:text-sm select-none focus:outline-none
+                    w-full sm:text-sm select-none focus:outline-none
                   `}
                   style={{
                     background: backgroundColor, 
-                    color: textColor
+                    color: textColor, 
+                    colorScheme: "dark"
                   }}
                 />
               </div>
@@ -364,11 +366,12 @@ function PersonalInfor(
                   className={`
                     transition duration-[500] 
                     placeholder:text-gray-400
-                    w-full shadow-sm sm:text-sm select-none focus:outline-none
+                    w-full sm:text-sm select-none focus:outline-none
                   `}
                   style={{
                     background: backgroundColor, 
-                    color: textColor
+                    color: textColor, 
+                    colorScheme: "dark"
                   }}
                 />
               </div>
@@ -390,11 +393,12 @@ function PersonalInfor(
                   className={`
                     transition duration-[500] 
                     placeholder:text-gray-400
-                    w-full shadow-sm sm:text-sm select-none focus:outline-none
+                    w-full sm:text-sm select-none focus:outline-none
                   `}
                   style={{
                     background: backgroundColor, 
-                    color: textColor
+                    color: textColor, 
+                    colorScheme: "dark"
                   }}
                 />
               </div>
@@ -416,11 +420,12 @@ function PersonalInfor(
                   className={`
                     transition duration-[500] 
                     placeholder:text-gray-400
-                    w-full shadow-sm sm:text-sm select-none focus:outline-none
+                    w-full sm:text-sm select-none focus:outline-none
                   `}
                   style={{
                     background: backgroundColor, 
-                    color: textColor
+                    color: textColor, 
+                    colorScheme: "dark"
                   }}
                 />
               </div>
@@ -442,11 +447,12 @@ function PersonalInfor(
                   className={`
                     transition duration-[500] 
                     placeholder:text-gray-400
-                    w-full shadow-sm sm:text-sm select-none focus:outline-none
+                    w-full sm:text-sm select-none focus:outline-none
                   `}
                   style={{
                     background: backgroundColor, 
-                    color: textColor
+                    color: textColor, 
+                    colorScheme: "dark"
                   }}
                 />
               </div>

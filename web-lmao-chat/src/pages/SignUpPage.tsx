@@ -157,11 +157,12 @@ export default function SignUpPage(): ReactElement {
                   className={`
                     transition duration-[500] 
                     placeholder:text-gray-400
-                    block w-full rounded-md border-0 p-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 select-none
+                    block w-full rounded-md border-0 p-1.5 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 select-none
                   `}
                   style={{
                     background: backgroundColor, 
-                    color: textColor
+                    color: textColor, 
+                    colorScheme: "dark"
                   }}
                 />
               </div>
@@ -197,11 +198,12 @@ export default function SignUpPage(): ReactElement {
                   className={`
                     transition duration-[500] 
                     placeholder:text-gray-400
-                    block w-full rounded-md border-0 p-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 select-none
+                    block w-full rounded-md border-0 p-1.5 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 select-none
                   `}
                   style={{
                     background: backgroundColor, 
-                    color: textColor
+                    color: textColor, 
+                    colorScheme: "dark"
                   }}
                 />
               </div>
@@ -237,11 +239,12 @@ export default function SignUpPage(): ReactElement {
                   className={`
                     transition duration-[500] 
                     placeholder:text-gray-400
-                    block w-full rounded-md border-0 p-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 select-none
+                    block w-full rounded-md border-0 p-1.5 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 select-none
                   `}
                   style={{
                     background: backgroundColor, 
-                    color: textColor
+                    color: textColor, 
+                    colorScheme: "dark"
                   }}
                 />
               </div>
@@ -280,11 +283,12 @@ export default function SignUpPage(): ReactElement {
                   className={`
                     transition duration-[500] 
                     placeholder:text-gray-400
-                    w-full shadow-sm sm:text-sm select-none focus:outline-none
+                    w-full sm:text-sm select-none focus:outline-none
                   `}
                   style={{
                     background: backgroundColor, 
-                    color: textColor
+                    color: textColor, 
+                    colorScheme: "dark"
                   }}
                 />
 
@@ -331,11 +335,12 @@ export default function SignUpPage(): ReactElement {
                   className={`
                     transition duration-[500] 
                     placeholder:text-gray-400
-                    w-full shadow-sm sm:text-sm select-none focus:outline-none
+                    w-full sm:text-sm select-none focus:outline-none
                   `}
                   style={{
                     background: backgroundColor, 
-                    color: textColor
+                    color: textColor, 
+                    colorScheme: "dark"
                   }}
                 />
 
@@ -373,7 +378,7 @@ export default function SignUpPage(): ReactElement {
                 onClick={handleSignUp}
                 className={`
                 text-white 
-                  shadow-sm px-3 py-1.5 text-sm font-semibold leading-6 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 select-none
+                  px-3 py-1.5 text-sm font-semibold leading-6 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 select-none
                   flex w-full justify-center rounded-md 
                 `}
                 style={{
