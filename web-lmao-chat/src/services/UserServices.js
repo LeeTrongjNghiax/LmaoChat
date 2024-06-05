@@ -1,6 +1,13 @@
 import axios from "axios";
 import { GlobalVariables } from "../GlobalVariables";
 
+const sendErrorMessage = message => {
+  return {
+    status: "ERRORED",
+    message: "Server Error: " + message
+  }
+}
+
 const getUser = async (phoneNumber) => {
   try {
     const response = await axios.get(
@@ -14,7 +21,8 @@ const getUser = async (phoneNumber) => {
     }
   } catch (error) {
     console.error("User Service: Get user error: ", error);
-    throw new Error(error);
+    
+    return sendErrorMessage(error.message);
   }
 };
 
@@ -31,7 +39,8 @@ const getUsers = async () => {
     }
   } catch (error) {
     console.error("User Service: Get users error: ", error);
-    throw new Error(error);
+    
+    return sendErrorMessage(error.message);
   }
 };
 
@@ -57,7 +66,8 @@ const addUser = async (phoneNumber, firstName, lastName, password) => {
     }
   } catch (error) {
     console.error("User Service: Add user error: ", error);
-    throw new Error(error);
+    
+    return sendErrorMessage(error.message);
   }
 };
 
@@ -67,20 +77,30 @@ const login = async (phoneNumber, password) => {
       phoneNumber, password
     }
 
+    console.log(GlobalVariables.api_host + "/api/users/login");
+
     const response = await axios.post(
       GlobalVariables.api_host + "/api/users/login", 
       data
     );
     
     if (response.status === 200) {
-      return response.data;
+      return {
+        status: "SUCCESS", 
+        data: response.data
+      }
     } else {
       console.error("Error login user");
-      throw new Error("Error login user");
+
+      return {
+        status: "FAILED", 
+        message: null
+      }
     }
   } catch (error) {
     console.error("User Service: Login user error: ", error);
-    throw new Error(error);
+
+    return sendErrorMessage(error.message);
   }
 };
 
@@ -96,14 +116,22 @@ const updateUser = async (phoneNumber, password, email, avatarUrl) => {
     );
     
     if (response.status === 200) {
-      return response.data;
+      return {
+        status: "SUCCESS", 
+        data: response.data
+      }
     } else {
       console.error("Error update user");
-      throw new Error("Error update user");
+      
+      return {
+        status: "FAILED", 
+        message: null
+      }
     }
   } catch (error) {
     console.error("User Service: Update user error: ", error);
-    throw new Error(error);
+    
+    return sendErrorMessage(error.message);
   }
 };
 

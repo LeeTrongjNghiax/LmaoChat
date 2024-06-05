@@ -6,8 +6,8 @@ import { useTheme } from './contexts/ThemeProvider';
 const api_port = 3001;
 const socket_port = 3000;
 
-const api_host = "http://localhost:" + api_port;
-// const api_host = "https://ghb5nz4p-3001.asse.devtunnels.ms";
+// const api_host = "http://localhost:" + api_port;
+const api_host = `https://ghb5nz4p-${api_port}.asse.devtunnels.ms`;
 // const api_host = "https://jawfish-good-strongly.ngrok-free.app";
 const socket = io.connect("http://localhost:" + socket_port);
 

@@ -7,6 +7,12 @@ import Navbar from '../components/Navbar.tsx';
 import userService from '../services/UserServices';
 import ExportColor from '../GlobalVariables';
 
+interface SERVER_RESPONSE {
+  status: string, 
+  data?: any, 
+  message?: any
+}
+
 export default function SignInPage(): ReactElement {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
@@ -67,17 +73,21 @@ export default function SignInPage(): ReactElement {
 
     setLoading("LOAD");
 
-    const foundUser = await userService.login(phoneNumber, password);
-    
-    if (foundUser.data == null) {
-      setLoading("NOT_LOAD");
-      setError("Phone number or password is incorrect");
-    }
-    else {
-      setLoading("NOT_LOAD");
-      setError(null);
-      alert`Sign in successfully!`;
-      navigate("/MainPage", { state: { user: foundUser.data } });
+    const response: SERVER_RESPONSE = await userService.login(phoneNumber, password);
+
+    setLoading("NOT_LOAD");
+
+    switch (response.status) {
+      case "FAILED":
+        setError("Phone number or password is incorrect");
+        break;
+      case "ERRORED":
+        setError(response.message);
+        break;
+      case "SUCCESS":
+        setError(null);
+        alert`Sign in successfully!`;
+        navigate("/MainPage", { state: { user: response.data } });
     }
   }
   
