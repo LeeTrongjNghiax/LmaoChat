@@ -8,15 +8,23 @@ const server = createServer(app);
 const connect = require("./database/index");
 const io = new Server(server, {
   connectionStateRecovery: {},
+  cors: {
+    origin: "http://localhost:3001",
+    methods: ["GET", "POST"]
+  }
 });
 const cors = require("cors");
 const { USER_ROUTER } = require("./routers/index");
 
-app.use(cors({ origin: true }));
+app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 app.use("/api/users", USER_ROUTER);
+
+app.get("/", (req, res) => {
+  res.send("<h1>Lmao</h1>")
+})
 
 io.on("connection", socket => {
   console.log("Socket: A user connected");
