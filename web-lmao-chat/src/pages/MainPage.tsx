@@ -28,38 +28,48 @@ function Sidebar(
   return (
     <div
       className={`
-        ${
-          direction == 0 ?
-            'flex-col items-center' :
-            'justify-center'
-          }
-        transition duration-[500]
-        flex rounded-3xl m-1 text-sm font-medium leading-6 select-none p-5 gap-5 
+        flex rounded-3xl m-1 p-5
       `}
       style={{
         background: backgroundColor, 
         color: textColor
       }}
     >
+      <div
+        className={`
+          ${
+            direction == 0 ?
+              'flex-col items-center overflow-y-scroll' :
+              'justify-center'
+          }
+          transition duration-[500]
+          flex m-1 text-sm font-medium leading-6 select-none gap-5 
+        `}
+        style={{
+          background: backgroundColor, 
+          color: textColor
+        }}
+      >
       <Logo />
 
-      <button title='Click to open all message'>
-        <MessageCircle size={iconSize} color={iconColor} />
-      </button>
+        <button title='Click to open all message'>
+          <MessageCircle size={iconSize} color={iconColor} />
+        </button>
 
-      <ChangeThemeButton size={iconSize} />
+        <ChangeThemeButton size={iconSize} />
 
-      <button title='Click to open setting' onClick={handleOpenSetting}>
-        <Settings size={iconSize} color={iconColor} />
-      </button>
+        <button title='Click to open setting' onClick={handleOpenSetting}>
+          <Settings size={iconSize} color={iconColor} />
+        </button>
 
-      <button title='Click to log out' onClick={handleLogOut}>
-        <LogOut size={iconSize} color={iconColor}/>
-      </button>
+        <button title='Click to log out' onClick={handleLogOut}>
+          <LogOut size={iconSize} color={iconColor}/>
+        </button>
 
-      <button onClick={handleOpenPersonalInfo}>
-        <AvatarFallback name={user.firstName + " " + user.lastName} />
-      </button>
+        <button onClick={handleOpenPersonalInfo}>
+          <AvatarFallback name={user.firstName + " " + user.lastName} />
+        </button>
+      </div>
     </div>
   );
 }
@@ -78,12 +88,8 @@ function Friends(
   return (
     <div
       className={`
-        ${
-          direction == 0 ?
-            '' : 'h-screen'
-        }
         transition duration-[500]
-        rounded-3xl m-1 flex flex-col gap-5 items-center text-sm font-medium leading-6 select-none p-5
+        rounded-3xl m-1 flex flex-col gap-5 items-center text-sm font-medium leading-6 select-none p-5 overflow-scroll
       `}
       style={{
         background: backgroundColor, 
@@ -109,8 +115,14 @@ function Friends(
       </div>
 
       {/* Search Chats */}
-      <div className={`flex gap-5`}>
-        <div className={`flex p-1.5 rounded-md ring-1 ring-gray-300 gap-1.5`}>
+      <div className={`
+        ${direction == 0 ? '' : 'w-full'}
+        flex gap-5
+      `}>
+        <div className={`
+          ${direction == 0 ? '' : 'w-full'}
+          flex p-1.5 rounded-md ring-1 ring-gray-300 gap-1.5
+        `}>
           <input
             name="password"
             type="password"
@@ -138,7 +150,7 @@ function Friends(
 
       {/* Friends */}
       <div className={`
-        flex flex-col w-full gap-5
+        flex-1 flex flex-col w-full gap-5 overflow-scroll
       `}>
 
         {/* Friend 1 */}
@@ -147,7 +159,74 @@ function Friends(
         </button>
 
         {/* Friend 2 */}
-        <Friend name="Lmao Lmao 2" newMessage="Hey" />
+        <button onClick={handleOpenChats}>
+          <Friend name="Lmao Lmao" newMessage="" />
+        </button>
+
+        {/* Friend 2 */}
+        <button onClick={handleOpenChats}>
+          <Friend name="Lmao Lmao" newMessage="" />
+        </button>
+
+        {/* Friend 2 */}
+        <button onClick={handleOpenChats}>
+          <Friend name="Lmao Lmao" newMessage="" />
+        </button>
+
+        {/* Friend 2 */}
+        <button onClick={handleOpenChats}>
+          <Friend name="Lmao Lmao" newMessage="" />
+        </button>
+
+        {/* Friend 2 */}
+        <button onClick={handleOpenChats}>
+          <Friend name="Lmao Lmao" newMessage="" />
+        </button>
+
+        {/* Friend 2 */}
+        <button onClick={handleOpenChats}>
+          <Friend name="Lmao Lmao" newMessage="" />
+        </button>
+
+        {/* Friend 2 */}
+        <button onClick={handleOpenChats}>
+          <Friend name="Lmao Lmao" newMessage="" />
+        </button>
+
+        {/* Friend 2 */}
+        <button onClick={handleOpenChats}>
+          <Friend name="Lmao Lmao" newMessage="" />
+        </button>
+
+        {/* Friend 2 */}
+        <button onClick={handleOpenChats}>
+          <Friend name="Lmao Lmao" newMessage="" />
+        </button>
+
+        {/* Friend 2 */}
+        <button onClick={handleOpenChats}>
+          <Friend name="Lmao Lmao" newMessage="" />
+        </button>
+
+        {/* Friend 2 */}
+        <button onClick={handleOpenChats}>
+          <Friend name="Lmao Lmao" newMessage="" />
+        </button>
+
+        {/* Friend 2 */}
+        <button onClick={handleOpenChats}>
+          <Friend name="Lmao Lmao" newMessage="" />
+        </button>
+
+        {/* Friend 2 */}
+        <button onClick={handleOpenChats}>
+          <Friend name="Lmao Lmao" newMessage="" />
+        </button>
+
+        {/* Friend 2 */}
+        <button onClick={handleOpenChats}>
+          <Friend name="Lmao Lmao" newMessage="" />
+        </button>
       </div>
     </div>
   );
