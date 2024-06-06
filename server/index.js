@@ -3,13 +3,17 @@ require("dotenv").config();
 const { createServer } = require("node:http");
 const { Server } = require("socket.io");
 const port = process.env.PORT;
+const clientPort = process.env.CLIENT_PORT;
 const app = express();
 const server = createServer(app);
 const connect = require("./database/index");
 const io = new Server(server, {
   connectionStateRecovery: {},
   cors: {
-    origin: "http://localhost:3001",
+    origin: [
+      `http://localhost:${clientPort}`, 
+      `https://ghb5nz4p-${clientPort}.asse.devtunnels.ms`
+    ],
     methods: ["GET", "POST"]
   }
 });
