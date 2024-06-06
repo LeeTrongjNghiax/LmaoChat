@@ -6,6 +6,7 @@ import Logo from '../components/Logo.tsx';
 import Navbar from '../components/Navbar.tsx';
 import userService from '../services/UserServices.js';
 import ExportColor from '../GlobalVariables.js';
+import GlobalStyles from '../GlobalStyles.js';
 
 export default function SignUpPage(): ReactElement {
   const [firstName, setFirstName] = useState("Le");
@@ -19,6 +20,7 @@ export default function SignUpPage(): ReactElement {
   const { state } = useLocation();
   const phoneNumber = state ? state.phoneNumber : "";
   const navigate = useNavigate();
+  const styles = GlobalStyles();
 
   const {
     backgroundColor,
@@ -157,13 +159,11 @@ export default function SignUpPage(): ReactElement {
                   className={`
                     transition duration-[500] 
                     placeholder:text-gray-400
-                    block w-full rounded-md border-0 p-1.5 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 select-none
+                    block w-full rounded-md border-0 p-1.5 ring-1 ring-gray-300 sm:text-sm sm:leading-6 select-none
                   `}
-                  style={{
-                    background: backgroundColor, 
-                    color: textColor, 
-                    colorScheme: "dark"
-                  }}
+                  style={
+                    styles.input
+                  }
                 />
               </div>
             </div>
@@ -198,13 +198,11 @@ export default function SignUpPage(): ReactElement {
                   className={`
                     transition duration-[500] 
                     placeholder:text-gray-400
-                    block w-full rounded-md border-0 p-1.5 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 select-none
+                    block w-full rounded-md border-0 p-1.5 ring-1 ring-gray-300 sm:text-sm sm:leading-6 select-none
                   `}
-                  style={{
-                    background: backgroundColor, 
-                    color: textColor, 
-                    colorScheme: "dark"
-                  }}
+                  style={
+                    styles.input
+                  }
                 />
               </div>
             </div>
@@ -239,13 +237,11 @@ export default function SignUpPage(): ReactElement {
                   className={`
                     transition duration-[500] 
                     placeholder:text-gray-400
-                    block w-full rounded-md border-0 p-1.5 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 select-none
+                    block w-full rounded-md border-0 p-1.5 ring-1 ring-gray-300 sm:text-sm sm:leading-6 select-none
                   `}
-                  style={{
-                    background: backgroundColor, 
-                    color: textColor, 
-                    colorScheme: "dark"
-                  }}
+                  style={
+                    styles.input
+                  }
                 />
               </div>
             </div>
@@ -285,11 +281,9 @@ export default function SignUpPage(): ReactElement {
                     placeholder:text-gray-400
                     w-full sm:text-sm select-none focus:outline-none
                   `}
-                  style={{
-                    background: backgroundColor, 
-                    color: textColor, 
-                    colorScheme: "dark"
-                  }}
+                  style={
+                    styles.input
+                  }
                 />
 
                 <button onClick={() => setShowPassword(!showPassword)}>
@@ -337,11 +331,9 @@ export default function SignUpPage(): ReactElement {
                     placeholder:text-gray-400
                     w-full sm:text-sm select-none focus:outline-none
                   `}
-                  style={{
-                    background: backgroundColor, 
-                    color: textColor, 
-                    colorScheme: "dark"
-                  }}
+                  style={
+                    styles.input
+                  }
                 />
 
                 <button onClick={() => setShowRepeatedPassword(!showRepeatedPassword)}>

@@ -6,6 +6,7 @@ import Navbar from '../components/Navbar.tsx';
 import Logo from '../components/Logo.tsx';
 import userService from '../services/UserServices.js';
 import ExportColor from '../GlobalVariables.js';
+import GlobalStyles from '../GlobalStyles.js';
 
 export default function ResetPasswordPage(): ReactElement {
   const [password, setPassword] = useState("");
@@ -16,6 +17,7 @@ export default function ResetPasswordPage(): ReactElement {
   const [loading, setLoading] = useState("");
   const navigate = useNavigate();
   const { state } = useLocation();
+  const styles = GlobalStyles();
   let phoneNumber: string;
 
   if (state != null)
@@ -138,11 +140,9 @@ export default function ResetPasswordPage(): ReactElement {
                     placeholder:text-gray-400
                     w-full sm:text-sm select-none focus:outline-none
                   `}
-                  style={{
-                    background: backgroundColor, 
-                    color: textColor, 
-                    colorScheme: "dark"
-                  }}
+                  style={
+                    styles.input
+                  }
                 />
 
                 <button onClick={() => setShowPassword(!showPassword)}>
@@ -190,11 +190,9 @@ export default function ResetPasswordPage(): ReactElement {
                     placeholder:text-gray-400
                     w-full sm:text-sm select-none focus:outline-none
                   `}
-                  style={{
-                    background: backgroundColor, 
-                    color: textColor, 
-                    colorScheme: "dark"
-                  }}
+                  style={
+                    styles.input
+                  }
                 />
 
                 <button onClick={() => setShowRepeatedPassword(!showRepeatedPassword)}>

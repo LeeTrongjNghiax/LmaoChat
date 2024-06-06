@@ -14,10 +14,17 @@ const getUser = async (phoneNumber) => {
       GlobalVariables.api_host + "/api/users/" + phoneNumber, 
     );
     if (response.status === 200) {
-      return response.data;
+      return {
+        status: "SUCCESS", 
+        data: response.data
+      }
     } else {
       console.error("Error get user");
-      throw new Error("Error get user");
+      
+      return {
+        status: "FAILED", 
+        data: response.data
+      }
     }
   } catch (error) {
     console.error("User Service: Get user error: ", error);
@@ -59,10 +66,17 @@ const addUser = async (phoneNumber, firstName, lastName, password) => {
     );
 
     if (response.status === 200) {
-      return response.data;
+      return {
+        status: "SUCCESS", 
+        data: response.data
+      }
     } else {
       console.error("Error add user");
-      throw new Error("Error add user");
+      
+      return {
+        status: "FAILED", 
+        message: response.data
+      }
     }
   } catch (error) {
     console.error("User Service: Add user error: ", error);
@@ -94,7 +108,7 @@ const login = async (phoneNumber, password) => {
 
       return {
         status: "FAILED", 
-        message: null
+        message: response.data
       }
     }
   } catch (error) {
@@ -125,7 +139,7 @@ const updateUser = async (phoneNumber, password, email, avatarUrl) => {
       
       return {
         status: "FAILED", 
-        message: null
+        message: response.data
       }
     }
   } catch (error) {

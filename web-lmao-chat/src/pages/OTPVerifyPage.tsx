@@ -8,6 +8,9 @@ import Navbar from '../components/Navbar.tsx';
 import userServices from '../services/UserServices.js';
 import ConfigVariables from '../ConfigVariables.js';
 import ExportColor from '../GlobalVariables.js';
+import GlobalStyles from '../GlobalStyles.js';
+
+import SERVER_RESPONSE from '../interfaces/ServerResponse.tsx';
 
 export default function OTPVerifyPage(): ReactElement {
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -22,6 +25,7 @@ export default function OTPVerifyPage(): ReactElement {
   const destination = state.destination;
   const sendPhoneNumberButton: HTMLButtonElement = document.querySelector("#sendPhoneNumberButton")!;
   const sendOTPButton: HTMLButtonElement = document.querySelector("#sendOTPButton")!;
+  const styles = GlobalStyles();
 
   const {
     backgroundColor,
@@ -55,12 +59,19 @@ export default function OTPVerifyPage(): ReactElement {
   }
 
   const checkIfUserExist = async () => {
-    const foundUser = await userServices.getUser(phoneNumber);
+    const response: SERVER_RESPONSE = await userServices.getUser(phoneNumber);
 
-    if (foundUser.data != null)
-      return true;
-    else
-      return false;
+    switch (response.status) {
+      case "FAILED":
+        setError("Phone number or password is incorrect");
+        return false;
+      case "ERRORED":
+        setError(response.message);
+        return false;
+      case "SUCCESS":
+        setError(null);
+        return true;
+    }
   }
 
   const handleSendPhoneNumber = async () => {
@@ -205,13 +216,11 @@ export default function OTPVerifyPage(): ReactElement {
                         className={`
                           transition duration-[500] 
                           placeholder:text-gray-400
-                          block w-full rounded-md border-0 p-1.5 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 select-none
+                          block w-full rounded-md border-0 p-1.5 ring-1 ring-gray-300 sm:text-sm sm:leading-6 select-none
                         `}
-                        style={{
-                          background: backgroundColor, 
-                          color: textColor, 
-                          colorScheme: "dark"
-                        }}
+                        style={
+                          styles.input
+                        }
                       />
                     </div>
                   </div>
@@ -286,13 +295,11 @@ export default function OTPVerifyPage(): ReactElement {
                         className={`
                           transition duration-[500] 
                           placeholder:text-gray-400
-                          block w-full rounded-md border-0 p-1.5 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 select-none
+                          block w-full rounded-md border-0 p-1.5 ring-1 ring-gray-300 sm:text-sm sm:leading-6 select-none
                         `}
-                        style={{
-                          background: backgroundColor, 
-                          color: textColor, 
-                          colorScheme: "dark"
-                        }}
+                        style={
+                          styles.input
+                        }
                       />
                     </div>
                   </div>

@@ -49,13 +49,13 @@ const router = createBrowserRouter([
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
+  // <React.StrictMode>
     <ThemeProvider>
       <SocketContext.Provider value={GlobalVariables.socket}>
         <RouterProvider router={router} />
       </SocketContext.Provider>
     </ThemeProvider>
-  </React.StrictMode>
+  // </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function
