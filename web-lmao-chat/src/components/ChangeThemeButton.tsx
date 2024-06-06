@@ -29,7 +29,7 @@ export default function ChangeThemeButton({ size }: Props): ReactElement {
   }
   
   return (
-    <div>
+    <>
       <button
         className={`bg-${theme}`}
         onClick={changeTheme}
@@ -40,6 +40,6 @@ export default function ChangeThemeButton({ size }: Props): ReactElement {
             <Moon color={iconColor} size={size ? size : 30} />
         }
       </button>
-    </div>
+    </>
   )
 }

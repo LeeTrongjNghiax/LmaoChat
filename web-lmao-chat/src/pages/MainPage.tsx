@@ -9,9 +9,12 @@ import Logo from '../components/Logo.tsx';
 import Message from '../components/Message.tsx';
 import ExportColor from '../GlobalVariables.js';
 
+import useWindowDimensions from '../hooks/useWindowDimensions.js';
+
 function Sidebar(
-  { backgroundColor, textColor, iconColor, iconSize, user, handleOpenSetting, handleLogOut, handleOpenPersonalInfo } :
+  { direction, backgroundColor, textColor, iconColor, iconSize, user, handleOpenSetting, handleLogOut, handleOpenPersonalInfo } :
   {
+    direction: number,
     backgroundColor: string,
     textColor: string,
     iconColor: string,
@@ -25,8 +28,13 @@ function Sidebar(
   return (
     <div
       className={`
+        ${
+          direction == 0 ?
+            'flex-col items-center' :
+            'justify-center'
+          }
         transition duration-[500]
-        rounded-3xl m-1 flex flex-col gap-5 items-center text-sm font-medium leading-6 select-none p-5
+        flex rounded-3xl m-1 text-sm font-medium leading-6 select-none p-5 gap-5 
       `}
       style={{
         background: backgroundColor, 
@@ -57,8 +65,9 @@ function Sidebar(
 }
 
 function Friends(
-  { backgroundColor, textColor, iconColor, iconSize, handleOpenChats } :
+  { direction, backgroundColor, textColor, iconColor, iconSize, handleOpenChats } :
   {
+    direction: number,
     backgroundColor: string,
     textColor: string,
     iconColor: string,
@@ -69,6 +78,10 @@ function Friends(
   return (
     <div
       className={`
+        ${
+          direction == 0 ?
+            '' : 'h-screen'
+        }
         transition duration-[500]
         rounded-3xl m-1 flex flex-col gap-5 items-center text-sm font-medium leading-6 select-none p-5
       `}
@@ -472,6 +485,11 @@ export default function MainPage(): ReactElement {
   const navigate = useNavigate();
   const user = state ? state.user ? state.user : {} : {};
   const iconSize = 30;
+  const { width, height }: {
+    width: number, 
+    height: number
+  } = useWindowDimensions();
+  let direction: number;
 
   const {
     backgroundColor,
@@ -497,9 +515,18 @@ export default function MainPage(): ReactElement {
       navigate("/", { state: { user: null} });
   }
 
+  if (width >= height)
+    direction = 0;
+  else
+    direction = 1;
+
   return (
     <div
       className={`
+        ${
+          direction == 0 ?
+            '' : 'flex-col-reverse'
+        }
         transition duration-[500] 
         flex min-h-screen justify-center
         h-screen
@@ -510,6 +537,7 @@ export default function MainPage(): ReactElement {
     >
 
       <Sidebar
+        direction={direction}
         backgroundColor={backgroundColor}
         textColor={textColor}
         iconColor={iconColor}
@@ -520,6 +548,7 @@ export default function MainPage(): ReactElement {
       />
 
       <Friends
+        direction={direction}
         backgroundColor={backgroundColor}
         textColor={textColor}
         iconColor={iconColor}
@@ -528,20 +557,22 @@ export default function MainPage(): ReactElement {
       />
 
       {
-        currentTab === "CHATS" ?
-          <Chats
-            backgroundColor={backgroundColor}
-            textColor={textColor}
-            iconColor={iconColor}
-            iconSize={iconSize}
-          /> :
-          <PersonalInfor
-            backgroundColor={backgroundColor}
-            textColor={textColor}
-            iconColor={iconColor}
-            iconSize={iconSize}
-            user={user}
-          />
+        direction == 0 ?
+          currentTab === "CHATS" ?
+            <Chats
+              backgroundColor={backgroundColor}
+              textColor={textColor}
+              iconColor={iconColor}
+              iconSize={iconSize}
+            /> :
+            <PersonalInfor
+              backgroundColor={backgroundColor}
+              textColor={textColor}
+              iconColor={iconColor}
+              iconSize={iconSize}
+              user={user}
+            />
+          : <></>
       }
 
     </div>

@@ -118,7 +118,7 @@ export default function SignInPage(): ReactElement {
               color: textColor
             }}
           >
-            Sign in to your Lmao Chat account 2
+            Sign in to your Lmao Chat account
           </h2>
         </div>
 
