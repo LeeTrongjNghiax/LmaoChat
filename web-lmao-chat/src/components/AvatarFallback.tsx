@@ -24,9 +24,9 @@ export default function AvatarFallback({name, size}: Props): ReactElement {
       `}
       style={{
         background: `linear-gradient(90deg, transparent, ${linkColor})`, 
-        width: size ? size : 40, 
+        width: size ? size : 24, 
         borderRadius: size ? (size / 2) : 20, 
-        fontSize: size ? size / 2 : 20, 
+        fontSize: size ? size / 2 : 12, 
         aspectRatio: 1 / 1, 
         // background: linkColor, 
         // color: textColor
