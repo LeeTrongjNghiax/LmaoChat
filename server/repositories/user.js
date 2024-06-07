@@ -59,7 +59,16 @@ const login = async ({ phoneNumber, password }) => {
       parseInt(process.env.SALT_ROUNDS)
     );
 
-    const FOUND_USER = await USER.findOne({ phoneNumber, HASH_PASSWORD }).exec();
+    const FOUND_USER = await USER.findOne(
+      { phoneNumber, 'password': HASH_PASSWORD }
+    ).exec();
+
+    console.log("--------------------------------");
+    console.log(phoneNumber);
+    console.log(password);
+    console.log(HASH_PASSWORD);
+    console.log(FOUND_USER);
+
     return FOUND_USER;
   } catch (error) {
     console.error("User Repository: Error login user: " + error);
