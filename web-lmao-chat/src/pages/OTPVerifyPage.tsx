@@ -70,7 +70,11 @@ export default function OTPVerifyPage(): ReactElement {
         return false;
       case "SUCCESS":
         setError(null);
-        return true;
+
+        if (response.data.data !== null)
+          return true;
+        else
+          return false;
     }
   }
 
