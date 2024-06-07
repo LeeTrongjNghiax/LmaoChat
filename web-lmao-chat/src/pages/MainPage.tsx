@@ -11,6 +11,8 @@ import ExportColor from '../GlobalVariables.js';
 
 import useWindowDimensions from '../hooks/useWindowDimensions.js';
 
+import GlobalStyles from '../GlobalStyles.js';
+
 function Sidebar(
   { direction, backgroundColor, textColor, iconColor, iconSize, user, handleOpenSetting, handleLogOut, handleOpenPersonalInfo } :
   {
@@ -28,7 +30,7 @@ function Sidebar(
   return (
     <div
       className={`
-        flex rounded-3xl m-1 p-5
+        flex rounded-3xl m-1 p-5 justify-around
       `}
       style={{
         background: backgroundColor, 
@@ -39,7 +41,7 @@ function Sidebar(
         className={`
           ${
             direction == 0 ?
-              'flex-col items-center overflow-y-scroll' :
+              'flex-col items-center overflow-scroll' :
               'justify-center'
           }
           transition duration-[500]
@@ -89,7 +91,7 @@ function Friends(
     <div
       className={`
         transition duration-[500]
-        rounded-3xl m-1 flex flex-col gap-5 items-center text-sm font-medium leading-6 select-none p-5 overflow-scroll
+        rounded-3xl m-1 flex flex-col gap-5 items-center text-sm font-medium leading-6 select-none p-5 overflow-y-scroll min-w-min
       `}
       style={{
         background: backgroundColor, 
@@ -245,7 +247,7 @@ function Chats(
     <div
       className={`
         transition duration-[500]
-        w-full rounded-3xl m-1 flex-1 flex flex-col gap-5 items-center text-sm font-medium leading-6 select-none p-5
+        w-full rounded-3xl m-1 flex flex-col gap-5 items-center text-sm font-medium leading-6 select-none p-5
       `}
       style={{
         background: backgroundColor, 
@@ -372,11 +374,13 @@ function PersonalInfor(
   }
 
 ) {
+  const styles = GlobalStyles();
+
   return (
     <div
       className={`
         transition duration-[500]
-        w-full rounded-3xl m-1 flex-1 flex flex-col gap-5 items-center text-sm font-medium leading-6 select-none p-5
+        w-full rounded-3xl m-1 flex flex-col gap-5 items-center text-sm font-medium leading-6 select-none p-5 overflow-scroll
       `}
       style={{
         background: backgroundColor, 
@@ -390,7 +394,7 @@ function PersonalInfor(
         {/* Title */}
         <h1 className={`text-3xl`}>Personal Information</h1>
 
-        <div className={`flex gap-32`}>
+        <div className={`flex gap-5`}>
 
           {/* First Column */}
           <div className={`flex flex-col items-center justify-between`}>
@@ -416,140 +420,204 @@ function PersonalInfor(
           <div className={`flex-1 flex flex-col gap-5`}>
 
             {/* First Name */}
-            <div className={`flex items-center`}>
-              <p className={`w-36`}>First name</p>
-                    
-              <div className={`flex-1 flex p-1.5 rounded-md ring-1 ring-gray-300 gap-1.5`}>
+            <div>
+
+              {/* First Name label */}
+              <label
+                htmlFor="firstName"
+                className={`
+                  transition duration-[500] 
+                  block text-sm font-medium leading-6 select-none
+                `}
+                style={{
+                  color: textColor
+                }}
+              >
+                First Name
+              </label>
+
+              {/* First Name input */}
+              <div className={`mt-2`}>
                 <input
-                  name="password"
-                  type="password"
-                  autoComplete="current-password"
-                  placeholder=''
-                  // value={}
-                  // onChange={}
+                  id="firstName"
+                  name="firstName"
+                  type="text"
+                  autoComplete="name"
+                  placeholder='Your First Name'
+                  // value={phoneNumber}
+                  // onChange={handleChangePhoneNumber}
                   required
                   className={`
                     transition duration-[500] 
                     placeholder:text-gray-400
-                    w-full sm:text-sm select-none focus:outline-none
+                    block w-full rounded-md border-0 p-1.5 ring-1 ring-gray-300 sm:text-sm sm:leading-6 select-none
                   `}
-                  style={{
-                    background: backgroundColor, 
-                    color: textColor, 
-                    colorScheme: "dark"
-                  }}
-                />
-              </div>
-            </div>
-                  
-            {/* Last Name */}
-            <div className={`flex items-center`}>
-              <p className={`w-36`}>Last name</p>
-                    
-              <div className={`flex-1 flex p-1.5 rounded-md ring-1 ring-gray-300 gap-1.5`}>
-                <input
-                  name="password"
-                  type="password"
-                  autoComplete="current-password"
-                  placeholder=''
-                  // value={}
-                  // onChange={}
-                  required
-                  className={`
-                    transition duration-[500] 
-                    placeholder:text-gray-400
-                    w-full sm:text-sm select-none focus:outline-none
-                  `}
-                  style={{
-                    background: backgroundColor, 
-                    color: textColor, 
-                    colorScheme: "dark"
-                  }}
-                />
-              </div>
-            </div>
-                  
-            {/* Phone Number */}
-            <div className={`flex items-center`}>
-              <p className={`w-36`}>Phone Number</p>
-                    
-              <div className={`flex-1 flex p-1.5 rounded-md ring-1 ring-gray-300 gap-1.5`}>
-                <input
-                  name="password"
-                  type="password"
-                  autoComplete="current-password"
-                  placeholder=''
-                  // value={}
-                  // onChange={}
-                  required
-                  className={`
-                    transition duration-[500] 
-                    placeholder:text-gray-400
-                    w-full sm:text-sm select-none focus:outline-none
-                  `}
-                  style={{
-                    background: backgroundColor, 
-                    color: textColor, 
-                    colorScheme: "dark"
-                  }}
-                />
-              </div>
-            </div>
-                  
-            {/* Email */}
-            <div className={`flex items-center`}>
-              <p className={`w-36`}>Email</p>
-                    
-              <div className={`flex-1 flex p-1.5 rounded-md ring-1 ring-gray-300 gap-1.5`}>
-                <input
-                  name="password"
-                  type="password"
-                  autoComplete="current-password"
-                  placeholder=''
-                  // value={}
-                  // onChange={}
-                  required
-                  className={`
-                    transition duration-[500] 
-                    placeholder:text-gray-400
-                    w-full sm:text-sm select-none focus:outline-none
-                  `}
-                  style={{
-                    background: backgroundColor, 
-                    color: textColor, 
-                    colorScheme: "dark"
-                  }}
-                />
-              </div>
-            </div>
-                  
-            {/* Address */}
-            <div className={`flex items-center`}>
-              <p className={`w-36`}>Address</p>
-                    
-              <div className={`flex-1 flex p-1.5 rounded-md ring-1 ring-gray-300 gap-1.5`}>
-                <input
-                  name="password"
-                  type="password"
-                  autoComplete="current-password"
-                  placeholder=''
-                  // value={}
-                  // onChange={}
-                  required
-                  className={`
-                    transition duration-[500] 
-                    placeholder:text-gray-400
-                    w-full sm:text-sm select-none focus:outline-none
-                  `}
-                  style={{
-                    background: backgroundColor, 
-                    color: textColor, 
-                    colorScheme: "dark"
-                  }}
+                  style={
+                    styles.input
+                  }
                 />
               </div>
             </div>
 
+            {/* Last Name */}
+            <div>
+
+              {/* Last Name label */}
+              <label
+                htmlFor="lastName"
+                className={`
+                  transition duration-[500] 
+                  block text-sm font-medium leading-6 select-none
+                `}
+                style={{
+                  color: textColor
+                }}
+              >
+                Last Name
+              </label>
+
+              {/* Last Name input */}
+              <div className={`mt-2`}>
+                <input
+                  id="lastName"
+                  name="lastName"
+                  type="text"
+                  autoComplete="name"
+                  placeholder='Your Last Name'
+                  // value={phoneNumber}
+                  // onChange={handleChangePhoneNumber}
+                  required
+                  className={`
+                    transition duration-[500] 
+                    placeholder:text-gray-400
+                    block w-full rounded-md border-0 p-1.5 ring-1 ring-gray-300 sm:text-sm sm:leading-6 select-none
+                  `}
+                  style={
+                    styles.input
+                  }
+                />
+              </div>
+            </div>
+
+            {/* Phone Number */}
+            <div>
+
+              {/* Phone Number label */}
+              <label
+                htmlFor="phoneNumber"
+                className={`
+                  transition duration-[500] 
+                  block text-sm font-medium leading-6 select-none
+                `}
+                style={{
+                  color: textColor
+                }}
+              >
+                Phone Number
+              </label>
+
+              {/* Phone Number input */}
+              <div className={`mt-2`}>
+                <input
+                  id="phoneNumber"
+                  name="phoneNumber"
+                  type="tel"
+                  autoComplete="tel"
+                  placeholder='Your Phone Number'
+                  // value={phoneNumber}
+                  // onChange={handleChangePhoneNumber}
+                  required
+                  className={`
+                    transition duration-[500] 
+                    placeholder:text-gray-400
+                    block w-full rounded-md border-0 p-1.5 ring-1 ring-gray-300 sm:text-sm sm:leading-6 select-none
+                  `}
+                  style={
+                    styles.input
+                  }
+                />
+              </div>
+            </div>
+
+            {/* Email */}
+            <div>
+
+              {/* Email label */}
+              <label
+                htmlFor="email"
+                className={`
+                  transition duration-[500] 
+                  block text-sm font-medium leading-6 select-none
+                `}
+                style={{
+                  color: textColor
+                }}
+              >
+                Email
+              </label>
+
+              {/* Email input */}
+              <div className={`mt-2`}>
+                <input
+                  id="email"
+                  name="email"
+                  type="email"
+                  autoComplete="email"
+                  placeholder='Your Email'
+                  // value={phoneNumber}
+                  // onChange={handleChangePhoneNumber}
+                  required
+                  className={`
+                    transition duration-[500] 
+                    placeholder:text-gray-400
+                    block w-full rounded-md border-0 p-1.5 ring-1 ring-gray-300 sm:text-sm sm:leading-6 select-none
+                  `}
+                  style={
+                    styles.input
+                  }
+                />
+              </div>
+            </div>
+
+            {/* Address */}
+            <div>
+
+              {/* Address label */}
+              <label
+                htmlFor="address"
+                className={`
+                  transition duration-[500] 
+                  block text-sm font-medium leading-6 select-none
+                `}
+                style={{
+                  color: textColor
+                }}
+              >
+                Address
+              </label>
+
+              {/* Address input */}
+              <div className={`mt-2`}>
+                <input
+                  id="address"
+                  name="address"
+                  type="text"
+                  autoComplete="street-address"
+                  placeholder='Your Address'
+                  // value={phoneNumber}
+                  // onChange={handleChangePhoneNumber}
+                  required
+                  className={`
+                    transition duration-[500] 
+                    placeholder:text-gray-400
+                    block w-full rounded-md border-0 p-1.5 ring-1 ring-gray-300 sm:text-sm sm:leading-6 select-none
+                  `}
+                  style={
+                    styles.input
+                  }
+                />
+              </div>
+            </div>
 
           </div>
         </div>
