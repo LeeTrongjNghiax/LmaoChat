@@ -25,9 +25,8 @@ const addUser = async ({ phoneNumber, firstName, lastName, password }) => {
   try {
     const FOUND_USER = await USER.findOne({ phoneNumber }).exec();
 
-    if ( !!FOUND_USER ) {
-      throw new Error(`User Repository: Error add user: User with number ${phoneNumber} exists`);
-    }
+    if (!!FOUND_USER)
+      return undefined;
 
     const HASH_PASSWORD = await bcrypt.hash(
       password,

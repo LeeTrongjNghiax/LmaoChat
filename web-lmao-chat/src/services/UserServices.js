@@ -13,16 +13,25 @@ const getUser = async (phoneNumber) => {
     const response = await axios.get(
       GlobalVariables.api_host + "/api/users/" + phoneNumber, 
     );
+
     if (response.status === 200) {
-      return {
-        status: "SUCCESS", 
-        data: response.data
-      }
+      
+      if (response.data !== null) 
+        return {
+          status: "SUCCESS", 
+          data: response.data
+        }
+      else 
+        return {
+          status: "FAILED", 
+          data: response.data
+        }
+      
     } else {
       console.error("Error get user");
-      
+
       return {
-        status: "FAILED", 
+        status: "ERRORED", 
         data: response.data
       }
     }
