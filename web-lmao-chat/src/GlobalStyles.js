@@ -13,7 +13,7 @@ export default function GlobalStyles() {
     input: {
       background: backgroundColor, 
       color: textColor, 
-      colorScheme: "dark"
+      colorScheme: `dark`
     }
   }
 

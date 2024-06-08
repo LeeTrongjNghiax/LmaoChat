@@ -153,14 +153,14 @@ export default function SignUpPage(): ReactElement {
         </div>
 
         <div className={`mt-10 sm:mx-auto sm:max-w-sm`}>
-          <div id='form' className={`space-y-6`}>
+          <div id={`form`} className={`space-y-6`}>
 
             {/* Phone Number block */}
             <div>
 
               {/* Phone Number label */}
               <label
-                htmlFor='phoneNumber'
+                htmlFor={`phoneNumber`}
                 className={`
                   transition duration-[500] 
                   block text-sm font-medium leading-6 select-none
@@ -175,11 +175,11 @@ export default function SignUpPage(): ReactElement {
               {/* Phone Number input */}
               <div className={`mt-2`}>
                 <input
-                  id='phoneNumber'
-                  name='phoneNumber'
-                  type='tel'
-                  autoComplete='tel'
-                  placeholder='Your Phone Number'
+                  id={`phoneNumber`}
+                  name={`phoneNumber`}
+                  type={`tel`}
+                  autoComplete={`tel`}
+                  placeholder={`Your Phone Number`}
                   value={phoneNumber}
                   readOnly
                   className={`
@@ -199,7 +199,7 @@ export default function SignUpPage(): ReactElement {
 
               {/* First Name label */}
               <label
-                htmlFor='firstName'
+                htmlFor={`firstName`}
                 className={`
                   transition duration-[500] 
                   block text-sm font-medium leading-6 select-none
@@ -214,11 +214,11 @@ export default function SignUpPage(): ReactElement {
               {/* First Name input */}
               <div className={`mt-2`}>
                 <input
-                  id='firstName'
-                  name='firstName'
-                  type='text'
-                  autoComplete='name'
-                  placeholder='Your First Name'
+                  id={`firstName`}
+                  name={`firstName`}
+                  type={`text`}
+                  autoComplete={`name`}
+                  placeholder={`Your First Name`}
                   value={firstName}
                   onChange={handleFirstName}
                   className={`
@@ -238,7 +238,7 @@ export default function SignUpPage(): ReactElement {
 
               {/* Last Name label */}
               <label
-                htmlFor='lastName'
+                htmlFor={`lastName`}
                 className={`
                   transition duration-[500] 
                   block text-sm font-medium leading-6 select-none
@@ -253,11 +253,11 @@ export default function SignUpPage(): ReactElement {
               {/* Last Name input */}
               <div className={`mt-2`}>
                 <input
-                  id='lastName'
-                  name='lastName'
-                  type='text'
-                  autoComplete='name'
-                  placeholder='Your Last Name'
+                  id={`lastName`}
+                  name={`lastName`}
+                  type={`text`}
+                  autoComplete={`name`}
+                  placeholder={`Your Last Name`}
                   value={lastName}
                   onChange={handleLastName}
                   className={`
@@ -277,7 +277,7 @@ export default function SignUpPage(): ReactElement {
 
               {/* Password label */}
               <label
-                htmlFor='password'
+                htmlFor={`password`}
                 className={`
                   transition duration-[500] 
                   block text-sm font-medium leading-6 select-none
@@ -292,13 +292,13 @@ export default function SignUpPage(): ReactElement {
               {/* Password input */}
               <div className={`mt-2 flex p-1.5 rounded-md ring-1 ring-gray-300 gap-1.5`}>
                 <input
-                  id='password'
-                  name='password'
+                  id={`password`}
+                  name={`password`}
                   type={
                     showPassword ? `text` : `password`
                   }
-                  autoComplete='current-password'
-                  placeholder='Your Password'
+                  autoComplete={`current-password`}
+                  placeholder={`Your Password`}
                   value={password}
                   onChange={handleChangePassword}
                   required
@@ -330,7 +330,7 @@ export default function SignUpPage(): ReactElement {
 
               {/* Repeated Password label */}
               <label
-                htmlFor='repeatedPassword'
+                htmlFor={`repeatedPassword`}
                 className={`
                   transition duration-[500] 
                   block text-sm font-medium leading-6 select-none
@@ -345,13 +345,13 @@ export default function SignUpPage(): ReactElement {
               {/* Repeated Password input */}
               <div className={`mt-2 flex p-1.5 rounded-md ring-1 ring-gray-300 gap-1.5`}>
                 <input
-                  id='repeatedPassword'
-                  name='repeatedPassword'
+                  id={`repeatedPassword`}
+                  name={`repeatedPassword`}
                   type={
                     showRepeatedPassword ? `text` : `password`
                   }
-                  autoComplete='current-password'
-                  placeholder='Repeated Password'
+                  autoComplete={`current-password`}
+                  placeholder={`Repeated Password`}
                   value={repeatedPassword}
                   onChange={handleChangeRepeatedPassword}
                   required

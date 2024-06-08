@@ -80,7 +80,7 @@ export default function OTPVerifyPage(): ReactElement {
 
     if ( !checkUser && destination === `ResetPasswordPage` ) {
       sendPhoneNumberButton.disabled = false;
-      setError(`User with number ${phoneNumber} don't exist`);
+      setError(`User with number ${phoneNumber} do not exist`);
       return;
     }
 
@@ -180,17 +180,17 @@ export default function OTPVerifyPage(): ReactElement {
         </div>
 
         <div className={`mt-10 sm:mx-auto sm:max-w-sm`}>
-          <div id='form' className={`space-y-6`}>
+          <div id={`form`} className={`space-y-6`}>
             
             {
-              step === 'INPUT_PHONE_NUMBER' &&
+              step === `INPUT_PHONE_NUMBER` &&
                 <>
                   {/* Phone Number block */}
                   <div>
 
                     {/* Phone Number label */}
                     <label
-                      htmlFor='phoneNumber'
+                      htmlFor={`phoneNumber`}
                       className={`
                         transition duration-[500] 
                         block text-sm font-medium leading-6 select-none
@@ -205,12 +205,12 @@ export default function OTPVerifyPage(): ReactElement {
                     {/* Phone Number input */}
                     <div className={`mt-2`}>
                       <input
-                        id='phoneNumber'
-                        name='phoneNumber'
-                        type='tel'
-                        autoComplete='tel'
+                        id={`phoneNumber`}
+                        name={`phoneNumber`}
+                        type={`tel`}
+                        autoComplete={`tel`}
                         maxLength={10}
-                        placeholder='Your Phone Number'
+                        placeholder={`Your Phone Number`}
                         value={phoneNumber}
                         onChange={handleChangePhoneNumber}
                         required
@@ -247,8 +247,8 @@ export default function OTPVerifyPage(): ReactElement {
                   {/* Submit button */}
                   <div>
                     <button
-                      id='sendPhoneNumberButton'
-                      type='submit'
+                      id={`sendPhoneNumberButton`}
+                      type={`submit`}
                       onClick={handleSendPhoneNumber}
                       className={`
                       text-white  
@@ -273,7 +273,7 @@ export default function OTPVerifyPage(): ReactElement {
 
                     {/* OTP label */}
                     <label 
-                      htmlFor='otp'
+                      htmlFor={`otp`}
                       className={`
                         transition duration-[500] 
                         block text-sm font-medium leading-6 select-none
@@ -288,10 +288,10 @@ export default function OTPVerifyPage(): ReactElement {
                     {/* OTP input */}
                     <div className={`mt-2`}>
                       <input
-                        id='otp'
-                        name='otp'
+                        id={`otp`}
+                        name={`otp`}
                         maxLength={6}
-                        placeholder='Your OTP'
+                        placeholder={`Your OTP`}
                         value={otp}
                         onChange={handleChangeOTP}
                         required
@@ -328,8 +328,8 @@ export default function OTPVerifyPage(): ReactElement {
                   {/* Submit button */}
                   <div>
                     <button
-                      id='sendOTPButton'
-                      type='submit'
+                      id={`sendOTPButton`}
+                      type={`submit`}
                       onClick={handleSendOTP}
                       className={`
                       text-white  
@@ -351,7 +351,7 @@ export default function OTPVerifyPage(): ReactElement {
         </div>
       </div>
 
-      <div id='recaptcha-container'></div>
+      <div id={`recaptcha-container`}></div>
       
     </div>
   )

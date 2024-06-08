@@ -141,14 +141,14 @@ export default function SignInPage(): ReactElement {
         </div>
 
         <div className={`mt-10 sm:mx-auto sm:max-w-sm`}>
-          <div id='form' className={`space-y-6`}>
+          <div id={`form`} className={`space-y-6`}>
             
             {/* Phone Number block */}
             <div>
 
               {/* Phone Number label */}
               <label
-                htmlFor='phoneNumber'
+                htmlFor={`phoneNumber`}
                 className={`
                   transition duration-[500] 
                   block text-sm font-medium leading-6 select-none
@@ -163,11 +163,11 @@ export default function SignInPage(): ReactElement {
               {/* Phone Number input */}
               <div className={`mt-2`}>
                 <input
-                  id='phoneNumber'
-                  name='phoneNumber'
-                  type='tel'
-                  autoComplete='tel'
-                  placeholder='Your Phone Number'
+                  id={`phoneNumber`}
+                  name={`phoneNumber`}
+                  type={`tel`}
+                  autoComplete={`tel`}
+                  placeholder={`Your Phone Number`}
                   value={phoneNumber}
                   onChange={handleChangePhoneNumber}
                   required
@@ -188,7 +188,7 @@ export default function SignInPage(): ReactElement {
 
               {/* Password label */}
               <label
-                htmlFor='password'
+                htmlFor={`password`}
                 className={`
                   transition duration-[500] 
                   block text-sm font-medium leading-6 select-none
@@ -203,13 +203,13 @@ export default function SignInPage(): ReactElement {
               {/* Password input */}
               <div className={`mt-2 flex p-1.5 rounded-md ring-1 ring-gray-300 gap-1.5`}>
                 <input
-                  id='password'
-                  name='password'
+                  id={`password`}
+                  name={`password`}
                   type={
                     showPassword ? `text` : `password`
                   }
-                  autoComplete='current-password'
-                  placeholder='Your Password'
+                  autoComplete={`current-password`}
+                  placeholder={`Your Password`}
                   value={password}
                   onChange={handleChangePassword}
                   required

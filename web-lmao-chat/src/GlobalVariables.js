@@ -1,13 +1,13 @@
 import { io } from "socket.io-client";
 
 import tailwind from "./tailwind.config.js";
-import { useTheme } from './contexts/ThemeProvider';
+import { useTheme } from "./contexts/ThemeProvider";
 
 // const host = "localhost";
-const host = "127.0.0.1";
+const host = `127.0.0.1`;
 const api_port = 3000;
 
-// const api_host = "https://jawfish-good-strongly.ngrok-free.app";
+// const api_host = `https://jawfish-good-strongly.ngrok-free.app`;
 const api_host = `http://${host}:${api_port}`;
 // const api_host = `https://ghb5nz4p-${api_port}.asse.devtunnels.ms`;
 

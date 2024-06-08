@@ -1,18 +1,18 @@
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useState } from "react";
 
 const ThemeContext = createContext();
 
 export default function ThemeProvider({ children }) {
-  const [theme, setTheme] = useState("theme1");
+  const [theme, setTheme] = useState(`theme1`);
 
   useEffect(() => {
-    const savedTheme = localStorage.getItem("theme") || "theme1";
+    const savedTheme = localStorage.getItem(`theme`) || `theme1`;
     setTheme(savedTheme);
   }, []);
 
   const toggleTheme = (newTheme) => {
     setTheme(newTheme);
-    localStorage.setItem("theme", newTheme);
+    localStorage.setItem(`theme`, newTheme);
   }
 
   return (

@@ -115,14 +115,14 @@ export default function ResetPasswordPage(): ReactElement {
         </div>
 
         <div className={`mt-10 sm:mx-auto sm:max-w-sm`}>
-          <div id='form' className={`space-y-6`}>
+          <div id={`form`} className={`space-y-6`}>
 
             {/* Password block */}
             <div>
 
               {/* Password label */}
               <label
-                htmlFor='password'
+                htmlFor={`password`}
                 className={`
                   transition duration-[500] 
                   block text-sm font-medium leading-6 select-none
@@ -137,13 +137,13 @@ export default function ResetPasswordPage(): ReactElement {
               {/* Password input */}
               <div className={`mt-2 flex p-1.5 rounded-md ring-1 ring-gray-300 gap-1.5`}>
                 <input
-                  id='password'
-                  name='password'
+                  id={`password`}
+                  name={`password`}
                   type={
                     showPassword ? `text` : `password`
                   }
-                  autoComplete='current-password'
-                  placeholder='Your Password'
+                  autoComplete={`current-password`}
+                  placeholder={`Your Password`}
                   value={password}
                   onChange={handleChangePassword}
                   required
@@ -175,7 +175,7 @@ export default function ResetPasswordPage(): ReactElement {
 
               {/* Repeated Password label */}
               <label
-                htmlFor='repeatedPassword'
+                htmlFor={`repeatedPassword`}
                 className={`
                   transition duration-[500] 
                   block text-sm font-medium leading-6 select-none
@@ -190,13 +190,13 @@ export default function ResetPasswordPage(): ReactElement {
               {/* Repeated Password input */}
               <div className={`mt-2 flex p-1.5 rounded-md ring-1 ring-gray-300 gap-1.5`}>
                 <input
-                  id='repeatedPassword'
-                  name='repeatedPassword'
+                  id={`repeatedPassword`}
+                  name={`repeatedPassword`}
                   type={
                     showRepeatedPassword ? `text` : `password`
                   }
-                  autoComplete='current-password'
-                  placeholder='Repeated Password'
+                  autoComplete={`current-password`}
+                  placeholder={`Repeated Password`}
                   value={repeatedPassword}
                   onChange={handleChangeRepeatedPassword}
                   required

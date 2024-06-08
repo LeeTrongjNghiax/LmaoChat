@@ -1,15 +1,15 @@
-import { MouseEventHandler, ReactElement, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { MessageCircle, UserPlus, Users, Settings, LogOut, Search, Phone, Video, MoreHorizontal, SmilePlus, Mic, Paperclip, Send, ImagePlus, Save } from 'lucide-react';
+import { MouseEventHandler, ReactElement, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { MessageCircle, UserPlus, Users, Settings, LogOut, Search, Phone, Video, MoreHorizontal, SmilePlus, Mic, Paperclip, Send, ImagePlus, Save } from "lucide-react";
 
-import AvatarFallback from '../components/AvatarFallback.tsx';
-import ChangeThemeButton from '../components/ChangeThemeButton.tsx';
-import Friend from '../components/Friend.tsx';
-import Logo from '../components/Logo.tsx';
-import Message from '../components/Message.tsx';
-import useWindowDimensions from '../hooks/useWindowDimensions.js';
-import GlobalStyles from '../GlobalStyles.js';
-import ExportColor from '../GlobalVariables.js';
+import AvatarFallback from "../components/AvatarFallback.tsx";
+import ChangeThemeButton from "../components/ChangeThemeButton.tsx";
+import Friend from "../components/Friend.tsx";
+import Logo from "../components/Logo.tsx";
+import Message from "../components/Message.tsx";
+import useWindowDimensions from "../hooks/useWindowDimensions.js";
+import GlobalStyles from "../GlobalStyles.js";
+import ExportColor from "../GlobalVariables.js";
 
 function Sidebar(
   { direction, backgroundColor, textColor, iconColor, iconSize, user, handleOpenSetting, handleLogOut, handleOpenPersonalInfo } :
@@ -38,9 +38,9 @@ function Sidebar(
       <div
         className={`
           ${
-            direction == 0 ?
-              'flex-col items-center overflow-scroll' :
-              'justify-center'
+            direction === 0 ?
+              `flex-col items-center overflow-scroll` :
+              `justify-center`
           }
           transition duration-[500]
           flex m-1 text-sm font-medium leading-6 select-none gap-5 
@@ -52,22 +52,22 @@ function Sidebar(
       >
       <Logo />
 
-        <button title='Click to open all message'>
+        <button title={`Click to open all message`}>
           <MessageCircle size={iconSize} color={iconColor} />
         </button>
 
         <ChangeThemeButton size={iconSize} />
 
-        <button title='Click to open setting' onClick={handleOpenSetting}>
+        <button title={`Click to open setting`} onClick={handleOpenSetting}>
           <Settings size={iconSize} color={iconColor} />
         </button>
 
-        <button title='Click to log out' onClick={handleLogOut}>
+        <button title={`Click to log out`} onClick={handleLogOut}>
           <LogOut size={iconSize} color={iconColor}/>
         </button>
 
         <button onClick={handleOpenPersonalInfo}>
-          <AvatarFallback name={user.firstName + " " + user.lastName} />
+          <AvatarFallback name={`${user.firstName} ${user.lastName}`} />
         </button>
       </div>
     </div>
@@ -103,12 +103,12 @@ function Friends(
 
         <div className={`flex gap-5 ml-auto`}>
           {/* Add Friend */}
-          <button className={`ml-auto`} title='Click to add friend'>
+          <button className={`ml-auto`} title={`Click to add friend`}>
             <UserPlus size={iconSize} color={iconColor} />
           </button>
 
           {/* Create Group */}
-          <button className={`ml-auto`} title='Click to create group'>
+          <button className={`ml-auto`} title={`Click to create group`}>
             <Users size={iconSize} color={iconColor} />
           </button>
         </div>
@@ -116,18 +116,18 @@ function Friends(
 
       {/* Search Chats */}
       <div className={`
-        ${direction == 0 ? '' : 'w-full'}
+        ${direction === 0 ? `` : `w-full`}
         flex gap-5
       `}>
         <div className={`
-          ${direction == 0 ? '' : 'w-full'}
+          ${direction === 0 ? `` : `w-full`}
           flex p-1.5 rounded-md ring-1 ring-gray-300 gap-1.5
         `}>
           <input
-            name="password"
-            type="password"
-            autoComplete="current-password"
-            placeholder='Search Message'
+            name={`searchMessage`}
+            type={`text`}
+            autoComplete={``}
+            placeholder={`Search Message`}
             // value={password}
             // onChange={handleChangePassword}
             required
@@ -154,78 +154,13 @@ function Friends(
       `}>
 
         {/* Friend 1 */}
-        <button onClick={handleOpenChats}>
-          <Friend name="Lmao Lmao" newMessage="" />
+        <button title={`Open Conversation`} onClick={handleOpenChats}>
+          <Friend name={`Lmao Lmao`} newMessage={``} />
         </button>
 
         {/* Friend 2 */}
-        <button onClick={handleOpenChats}>
-          <Friend name="Lmao Lmao" newMessage="" />
-        </button>
-
-        {/* Friend 2 */}
-        <button onClick={handleOpenChats}>
-          <Friend name="Lmao Lmao" newMessage="" />
-        </button>
-
-        {/* Friend 2 */}
-        <button onClick={handleOpenChats}>
-          <Friend name="Lmao Lmao" newMessage="" />
-        </button>
-
-        {/* Friend 2 */}
-        <button onClick={handleOpenChats}>
-          <Friend name="Lmao Lmao" newMessage="" />
-        </button>
-
-        {/* Friend 2 */}
-        <button onClick={handleOpenChats}>
-          <Friend name="Lmao Lmao" newMessage="" />
-        </button>
-
-        {/* Friend 2 */}
-        <button onClick={handleOpenChats}>
-          <Friend name="Lmao Lmao" newMessage="" />
-        </button>
-
-        {/* Friend 2 */}
-        <button onClick={handleOpenChats}>
-          <Friend name="Lmao Lmao" newMessage="" />
-        </button>
-
-        {/* Friend 2 */}
-        <button onClick={handleOpenChats}>
-          <Friend name="Lmao Lmao" newMessage="" />
-        </button>
-
-        {/* Friend 2 */}
-        <button onClick={handleOpenChats}>
-          <Friend name="Lmao Lmao" newMessage="" />
-        </button>
-
-        {/* Friend 2 */}
-        <button onClick={handleOpenChats}>
-          <Friend name="Lmao Lmao" newMessage="" />
-        </button>
-
-        {/* Friend 2 */}
-        <button onClick={handleOpenChats}>
-          <Friend name="Lmao Lmao" newMessage="" />
-        </button>
-
-        {/* Friend 2 */}
-        <button onClick={handleOpenChats}>
-          <Friend name="Lmao Lmao" newMessage="" />
-        </button>
-
-        {/* Friend 2 */}
-        <button onClick={handleOpenChats}>
-          <Friend name="Lmao Lmao" newMessage="" />
-        </button>
-
-        {/* Friend 2 */}
-        <button onClick={handleOpenChats}>
-          <Friend name="Lmao Lmao" newMessage="" />
+        <button title={`Open Conversation`} onClick={handleOpenChats}>
+          <Friend name={`Lmao Lmao`} newMessage={``} />
         </button>
       </div>
     </div>
@@ -267,17 +202,17 @@ function Chats(
 
         <div className={`flex gap-5 ml-auto`}>
           {/* Call */}
-          <button title='Click to call with current friend'>
+          <button title={`Click to call with current friend`}>
             <Phone size={iconSize} color={iconColor} />
           </button>
 
           {/* Video */}
-          <button title='Click to call video with current friend'>
+          <button title={`Click to call video with current friend`}>
             <Video size={iconSize} color={iconColor} />
           </button>
           
           {/* Video */}
-          <button title='Click to see more information'>
+          <button title={`Click to see more information`}>
             <MoreHorizontal size={iconSize} color={iconColor} />
           </button>
         </div>
@@ -286,28 +221,10 @@ function Chats(
       {/* Chat History */}
       <div className={`w-full p-1.5 flex flex-col flex-1 gap-1.5 overflow-y-scroll`}>
         {/* Message 1 */}
-        <Message name="Le Trong Nghia" dateSent="12/02/2002 9:00:00" content="Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey "/>
+        <Message name={`Le Trong Nghia`} dateSent={`${new Date().toLocaleString}`} content={`Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey`} />
 
         {/* Message 2 */}
-        <Message dir="ltr" name="Lmao Lmao" dateSent="12/02/2002 9:00:00" content="Hello"/>
-
-        {/* Message 1 */}
-        <Message name="Le Trong Nghia" dateSent="12/02/2002 9:00:00" content="Hey"/>
-
-        {/* Message 2 */}
-        <Message dir="ltr" name="Lmao Lmao" dateSent="12/02/2002 9:00:00" content="Hello"/>
-
-        {/* Message 1 */}
-        <Message name="Le Trong Nghia" dateSent="12/02/2002 9:00:00" content="Hey"/>
-
-        {/* Message 2 */}
-        <Message dir="ltr" name="Lmao Lmao" dateSent="12/02/2002 9:00:00" content="Hello"/>
-
-        {/* Message 1 */}
-        <Message name="Le Trong Nghia" dateSent="12/02/2002 9:00:00" content="Hey"/>
-
-        {/* Message 2 */}
-        <Message dir="ltr" name="Lmao Lmao" dateSent="12/02/2002 9:00:00" content="Hello"/>
+        <Message dir={`ltr`} name={`Lmao Lmao`} dateSent={`${new Date().toLocaleString}`} content={`Hello`} />
 
       </div>
 
@@ -317,10 +234,10 @@ function Chats(
         {/* Search Chats */}
         <div className={`flex flex-1 p-1.5 rounded-md ring-1 ring-gray-300 gap-1.5`}>
           <input
-            name="password"
-            type="password"
-            autoComplete="current-password"
-            placeholder='Write your message here'
+            name={`password`}
+            type={`password`}
+            autoComplete={`current-password`}
+            placeholder={`Write your message here`}
             // value={password}
             // onChange={handleChangePassword}
             required
@@ -332,28 +249,28 @@ function Chats(
             style={{
               background: backgroundColor, 
               color: textColor, 
-              colorScheme: "dark"
+              colorScheme: `dark`
             }}
           />
         </div>
 
         {/* Emoji */}
-        <button title='Click to add emoji to your message'>
+        <button title={`Click to add emoji to your message`}>
           <SmilePlus size={iconSize} color={iconColor} />
         </button>
 
         {/* Voice */}
-        <button title='Click to send audio message'>
+        <button title={`Click to send audio message`}>
           <Mic size={iconSize} color={iconColor} />
         </button>
 
         {/* Send file */}
-        <button title='Click to send file from your computer'>
+        <button title={`Click to send file from your computer`}>
           <Paperclip size={iconSize} color={iconColor} />
         </button>
 
         {/* Send */}
-        <button title='Click to send your message'>
+        <button title={`Click to send your message`}>
           <Send size={iconSize} color={iconColor} />
         </button>
       </div>
@@ -398,7 +315,7 @@ function PersonalInfor(
           <div className={`flex flex-col items-center justify-between`}>
 
             <div className={`flex flex-col items-center gap-5`}>
-              <AvatarFallback name={user.firstName + " " + user.lastName} size={100} />
+              <AvatarFallback name={`${user.firstName} ${user.lastName}`} size={100} />
 
               <button className={`flex gap-1.5`}>
                 <ImagePlus size={iconSize} color={iconColor} />
@@ -422,7 +339,7 @@ function PersonalInfor(
 
               {/* First Name label */}
               <label
-                htmlFor="firstName"
+                htmlFor={`firstName`}
                 className={`
                   transition duration-[500] 
                   block text-sm font-medium leading-6 select-none
@@ -437,11 +354,11 @@ function PersonalInfor(
               {/* First Name input */}
               <div className={`mt-2`}>
                 <input
-                  id="firstName"
-                  name="firstName"
-                  type="text"
-                  autoComplete="name"
-                  placeholder='Your First Name'
+                  id={`firstName`}
+                  name={`firstName`}
+                  type={`text`}
+                  autoComplete={`name`}
+                  placeholder={`Your First Name`}
                   // value={phoneNumber}
                   // onChange={handleChangePhoneNumber}
                   required
@@ -462,7 +379,7 @@ function PersonalInfor(
 
               {/* Last Name label */}
               <label
-                htmlFor="lastName"
+                htmlFor={`lastName`}
                 className={`
                   transition duration-[500] 
                   block text-sm font-medium leading-6 select-none
@@ -477,11 +394,11 @@ function PersonalInfor(
               {/* Last Name input */}
               <div className={`mt-2`}>
                 <input
-                  id="lastName"
-                  name="lastName"
-                  type="text"
-                  autoComplete="name"
-                  placeholder='Your Last Name'
+                  id={`lastName`}
+                  name={`lastName`}
+                  type={`text`}
+                  autoComplete={`name`}
+                  placeholder={`Your Last Name`}
                   // value={phoneNumber}
                   // onChange={handleChangePhoneNumber}
                   required
@@ -502,7 +419,7 @@ function PersonalInfor(
 
               {/* Phone Number label */}
               <label
-                htmlFor="phoneNumber"
+                htmlFor={`phoneNumber`}
                 className={`
                   transition duration-[500] 
                   block text-sm font-medium leading-6 select-none
@@ -517,11 +434,11 @@ function PersonalInfor(
               {/* Phone Number input */}
               <div className={`mt-2`}>
                 <input
-                  id="phoneNumber"
-                  name="phoneNumber"
-                  type="tel"
-                  autoComplete="tel"
-                  placeholder='Your Phone Number'
+                  id={`phoneNumber`}
+                  name={`phoneNumber`}
+                  type={`tel`}
+                  autoComplete={`tel`}
+                  placeholder={`Your Phone Number`}
                   // value={phoneNumber}
                   // onChange={handleChangePhoneNumber}
                   required
@@ -542,7 +459,7 @@ function PersonalInfor(
 
               {/* Email label */}
               <label
-                htmlFor="email"
+                htmlFor={`email`}
                 className={`
                   transition duration-[500] 
                   block text-sm font-medium leading-6 select-none
@@ -557,11 +474,11 @@ function PersonalInfor(
               {/* Email input */}
               <div className={`mt-2`}>
                 <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  autoComplete="email"
-                  placeholder='Your Email'
+                  id={`email`}
+                  name={`email`}
+                  type={`email`}
+                  autoComplete={`email`}
+                  placeholder={`Your Email`}
                   // value={phoneNumber}
                   // onChange={handleChangePhoneNumber}
                   required
@@ -582,7 +499,7 @@ function PersonalInfor(
 
               {/* Address label */}
               <label
-                htmlFor="address"
+                htmlFor={`address`}
                 className={`
                   transition duration-[500] 
                   block text-sm font-medium leading-6 select-none
@@ -597,11 +514,11 @@ function PersonalInfor(
               {/* Address input */}
               <div className={`mt-2`}>
                 <input
-                  id="address"
-                  name="address"
-                  type="text"
-                  autoComplete="street-address"
-                  placeholder='Your Address'
+                  id={`address`}
+                  name={`address`}
+                  type={`text`}
+                  autoComplete={`street-address`}
+                  placeholder={`Your Address`}
                   // value={phoneNumber}
                   // onChange={handleChangePhoneNumber}
                   required
@@ -625,7 +542,7 @@ function PersonalInfor(
 }
 
 export default function MainPage(): ReactElement {
-  const [currentTab, setCurrentTab] = useState("CHATS");
+  const [currentTab, setCurrentTab] = useState(`CHATS`);
   const { state } = useLocation();
   const navigate = useNavigate();
   const user = state ? state.user ? state.user : {} : {};
@@ -644,20 +561,20 @@ export default function MainPage(): ReactElement {
   } = ExportColor();
 
   const handleOpenChats = () => {
-    setCurrentTab("CHATS");
+    setCurrentTab(`CHATS`);
   }
 
   const handleOpenSetting = () => {
-    setCurrentTab("SETTING");
+    setCurrentTab(`SETTING`);
   }
 
   const handleOpenPersonalInfo = () => {
-    setCurrentTab("PERSONAL_INFO");
+    setCurrentTab(`PERSONAL_INFO`);
   }
 
   const handleLogOut = () => {
-    if (window.confirm("Are you sure you want to log out?"))
-      navigate("/", { state: { user: null} });
+    if (window.confirm(`Are you sure you want to log out?`))
+      navigate(`/`, { state: { user: null} });
   }
 
   if (width >= height)
@@ -669,8 +586,8 @@ export default function MainPage(): ReactElement {
     <div
       className={`
         ${
-          direction == 0 ?
-            '' : 'flex-col-reverse'
+          direction === 0 ?
+            `` : `flex-col-reverse`
         }
         transition duration-[500] 
         flex min-h-screen justify-center
@@ -702,8 +619,8 @@ export default function MainPage(): ReactElement {
       />
 
       {
-        direction == 0 ?
-          currentTab === "CHATS" ?
+        direction === 0 ?
+          currentTab === `CHATS` ?
             <Chats
               backgroundColor={backgroundColor}
               textColor={textColor}

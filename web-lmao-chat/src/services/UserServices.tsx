@@ -7,12 +7,12 @@ const api_host = GlobalVariables.api_host;
 const sendErrorMessage = (message: string) => {
   return {
     status: status.INTERNAL_SERVER_ERROR,
-    message: "Server Error: " + message
+    message: `Server Error: ${message}`
   }
 }
 
 const getError = (error: unknown) => {
-  if (typeof error === "string")
+  if (typeof error === `string`)
     return error.toUpperCase();
   else if (error instanceof Error)
     return error.message;
@@ -21,7 +21,7 @@ const getError = (error: unknown) => {
 const getUser = async (phoneNumber: string) => {
   try {
     const response = await axios.get(
-      api_host + "/api/users/" + phoneNumber, 
+      `${api_host}/api/users/${phoneNumber}`, 
     );
 
     return {
@@ -31,7 +31,7 @@ const getUser = async (phoneNumber: string) => {
   } catch (error) {
     const result: string = getError(error)!;
 
-    console.error("User Service: Get user error: ", result);
+    console.error(`User Service: Get user error: ${result}`);
 
     return sendErrorMessage(result);
   }
@@ -40,7 +40,7 @@ const getUser = async (phoneNumber: string) => {
 const getUsers = async () => {
   try {
     const response = await axios.get(
-      api_host + "/api/users"
+      `${api_host} /api/users`
     );
 
     return {
@@ -50,7 +50,7 @@ const getUsers = async () => {
   } catch (error) {
     const result: string = getError(error)!;
 
-    console.error("User Service: Get users error: ", result);
+    console.error(`User Service: Get users error: ${result}`);
 
     return sendErrorMessage(result);
   }
@@ -61,14 +61,14 @@ const addUser = async (
 ) => {
   try {
     const data = {
-      phoneNumber, 
-      firstName, 
+      phoneNumber,
+      firstName,
       lastName,
       password
     }
 
     const response = await axios.post(
-      api_host + "/api/users", 
+      `${api_host}/api/users`, 
       data
     );
 
@@ -79,7 +79,7 @@ const addUser = async (
   } catch (error) {
     const result: string = getError(error)!;
 
-    console.error("User Service: Add user error: ", result);
+    console.error(`User Service: Add user error: ${result}`);
 
     return sendErrorMessage(result);
   }
@@ -92,7 +92,7 @@ const login = async (phoneNumber: string, password: string) => {
     }
 
     const response = await axios.post(
-      api_host + "/api/users/login", 
+      `${api_host}/api/users/login`, 
       data
     );
 
@@ -103,7 +103,7 @@ const login = async (phoneNumber: string, password: string) => {
   } catch (error) {
     const result: string = getError(error)!;
 
-    console.error("User Service: Login user error: ", result);
+    console.error(`User Service: Login user error: ${result}`);
 
     return sendErrorMessage(result);
   }
@@ -118,7 +118,7 @@ const updateUser = async (
     }
 
     const response = await axios.put(
-      api_host + "/api/users/" + phoneNumber, 
+      `${api_host}/api/users/${phoneNumber}`, 
       data
     );
     
@@ -129,7 +129,7 @@ const updateUser = async (
   } catch (error) {
     const result: string = getError(error)!;
 
-    console.error("User Service: Update user error: ", result);
+    console.error(`User Service: Update user error: ${result}`);
 
     return sendErrorMessage(result);
   }
