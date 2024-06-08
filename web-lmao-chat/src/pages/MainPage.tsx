@@ -41,10 +41,10 @@ function Sidebar(
           ${
             direction === 0 ?
               `flex-col items-center overflow-scroll` :
-              `justify-center`
+              `justify-between`
           }
           transition duration-[500]
-          flex m-1 text-sm font-medium leading-6 select-none gap-5 
+          flex m-1 text-sm font-medium leading-6 select-none gap-5 w-full
         `}
         style={{
           background: backgroundColor, 
@@ -90,7 +90,7 @@ function Friends(
     <div
       className={`
         transition duration-[500]
-        rounded-3xl m-1 flex flex-col gap-5 items-center text-sm font-medium leading-6 select-none p-5 overflow-y-scroll min-w-min h-screen
+        rounded-3xl m-1 flex flex-col gap-5 items-center text-sm font-medium leading-6 select-none p-5 overflow-y-scroll min-w-min flex-1 
       `}
       style={{
         background: backgroundColor, 
@@ -181,7 +181,7 @@ function Chats(
     <div
       className={`
         transition duration-[500]
-        w-full rounded-3xl m-1 flex flex-col gap-5 items-center text-sm font-medium leading-6 select-none p-5
+        w-full rounded-3xl m-1 flex flex-col gap-5 items-center text-sm font-medium leading-6 select-none p-5 overflow-y-scroll
       `}
       style={{
         background: backgroundColor, 
@@ -226,6 +226,19 @@ function Chats(
 
         {/* Message 2 */}
         <Message dir={`ltr`} name={`Lmao Lmao`} dateSent={`${new Date().toLocaleString()}`} content={`Hello`} />
+
+        {/* Message 1 */}
+        <Message name={`Le Trong Nghia`} dateSent={`${new Date().toLocaleString()}`} content={`Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey`} />
+
+        {/* Message 2 */}
+        <Message dir={`ltr`} name={`Lmao Lmao`} dateSent={`${new Date().toLocaleString()}`} content={`Hello`} />
+
+        {/* Message 1 */}
+        <Message name={`Le Trong Nghia`} dateSent={`${new Date().toLocaleString()}`} content={`Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey`} />
+
+        {/* Message 2 */}
+        <Message dir={`ltr`} name={`Lmao Lmao`} dateSent={`${new Date().toLocaleString()}`} content={`Hello`} />
+
 
       </div>
 
@@ -610,24 +623,27 @@ export default function MainPage(): ReactElement {
         handleOpenSetting={handleOpenSetting} handleOpenPersonalInfo={handleOpenPersonalInfo}
       />
 
-      <Friends
-        direction={direction}
-        backgroundColor={backgroundColor}
-        textColor={textColor}
-        iconColor={iconColor}
-        iconSize={iconSize}
-        handleOpenChats={handleOpenChats}
-      />
-
       {
         direction === 0 ?
           currentTab === `CHATS` ?
-            <Chats
-              backgroundColor={backgroundColor}
-              textColor={textColor}
-              iconColor={iconColor}
-              iconSize={iconSize}
-            /> :
+            ([
+              <Friends
+                key={`Friends`}
+                direction={direction}
+                backgroundColor={backgroundColor}
+                textColor={textColor}
+                iconColor={iconColor}
+                iconSize={iconSize}
+                handleOpenChats={handleOpenChats}
+              />, 
+              <Chats
+                key={`Chats`}
+                backgroundColor={backgroundColor}
+                textColor={textColor}
+                iconColor={iconColor}
+                iconSize={iconSize}
+              />
+            ]) :
             <PersonalInfor
               backgroundColor={backgroundColor}
               textColor={textColor}
@@ -635,7 +651,30 @@ export default function MainPage(): ReactElement {
               iconSize={iconSize}
               user={user}
             />
-          : <></>
+          : 
+          currentTab === `FRIENDS` ?
+            <Friends
+              direction={direction}
+              backgroundColor={backgroundColor}
+              textColor={textColor}
+              iconColor={iconColor}
+              iconSize={iconSize}
+              handleOpenChats={handleOpenChats}
+            /> :
+            currentTab === `CHATS` ?
+              <Chats
+                backgroundColor={backgroundColor}
+                textColor={textColor}
+                iconColor={iconColor}
+                iconSize={iconSize}
+              /> :
+              <PersonalInfor
+                backgroundColor={backgroundColor}
+                textColor={textColor}
+                iconColor={iconColor}
+                iconSize={iconSize}
+                user={user}
+              />
       }
 
     </div>
