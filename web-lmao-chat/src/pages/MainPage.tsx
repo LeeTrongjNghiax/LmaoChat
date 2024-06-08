@@ -7,11 +7,9 @@ import ChangeThemeButton from '../components/ChangeThemeButton.tsx';
 import Friend from '../components/Friend.tsx';
 import Logo from '../components/Logo.tsx';
 import Message from '../components/Message.tsx';
-import ExportColor from '../GlobalVariables.js';
-
 import useWindowDimensions from '../hooks/useWindowDimensions.js';
-
 import GlobalStyles from '../GlobalStyles.js';
+import ExportColor from '../GlobalVariables.js';
 
 function Sidebar(
   { direction, backgroundColor, textColor, iconColor, iconSize, user, handleOpenSetting, handleLogOut, handleOpenPersonalInfo } :

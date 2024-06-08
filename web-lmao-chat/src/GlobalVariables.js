@@ -3,13 +3,24 @@ import { io } from "socket.io-client";
 import tailwind from "./tailwind.config.js";
 import { useTheme } from './contexts/ThemeProvider';
 
+// const host = "localhost";
+const host = "127.0.0.1";
 const api_port = 3000;
 
 // const api_host = "https://jawfish-good-strongly.ngrok-free.app";
-const api_host = "http://localhost:" + api_port;
+const api_host = `http://${host}:${api_port}`;
 // const api_host = `https://ghb5nz4p-${api_port}.asse.devtunnels.ms`;
 
 const socket = io(api_host);
+
+const status = {
+  OK: 200, 
+  CREATED: 201, 
+  ACCEPTED: 202, 
+  NO_CONTENT: 204, 
+  CONFLICT: 409, 
+  INTERNAL_SERVER_ERROR: 500, 
+}
 
 export default function ExportColor() {
   const { theme } = useTheme();
@@ -25,4 +36,4 @@ export default function ExportColor() {
   }
 }
 
-export const GlobalVariables = {api_host, socket}
+export const GlobalVariables = {api_host, socket, status}

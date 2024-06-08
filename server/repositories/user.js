@@ -28,6 +28,7 @@ const addUser = async ({ phoneNumber, firstName, lastName, password }) => {
     if (!!FOUND_USER)
       return undefined;
 
+    // TODO: Fix bcrypt magic algorithms
     const HASH_PASSWORD = await bcrypt.hash(
       password,
       parseInt(process.env.SALT_ROUNDS)
@@ -54,6 +55,7 @@ const addUser = async ({ phoneNumber, firstName, lastName, password }) => {
 
 const login = async ({ phoneNumber, password }) => {
   try {
+    // TODO: Fix bcrypt magic algorithms
     const HASH_PASSWORD = await bcrypt.hash(
       password,
       parseInt(process.env.SALT_ROUNDS)
@@ -63,11 +65,11 @@ const login = async ({ phoneNumber, password }) => {
       { phoneNumber, 'password': HASH_PASSWORD }
     ).exec();
 
-    console.log("--------------------------------");
-    console.log(phoneNumber);
-    console.log(password);
-    console.log(HASH_PASSWORD);
-    console.log(FOUND_USER);
+    // console.log("--------------------------------");
+    // console.log(phoneNumber);
+    // console.log(password);
+    // console.log(HASH_PASSWORD);
+    // console.log(FOUND_USER);
 
     return FOUND_USER;
   } catch (error) {

@@ -1,24 +1,24 @@
-import { BaseSyntheticEvent, ReactElement, useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { Eye, EyeOff, LoaderCircle } from 'lucide-react';
+import { BaseSyntheticEvent, ReactElement, useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { Eye, EyeOff, LoaderCircle } from "lucide-react";
 
-import Logo from '../components/Logo.tsx';
-import Navbar from '../components/Navbar.tsx';
-import userService from '../services/UserServices';
-import ExportColor from '../GlobalVariables';
-import GlobalStyles from '../GlobalStyles.js';
-
-import SERVER_RESPONSE from '../interfaces/ServerResponse.tsx';
+import Logo from "../components/Logo.tsx";
+import Navbar from "../components/Navbar.tsx";
+import SERVER_RESPONSE from "../interfaces/ServerResponse.tsx";
+import userService from "../services/UserServices.tsx";
+import GlobalStyles from "../GlobalStyles.js";
+import ExportColor, { GlobalVariables } from "../GlobalVariables";
 
 export default function SignInPage(): ReactElement {
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [password, setPassword] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState(``);
+  const [password, setPassword] = useState(``);
   const [showPassword, setShowPassword] = useState(false);
-  const [error, setError] = useState<string | null>("");
-  const [loading, setLoading] = useState("NOT_LOAD");
+  const [error, setError] = useState<string | null>(``);
+  const [loading, setLoading] = useState(`NOT_LOAD`);
   const navigate = useNavigate();
   const { state } = useLocation();
   const styles = GlobalStyles();
+  const status = GlobalVariables.status;
   
   const {
     backgroundColor,
@@ -30,11 +30,11 @@ export default function SignInPage(): ReactElement {
 
   useEffect(() => {
     if (state != null) {
-      if ( Object.hasOwn(state, 'phoneNumber') )
+      if ( Object.hasOwn(state, `phoneNumber`) )
         if (state.phoneNumber !== undefined)
           setPhoneNumber(state.phoneNumber);
 
-      if ( Object.hasOwn(state, 'password') )
+      if ( Object.hasOwn(state, `password`) )
         if (state.password !== undefined)
           setPassword(state.password);
     }
@@ -50,16 +50,34 @@ export default function SignInPage(): ReactElement {
 
   const handleVerification = () => {
     if (!phoneNumber) {
-      setError("Phone number must not be null");
+      setError(`Phone number must not be null`);
       return false;
     }
 
     if (!password) {
-      setError("Password must not be null");
+      setError(`Password must not be null`);
       return false;
     }
 
     return true;
+  }
+
+  const handleSignUp = () => {
+    navigate(`/OTPVerifyPage`, {
+      state: {
+        phoneNumber, 
+        destination: `SignUpPage`
+      }
+    });
+  }
+
+  const handleForgotPassword = () => {
+    navigate(`/OTPVerifyPage`, {
+      state: {
+        phoneNumber, 
+        destination: `ResetPasswordPage`
+      }
+    });
   }
 
   const handleSignIn = async () => {
@@ -68,23 +86,23 @@ export default function SignInPage(): ReactElement {
     if (!handleVerification())
       return;
 
-    setLoading("LOAD");
+    setLoading(`LOAD`);
 
     const response: SERVER_RESPONSE = await userService.login(phoneNumber, password);
 
-    setLoading("NOT_LOAD");
+    setLoading(`NOT_LOAD`);
 
     switch (response.status) {
-      case "FAILED":
-        setError("Phone number or password is incorrect");
+      case status.NO_CONTENT:
+        setError(`Phone number or password is incorrect`);
         break;
-      case "ERRORED":
-        setError(response.message);
+      case status.INTERNAL_SERVER_ERROR:
+        setError(`Internal Server Error`);
         break;
-      case "SUCCESS":
+      case status.OK:
         setError(null);
         alert`Sign in successfully!`;
-        navigate("/MainPage", { state: { user: response.data } });
+        navigate(`/MainPage`, { state: { user: response.data } });
     }
   }
   
@@ -130,7 +148,7 @@ export default function SignInPage(): ReactElement {
 
               {/* Phone Number label */}
               <label
-                htmlFor="phoneNumber"
+                htmlFor='phoneNumber'
                 className={`
                   transition duration-[500] 
                   block text-sm font-medium leading-6 select-none
@@ -145,10 +163,10 @@ export default function SignInPage(): ReactElement {
               {/* Phone Number input */}
               <div className={`mt-2`}>
                 <input
-                  id="phoneNumber"
-                  name="phoneNumber"
-                  type="tel"
-                  autoComplete="tel"
+                  id='phoneNumber'
+                  name='phoneNumber'
+                  type='tel'
+                  autoComplete='tel'
                   placeholder='Your Phone Number'
                   value={phoneNumber}
                   onChange={handleChangePhoneNumber}
@@ -170,7 +188,7 @@ export default function SignInPage(): ReactElement {
 
               {/* Password label */}
               <label
-                htmlFor="password"
+                htmlFor='password'
                 className={`
                   transition duration-[500] 
                   block text-sm font-medium leading-6 select-none
@@ -185,12 +203,12 @@ export default function SignInPage(): ReactElement {
               {/* Password input */}
               <div className={`mt-2 flex p-1.5 rounded-md ring-1 ring-gray-300 gap-1.5`}>
                 <input
-                  id="password"
-                  name="password"
+                  id='password'
+                  name='password'
                   type={
-                    showPassword ? "text" : "password"
+                    showPassword ? `text` : `password`
                   }
-                  autoComplete="current-password"
+                  autoComplete='current-password'
                   placeholder='Your Password'
                   value={password}
                   onChange={handleChangePassword}
@@ -220,15 +238,7 @@ export default function SignInPage(): ReactElement {
 
               {/* Sign up link */}
               <button
-                onClick={() => {
-                  // navigate('/PhoneNumberInputToSignInPage', { state: { phoneNumber } });
-                  navigate('/OTPVerifyPage', {
-                    state: {
-                      phoneNumber, 
-                      destination: "SignUpPage"
-                    }
-                  });
-                }}
+                onClick={handleSignUp}
                 className={`
                   text-sm font-semibold select-none
                 `}
@@ -241,15 +251,7 @@ export default function SignInPage(): ReactElement {
 
               {/* Forgot password link */}
               <button
-                onClick={() => {
-                  // navigate("/PhoneNumberInputToForgotPasswordPage", { state: { phoneNumber } });
-                  navigate('/OTPVerifyPage', {
-                    state: {
-                      phoneNumber, 
-                      destination: "ResetPasswordPage"
-                    }
-                  });
-                }}
+                onClick={handleForgotPassword}
                 className={`
                   text-sm font-semibold select-none
                 `}
@@ -268,7 +270,7 @@ export default function SignInPage(): ReactElement {
 
             {/* Loading */}
             {
-              loading === "LOAD" ?
+              loading === `LOAD` ?
                 <div className={`flex gap-1.5 items-center justify-center`}>
                   <LoaderCircle className={`animate-spin`} size={20} color={iconColor} />
                   <p style={{color: textColor}}>

@@ -1,26 +1,28 @@
-import { BaseSyntheticEvent, ReactElement, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { Eye, EyeOff, LoaderCircle } from 'lucide-react';
+import { BaseSyntheticEvent, ReactElement, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { Eye, EyeOff, LoaderCircle } from "lucide-react";
 
-import Logo from '../components/Logo.tsx';
-import Navbar from '../components/Navbar.tsx';
-import userService from '../services/UserServices.js';
-import ExportColor from '../GlobalVariables.js';
-import GlobalStyles from '../GlobalStyles.js';
+import Logo from "../components/Logo.tsx";
+import Navbar from "../components/Navbar.tsx";
+import SERVER_RESPONSE from "../interfaces/ServerResponse.tsx";
+import userService from "../services/UserServices.tsx";
+import GlobalStyles from "../GlobalStyles.js";
+import ExportColor, { GlobalVariables } from "../GlobalVariables.js";
 
 export default function SignUpPage(): ReactElement {
-  const [firstName, setFirstName] = useState("Le");
-  const [lastName, setLastName] = useState("Nghia");
-  const [password, setPassword] = useState("11111111");
+  const [firstName, setFirstName] = useState(`Le`);
+  const [lastName, setLastName] = useState(`Nghia`);
+  const [password, setPassword] = useState(`11111111`);
   const [showPassword, setShowPassword] = useState(false);
+  const [repeatedPassword, setRepeatedPassword] = useState(`11111111`);
   const [showRepeatedPassword, setShowRepeatedPassword] = useState(false);
-  const [repeatedPassword, setRepeatedPassword] = useState("11111111");
-  const [error, setError] = useState<string | null>("");
-  const [loading, setLoading] = useState("");
+  const [error, setError] = useState<string | null>(``);
+  const [loading, setLoading] = useState(``);
   const { state } = useLocation();
-  const phoneNumber = state ? state.phoneNumber : "";
+  const phoneNumber = state ? state.phoneNumber : ``;
   const navigate = useNavigate();
   const styles = GlobalStyles();
+  const status = GlobalVariables.status;
 
   const {
     backgroundColor,
@@ -45,24 +47,32 @@ export default function SignUpPage(): ReactElement {
     setRepeatedPassword(e.target.value)
   }
 
+  const handleShowPassword = () => {
+    setShowPassword(!showPassword);
+  }
+
+  const handleShowRepeatedPassword = () => {
+    setShowRepeatedPassword(!showRepeatedPassword);
+  }
+
   const handleVerification = () => {
     if (!firstName) {
-      setError("First name must not be null");
+      setError(`First name must not be null`);
       return false;
     }
 
     if ( !firstName.match(/^[A-Z][a-z]*$/) ) {
-      setError("First name must start with uppercase character and cannot contain numbers");
+      setError(`First name must start with uppercase character and cannot contain numbers`);
       return false;
     }
 
     if (!lastName) {
-      setError("Last name must not be null");
+      setError(`Last name must not be null`);
       return false;
     }
 
     if ( !lastName.match(/^[A-Z][a-z]*$/) ) {
-      setError("Last name must start with uppercase character and cannot contain numbers");
+      setError(`Last name must start with uppercase character and cannot contain numbers`);
       return false;
     }
 
@@ -73,7 +83,7 @@ export default function SignUpPage(): ReactElement {
     }
 
     if ( !(password === repeatedPassword) ) {
-      setError("Password and Repeated password must be the same");
+      setError(`Password and Repeated password must be the same`);
       return false;
     }
 
@@ -82,13 +92,29 @@ export default function SignUpPage(): ReactElement {
   
   const handleSignUp = async () => {
     setError(null);
+    
     if (handleVerification()) {
-      setLoading("LOAD");
-      await userService.addUser(phoneNumber, firstName, lastName, password);
-      setLoading("NOT_LOAD");
-      setError(null);
-      alert`Sign Up successfully!`;
-      navigate("/", { state: { phoneNumber, password } })
+      setLoading(`LOAD`);
+
+      const response: SERVER_RESPONSE = await userService.addUser(phoneNumber, firstName, lastName, password);
+      
+      setLoading(`NOT_LOAD`);
+
+      switch (response.status) {
+        case status.INTERNAL_SERVER_ERROR:
+          setError(`Internal Server Error`);
+          break;
+        case status.CONFLICT:
+          setError(`Cannot sign up new user. Existing user with number ${phoneNumber}`);
+          break;
+        case status.ACCEPTED:
+          setError(`Sign up failed!`);
+          break;
+        case status.OK:
+          setError(null);
+          alert`Sign Up successfully!`;
+          navigate(`/`, { state: { phoneNumber, password } });
+      }
     }
   }
   
@@ -96,7 +122,7 @@ export default function SignUpPage(): ReactElement {
     <div
       className={`
         transition duration-[500] 
-          flex min-h-screen flex-col justify-center
+        flex min-h-screen flex-col justify-center
       `}
       style={{
         background: backgroundColor
@@ -134,7 +160,7 @@ export default function SignUpPage(): ReactElement {
 
               {/* Phone Number label */}
               <label
-                htmlFor="phoneNumber"
+                htmlFor='phoneNumber'
                 className={`
                   transition duration-[500] 
                   block text-sm font-medium leading-6 select-none
@@ -149,10 +175,10 @@ export default function SignUpPage(): ReactElement {
               {/* Phone Number input */}
               <div className={`mt-2`}>
                 <input
-                  id="phoneNumber"
-                  name="phoneNumber"
-                  type="tel"
-                  autoComplete="tel"
+                  id='phoneNumber'
+                  name='phoneNumber'
+                  type='tel'
+                  autoComplete='tel'
                   placeholder='Your Phone Number'
                   value={phoneNumber}
                   readOnly
@@ -173,7 +199,7 @@ export default function SignUpPage(): ReactElement {
 
               {/* First Name label */}
               <label
-                htmlFor="firstName"
+                htmlFor='firstName'
                 className={`
                   transition duration-[500] 
                   block text-sm font-medium leading-6 select-none
@@ -188,10 +214,10 @@ export default function SignUpPage(): ReactElement {
               {/* First Name input */}
               <div className={`mt-2`}>
                 <input
-                  id="firstName"
-                  name="firstName"
-                  type="text"
-                  autoComplete="name"
+                  id='firstName'
+                  name='firstName'
+                  type='text'
+                  autoComplete='name'
                   placeholder='Your First Name'
                   value={firstName}
                   onChange={handleFirstName}
@@ -212,7 +238,7 @@ export default function SignUpPage(): ReactElement {
 
               {/* Last Name label */}
               <label
-                htmlFor="lastName"
+                htmlFor='lastName'
                 className={`
                   transition duration-[500] 
                   block text-sm font-medium leading-6 select-none
@@ -227,10 +253,10 @@ export default function SignUpPage(): ReactElement {
               {/* Last Name input */}
               <div className={`mt-2`}>
                 <input
-                  id="lastName"
-                  name="lastName"
-                  type="text"
-                  autoComplete="name"
+                  id='lastName'
+                  name='lastName'
+                  type='text'
+                  autoComplete='name'
                   placeholder='Your Last Name'
                   value={lastName}
                   onChange={handleLastName}
@@ -251,7 +277,7 @@ export default function SignUpPage(): ReactElement {
 
               {/* Password label */}
               <label
-                htmlFor="password"
+                htmlFor='password'
                 className={`
                   transition duration-[500] 
                   block text-sm font-medium leading-6 select-none
@@ -266,12 +292,12 @@ export default function SignUpPage(): ReactElement {
               {/* Password input */}
               <div className={`mt-2 flex p-1.5 rounded-md ring-1 ring-gray-300 gap-1.5`}>
                 <input
-                  id="password"
-                  name="password"
+                  id='password'
+                  name='password'
                   type={
-                    showPassword ? "text" : "password"
+                    showPassword ? `text` : `password`
                   }
-                  autoComplete="current-password"
+                  autoComplete='current-password'
                   placeholder='Your Password'
                   value={password}
                   onChange={handleChangePassword}
@@ -286,7 +312,7 @@ export default function SignUpPage(): ReactElement {
                   }
                 />
 
-                <button onClick={() => setShowPassword(!showPassword)}>
+                <button onClick={handleShowPassword} >
                   {
                     showPassword ? 
                       <EyeOff color={iconColor} /> :
@@ -301,7 +327,7 @@ export default function SignUpPage(): ReactElement {
 
               {/* Repeated Password label */}
               <label
-                htmlFor="repeatedPassword"
+                htmlFor='repeatedPassword'
                 className={`
                   transition duration-[500] 
                   block text-sm font-medium leading-6 select-none
@@ -316,12 +342,12 @@ export default function SignUpPage(): ReactElement {
               {/* Repeated Password input */}
               <div className={`mt-2 flex p-1.5 rounded-md ring-1 ring-gray-300 gap-1.5`}>
                 <input
-                  id="repeatedPassword"
-                  name="repeatedPassword"
+                  id='repeatedPassword'
+                  name='repeatedPassword'
                   type={
-                    showRepeatedPassword ? "text" : "password"
+                    showRepeatedPassword ? `text` : `password`
                   }
-                  autoComplete="current-password"
+                  autoComplete='current-password'
                   placeholder='Repeated Password'
                   value={repeatedPassword}
                   onChange={handleChangeRepeatedPassword}
@@ -336,7 +362,7 @@ export default function SignUpPage(): ReactElement {
                   }
                 />
 
-                <button onClick={() => setShowRepeatedPassword(!showRepeatedPassword)}>
+                <button onClick={handleShowRepeatedPassword}>
                   {
                     showRepeatedPassword ? 
                       <EyeOff color={iconColor} /> :
@@ -353,9 +379,10 @@ export default function SignUpPage(): ReactElement {
 
             {/* Loading */}
             {
-              loading === "LOAD" ?
+              loading === `LOAD` ?
                 <div className={`flex gap-1.5 items-center justify-center`}>
                   <LoaderCircle className={`animate-spin`} size={20} color={iconColor} />
+
                   <p style={{color: textColor}}>
                     Please wait while we sign up to your Lmao Chat account
                   </p>

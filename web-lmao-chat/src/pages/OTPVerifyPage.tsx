@@ -1,31 +1,32 @@
-import React, { BaseSyntheticEvent, ReactElement, useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { LoaderCircle } from 'lucide-react'
+import { BaseSyntheticEvent, ReactElement, useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { LoaderCircle } from "lucide-react"
 import { ConfirmationResult, RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 
-import Logo from '../components/Logo.tsx';
-import Navbar from '../components/Navbar.tsx';
-import userServices from '../services/UserServices.js';
-import ConfigVariables from '../ConfigVariables.js';
-import ExportColor from '../GlobalVariables.js';
-import GlobalStyles from '../GlobalStyles.js';
+import Logo from "../components/Logo.tsx";
+import Navbar from "../components/Navbar.tsx";
+import userServices from "../services/UserServices.tsx";
+import ConfigVariables from "../ConfigVariables.js";
+import GlobalStyles from "../GlobalStyles.js";
+import ExportColor, { GlobalVariables } from "../GlobalVariables.js";
 
-import SERVER_RESPONSE from '../interfaces/ServerResponse.tsx';
+import SERVER_RESPONSE from "../interfaces/ServerResponse.tsx";
 
 export default function OTPVerifyPage(): ReactElement {
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [otp, setOTP] = useState("");
-  const [error, setError] = useState<string | null>("");
-  const [loading, setLoading] = useState("");
-  const [step, setStep] = useState('INPUT_PHONE_NUMBER');
+  const [phoneNumber, setPhoneNumber] = useState(``);
+  const [otp, setOTP] = useState(``);
+  const [error, setError] = useState<string | null>(``);
+  const [loading, setLoading] = useState(``);
+  const [step, setStep] = useState(`INPUT_PHONE_NUMBER`);
   const [result, setResult] = useState<ConfirmationResult>();
   const auth = ConfigVariables.auth;
   const navigate = useNavigate();
   const { state } = useLocation();
   const destination = state.destination;
-  const sendPhoneNumberButton: HTMLButtonElement = document.querySelector("#sendPhoneNumberButton")!;
-  const sendOTPButton: HTMLButtonElement = document.querySelector("#sendOTPButton")!;
+  const sendPhoneNumberButton: HTMLButtonElement = document.querySelector(`#sendPhoneNumberButton`)!;
+  const sendOTPButton: HTMLButtonElement = document.querySelector(`#sendOTPButton`)!;
   const styles = GlobalStyles();
+  const status = GlobalVariables.status;
 
   const {
     backgroundColor,
@@ -36,7 +37,7 @@ export default function OTPVerifyPage(): ReactElement {
 
   useEffect(() => {
     if (state != null)
-      if ( Object.hasOwn(state, 'phoneNumber') )
+      if ( Object.hasOwn(state, `phoneNumber`) )
         if (state.phoneNumber !== undefined)
           setPhoneNumber(state.phoneNumber);
   }, [state]);
@@ -51,7 +52,7 @@ export default function OTPVerifyPage(): ReactElement {
 
   const handleVerification = () => {
     if (!phoneNumber.match(/^0[0-9]{9}$/) ) {
-      setError("Phone Number must have exatly 10 digits and start with 0");
+      setError(`Phone Number must have exatly 10 digits and start with 0`);
       return false;
     }
 
@@ -62,32 +63,28 @@ export default function OTPVerifyPage(): ReactElement {
     const response: SERVER_RESPONSE = await userServices.getUser(phoneNumber);
 
     switch (response.status) {
-      case "FAILED":
-        setError("Phone number or password is incorrect");
+      case status.NO_CONTENT:
+        setError(`Phone number or password is incorrect`);
         return false;
-      case "ERRORED":
-        setError(response.message);
+      case status.INTERNAL_SERVER_ERROR:
+        setError(`Internal Server Error`);
         return false;
-      case "SUCCESS":
+      case status.OK:
         setError(null);
-
-        if (response.data.data !== null)
-          return true;
-        else
-          return false;
+        return true;
     }
   }
 
   const handleSendPhoneNumber = async () => {
     const checkUser = await checkIfUserExist();
 
-    if ( !checkUser && destination === "ResetPasswordPage" ) {
+    if ( !checkUser && destination === `ResetPasswordPage` ) {
       sendPhoneNumberButton.disabled = false;
       setError(`User with number ${phoneNumber} don't exist`);
       return;
     }
 
-    if ( checkUser && destination === "SignUpPage" ) {
+    if ( checkUser && destination === `SignUpPage` ) {
       sendPhoneNumberButton.disabled = false;
       setError(`User with number ${phoneNumber} exist`);
       return;
@@ -95,28 +92,28 @@ export default function OTPVerifyPage(): ReactElement {
 
     if (handleVerification()) {
       sendPhoneNumberButton.disabled = true;
-      setLoading("LOAD");
+      setLoading(`LOAD`);
       setError(null);
 
-      let appVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
-        'size': 'invisible',
+      let appVerifier = new RecaptchaVerifier(auth, `recaptcha-container`, {
+        size: `invisible`,
       });
 
-      signInWithPhoneNumber(auth, "+84" + phoneNumber.substring(1), appVerifier)
+      signInWithPhoneNumber(auth, `+84` + phoneNumber.substring(1), appVerifier)
         .then(confirmationResult => {
           sendPhoneNumberButton.disabled = false;
-          setLoading("NOT_LOAD");
+          setLoading(`NOT_LOAD`);
           setError(null);
           setResult(confirmationResult);
-          setStep('VERIFY_OTP');
+          setStep(`VERIFY_OTP`);
         }).catch(error => {
           sendPhoneNumberButton.disabled = false;
-          setLoading("NOT_LOAD");
-          setError("Sign in with phone number error: " + error);
-          console.error("Sign in with phone number error: " + error);
+          setLoading(`NOT_LOAD`);
+          setError(`Sign in with phone number error: ${error}`);
+          console.error(`Sign in with phone number error: ${error}`);
         });
 
-      alert`Send OTP successfully!`
+      alert`Send OTP successfully!`;
     }
   }
 
@@ -124,23 +121,23 @@ export default function OTPVerifyPage(): ReactElement {
     if (otp === null) return;
 
     sendOTPButton.disabled = true;
-    setLoading("LOAD");
+    setLoading(`LOAD`);
     setError(null);
 
     if (result !== undefined)
       result.confirm(otp).then(() => {
         sendOTPButton.disabled = false;
-        setLoading("NOT_LOAD");
+        setLoading(`NOT_LOAD`);
         setError(null);
-        setStep('VERIFY_SUCCESS');
+        setStep(`VERIFY_SUCCESS`);
         alert`Verify OTP successfully!`;
-        navigate("/" + destination, { state: { phoneNumber: phoneNumber } });
+        navigate(`/${destination}`, { state: { phoneNumber: phoneNumber } });
       })
-      .catch(err => {
+      .catch(error => {
         sendOTPButton.disabled = false;
-        setLoading("NOT_LOAD");
-        setError("Verify OTP error: " + err);
-        console.error("Verify OTP error: " + err);
+        setLoading(`NOT_LOAD`);
+        setError(`Verify OTP error: ${error}`);
+        console.error(`Verify OTP error: ${error}`);
       }); 
   }
   
@@ -175,9 +172,9 @@ export default function OTPVerifyPage(): ReactElement {
             }}
           >
             {
-              destination === "ResetPasswordPage" ?
-                "Get password back in your Lmao Chat account" :
-                "Sign up to your Lmao Chat account"
+              destination === `ResetPasswordPage` ?
+                `Get password back in your Lmao Chat account` :
+                `Sign up to your Lmao Chat account`
             }
           </h2>
         </div>
@@ -193,7 +190,7 @@ export default function OTPVerifyPage(): ReactElement {
 
                     {/* Phone Number label */}
                     <label
-                      htmlFor="phoneNumber"
+                      htmlFor='phoneNumber'
                       className={`
                         transition duration-[500] 
                         block text-sm font-medium leading-6 select-none
@@ -208,10 +205,10 @@ export default function OTPVerifyPage(): ReactElement {
                     {/* Phone Number input */}
                     <div className={`mt-2`}>
                       <input
-                        id="phoneNumber"
-                        name="phoneNumber"
-                        type="tel"
-                        autoComplete="tel"
+                        id='phoneNumber'
+                        name='phoneNumber'
+                        type='tel'
+                        autoComplete='tel'
                         maxLength={10}
                         placeholder='Your Phone Number'
                         value={phoneNumber}
@@ -236,9 +233,10 @@ export default function OTPVerifyPage(): ReactElement {
 
                   {/* Loading */}
                   {
-                    loading === "LOAD" ?
+                    loading === `LOAD` ?
                       <div className={`flex gap-1.5 items-center justify-center`}>
                         <LoaderCircle className={`animate-spin`} size={20} color={iconColor} />
+
                         <p style={{color: textColor}}>
                           Please wait while we send the OTP code to {phoneNumber}
                         </p>
@@ -250,7 +248,7 @@ export default function OTPVerifyPage(): ReactElement {
                   <div>
                     <button
                       id='sendPhoneNumberButton'
-                      type="submit"
+                      type='submit'
                       onClick={handleSendPhoneNumber}
                       className={`
                       text-white  
@@ -267,14 +265,14 @@ export default function OTPVerifyPage(): ReactElement {
             }
 
             {
-              step === 'VERIFY_OTP' &&
+              step === `VERIFY_OTP` &&
                 <>
                   {/* OTP block */}
                   <div>
 
                     {/* OTP label */}
                     <label 
-                      htmlFor="otp"
+                      htmlFor='otp'
                       className={`
                         transition duration-[500] 
                         block text-sm font-medium leading-6 select-none
@@ -289,8 +287,8 @@ export default function OTPVerifyPage(): ReactElement {
                     {/* OTP input */}
                     <div className={`mt-2`}>
                       <input
-                        id="otp"
-                        name="otp"
+                        id='otp'
+                        name='otp'
                         maxLength={6}
                         placeholder='Your OTP'
                         value={otp}
@@ -315,9 +313,10 @@ export default function OTPVerifyPage(): ReactElement {
 
                   {/* Loading */}
                   {
-                    loading === "LOAD" ?
+                    loading === `LOAD` ?
                       <div className={`flex gap-1.5 items-center justify-center`}>
                         <LoaderCircle className={`animate-spin`} size={20} color={iconColor} />
+
                         <p style={{color: textColor}}>
                           Please wait while we verify the OTP code that sent to {phoneNumber}
                         </p>
@@ -329,7 +328,7 @@ export default function OTPVerifyPage(): ReactElement {
                   <div>
                     <button
                       id='sendOTPButton'
-                      type="submit"
+                      type='submit'
                       onClick={handleSendOTP}
                       className={`
                       text-white  

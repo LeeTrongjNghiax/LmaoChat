@@ -1,30 +1,32 @@
-import { BaseSyntheticEvent, ReactElement, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { Eye, EyeOff, LoaderCircle } from 'lucide-react';
+import { BaseSyntheticEvent, ReactElement, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { Eye, EyeOff, LoaderCircle } from "lucide-react";
 
-import Navbar from '../components/Navbar.tsx';
-import Logo from '../components/Logo.tsx';
-import userService from '../services/UserServices.js';
-import ExportColor from '../GlobalVariables.js';
-import GlobalStyles from '../GlobalStyles.js';
+import Logo from "../components/Logo.tsx";
+import Navbar from "../components/Navbar.tsx";
+import SERVER_RESPONSE from "../interfaces/ServerResponse.tsx";
+import userService from "../services/UserServices.tsx";
+import GlobalStyles from "../GlobalStyles.js";
+import ExportColor, { GlobalVariables } from "../GlobalVariables.js";
 
 export default function ResetPasswordPage(): ReactElement {
-  const [password, setPassword] = useState("");
-  const [repeatedPassword, setRepeatedPassword] = useState("");
+  const [password, setPassword] = useState(``);
+  const [repeatedPassword, setRepeatedPassword] = useState(``);
   const [showPassword, setShowPassword] = useState(false);
   const [showRepeatedPassword, setShowRepeatedPassword] = useState(false);
-  const [error, setError] = useState<string | null>("");
-  const [loading, setLoading] = useState("");
+  const [error, setError] = useState<string | null>(``);
+  const [loading, setLoading] = useState(``);
   const navigate = useNavigate();
   const { state } = useLocation();
   const styles = GlobalStyles();
+  const status = GlobalVariables.status;
   let phoneNumber: string;
 
   if (state != null)
-    if ( Object.hasOwn(state, 'phoneNumber') )
+    if ( Object.hasOwn(state, `phoneNumber`) )
       phoneNumber = state.phoneNumber
     else
-      phoneNumber = "0932659945"
+      phoneNumber = `0932659945`
 
   const {
     backgroundColor,
@@ -49,7 +51,7 @@ export default function ResetPasswordPage(): ReactElement {
     }
 
     if ( !(password === repeatedPassword) ) {
-      setError("Password and Repeated password must be the same");
+      setError(`Password and Repeated password must be the same`);
       return false;
     }
 
@@ -58,13 +60,23 @@ export default function ResetPasswordPage(): ReactElement {
 
   const handleResetPassword = async () => {
     setError(null);
+
     if (handleVerification()) {
-      setLoading("LOAD");
-      await userService.updateUser(phoneNumber, password, null, null);
-      setLoading("NOT_LOAD");
-      setError(null);
-      alert`Reset password successfully!`;
-      navigate("/", { state: { phoneNumber, password } });
+      setLoading(`LOAD`);
+
+      const response: SERVER_RESPONSE = await userService.updateUser(phoneNumber, password, null, null);
+
+      setLoading(`NOT_LOAD`);
+
+      switch (response.status) {
+        case status.INTERNAL_SERVER_ERROR:
+          setError(`Internal Server Error`);
+          break;
+        case status.OK:
+          setError(null);
+          alert`Reset password successfully!`;
+          navigate(`/`, { state: { phoneNumber, password } });
+      }
     }
   }
 
@@ -110,7 +122,7 @@ export default function ResetPasswordPage(): ReactElement {
 
               {/* Password label */}
               <label
-                htmlFor="password"
+                htmlFor='password'
                 className={`
                   transition duration-[500] 
                   block text-sm font-medium leading-6 select-none
@@ -125,12 +137,12 @@ export default function ResetPasswordPage(): ReactElement {
               {/* Password input */}
               <div className={`mt-2 flex p-1.5 rounded-md ring-1 ring-gray-300 gap-1.5`}>
                 <input
-                  id="password"
-                  name="password"
+                  id='password'
+                  name='password'
                   type={
-                    showPassword ? "text" : "password"
+                    showPassword ? `text` : `password`
                   }
-                  autoComplete="current-password"
+                  autoComplete='current-password'
                   placeholder='Your Password'
                   value={password}
                   onChange={handleChangePassword}
@@ -160,7 +172,7 @@ export default function ResetPasswordPage(): ReactElement {
 
               {/* Repeated Password label */}
               <label
-                htmlFor="repeatedPassword"
+                htmlFor='repeatedPassword'
                 className={`
                   transition duration-[500] 
                   block text-sm font-medium leading-6 select-none
@@ -175,12 +187,12 @@ export default function ResetPasswordPage(): ReactElement {
               {/* Repeated Password input */}
               <div className={`mt-2 flex p-1.5 rounded-md ring-1 ring-gray-300 gap-1.5`}>
                 <input
-                  id="repeatedPassword"
-                  name="repeatedPassword"
+                  id='repeatedPassword'
+                  name='repeatedPassword'
                   type={
-                    showRepeatedPassword ? "text" : "password"
+                    showRepeatedPassword ? `text` : `password`
                   }
-                  autoComplete="current-password"
+                  autoComplete='current-password'
                   placeholder='Repeated Password'
                   value={repeatedPassword}
                   onChange={handleChangeRepeatedPassword}
@@ -212,7 +224,7 @@ export default function ResetPasswordPage(): ReactElement {
 
             {/* Loading */}
             {
-              loading === "LOAD" ?
+              loading === `LOAD` ?
                 <div className={`flex gap-1.5 items-center justify-center`}>
                   <LoaderCircle className={`animate-spin`} size={20} color={iconColor} />
                     

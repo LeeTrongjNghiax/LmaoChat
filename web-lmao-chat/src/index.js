@@ -1,22 +1,17 @@
 import ReactDOM from 'react-dom/client';
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import reportWebVitals from './reportWebVitals';
-import {
-  createBrowserRouter,
-  RouterProvider,
-} from "react-router-dom";
-
-import './index.css';
 
 import SocketContext from "./contexts/SocketContext";
 import ThemeProvider from "./contexts/ThemeProvider";
-import GlobalVariables from "./GlobalVariables";
-
+import ErrorPage from './pages/ErrorPage.tsx';
+import MainPage from './pages/MainPage.tsx';
+import OTPVerifyPage from './pages/OTPVerifyPage.tsx';
+import ResetPasswordPage from './pages/ResetPasswordPage.tsx';
 import SignInPage from './pages/SignInPage.tsx';
 import SignUpPage from './pages/SignUpPage.tsx';
-import ErrorPage from './pages/ErrorPage.tsx';
-import ResetPasswordPage from './pages/ResetPasswordPage.tsx';
-import OTPVerifyPage from './pages/OTPVerifyPage.tsx';
-import MainPage from './pages/MainPage.tsx';
+import GlobalVariables from "./GlobalVariables";
+import './index.css';
 
 const router = createBrowserRouter([
   {

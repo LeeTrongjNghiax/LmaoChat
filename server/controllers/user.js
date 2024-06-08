@@ -29,8 +29,7 @@ const getUser = async (req, res) => {
 
     sendJsonResponse(res, status, message, FOUND_USER);
   } catch (error) {
-    console.log("User Controller: Error get user: " + error);
-    // throw new Error("User Controller: Error get user: " + error);
+    console.error("User Controller: Error get user: " + error);
 
     sendJsonResponse(res, STATUS_INTERNAL_SERVER_ERROR, error, undefined);
   }
@@ -50,8 +49,7 @@ const getUsers = async (req, res) => {
 
     sendJsonResponse(res, status, message, USERS);
   } catch (error) {
-    console.log("User Controller: Error get users: " + error);
-    // throw new Error("User Controller: Error get users: " + error);
+    console.error("User Controller: Error get users: " + error);
 
     sendJsonResponse(res, STATUS_INTERNAL_SERVER_ERROR, error, undefined);
   }
@@ -78,8 +76,7 @@ const addUser = async (req, res) => {
 
     sendJsonResponse(res, status, message, FOUND_USER);
   } catch (error) {
-    console.log("User Controller: Error login user: " + error);
-    // throw new Error("User Controller: Error login user: " + error);
+    console.error("User Controller: Error login user: " + error);
 
     sendJsonResponse(res, STATUS_INTERNAL_SERVER_ERROR, error, undefined);
   }
@@ -91,18 +88,19 @@ const login = async (req, res) => {
   try {
     const FOUND_USER = await USER_REPOSITORY.login({ phoneNumber, password });
 
-    let status = 200;
+    console.error(FOUND_USER);
+
+    let status = STATUS_OK;
     let message = "Login user sucessfully!";
 
     if (!FOUND_USER) {
-      status = 204;
+      status = STATUS_NO_CONTENT;
       message = "Login user failed!";
     }
 
     sendJsonResponse(res, status, message, FOUND_USER);
   } catch (error) {
-    console.log("User Controller: Error login user: " + error);
-    // throw new Error("User Controller: Error login user: " + error);
+    console.error("User Controller: Error login user: " + error);
 
     sendJsonResponse(res, STATUS_INTERNAL_SERVER_ERROR, error, undefined);
   }
@@ -125,8 +123,7 @@ const updateUser = async (req, res) => {
 
     sendJsonResponse(res, status, message, UPDATED_USER);
   } catch (error) {
-    console.log("User Controller: Error update user: " + error);
-    // throw new Error("User Controller: Error update user: " + error);
+    console.error("User Controller: Error update user: " + error);
 
     sendJsonResponse(res, STATUS_INTERNAL_SERVER_ERROR, error, undefined);
   }

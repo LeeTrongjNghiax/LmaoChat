@@ -1,7 +1,6 @@
 interface SERVER_RESPONSE {
-  status: string, 
+  status: number, 
   data?: any, 
-  message?: any
 }
 
 export default SERVER_RESPONSE;
