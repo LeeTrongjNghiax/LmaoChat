@@ -28,6 +28,7 @@ function Sidebar(
   return (
     <div
       className={`
+        transition duration-[500]
         flex rounded-3xl m-1 p-5 justify-around
       `}
       style={{
@@ -66,7 +67,7 @@ function Sidebar(
           <LogOut size={iconSize} color={iconColor}/>
         </button>
 
-        <button onClick={handleOpenPersonalInfo}>
+        <button title={`Click to open personal info`} onClick={handleOpenPersonalInfo}>
           <AvatarFallback name={`${user.firstName} ${user.lastName}`} />
         </button>
       </div>
@@ -89,7 +90,7 @@ function Friends(
     <div
       className={`
         transition duration-[500]
-        rounded-3xl m-1 flex flex-col gap-5 items-center text-sm font-medium leading-6 select-none p-5 overflow-y-scroll min-w-min
+        rounded-3xl m-1 flex flex-col gap-5 items-center text-sm font-medium leading-6 select-none p-5 overflow-y-scroll min-w-min h-screen
       `}
       style={{
         background: backgroundColor, 
@@ -103,12 +104,12 @@ function Friends(
 
         <div className={`flex gap-5 ml-auto`}>
           {/* Add Friend */}
-          <button className={`ml-auto`} title={`Click to add friend`}>
+          <button title={`Click to add friend`} className={`ml-auto`}>
             <UserPlus size={iconSize} color={iconColor} />
           </button>
 
           {/* Create Group */}
-          <button className={`ml-auto`} title={`Click to create group`}>
+          <button title={`Click to create group`} className={`ml-auto`}>
             <Users size={iconSize} color={iconColor} />
           </button>
         </div>
@@ -143,7 +144,7 @@ function Friends(
           />
         </div>
 
-        <button>
+        <button title={`Click to search message`}>
           <Search size={iconSize} color={iconColor} />
         </button>
       </div>
@@ -221,10 +222,10 @@ function Chats(
       {/* Chat History */}
       <div className={`w-full p-1.5 flex flex-col flex-1 gap-1.5 overflow-y-scroll`}>
         {/* Message 1 */}
-        <Message name={`Le Trong Nghia`} dateSent={`${new Date().toLocaleString}`} content={`Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey`} />
+        <Message name={`Le Trong Nghia`} dateSent={`${new Date().toLocaleString()}`} content={`Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey`} />
 
         {/* Message 2 */}
-        <Message dir={`ltr`} name={`Lmao Lmao`} dateSent={`${new Date().toLocaleString}`} content={`Hello`} />
+        <Message dir={`ltr`} name={`Lmao Lmao`} dateSent={`${new Date().toLocaleString()}`} content={`Hello`} />
 
       </div>
 
@@ -234,9 +235,9 @@ function Chats(
         {/* Search Chats */}
         <div className={`flex flex-1 p-1.5 rounded-md ring-1 ring-gray-300 gap-1.5`}>
           <input
-            name={`password`}
-            type={`password`}
-            autoComplete={`current-password`}
+            name={`message`}
+            type={`text`}
+            autoComplete={``}
             placeholder={`Write your message here`}
             // value={password}
             // onChange={handleChangePassword}
