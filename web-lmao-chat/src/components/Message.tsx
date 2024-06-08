@@ -31,7 +31,7 @@ export default function Message({ dir, name, dateSent, content } : Props): React
 
         <div className={`flex flex-col`}>
           <p className={`font-bold`}>{name ? name : "undefined"}</p>
-          <p className={`italic`}>{dateSent ? dateSent : "unknown time"}</p>
+          <p className={`italic`} dir={"ltr"}>{dateSent ? dateSent : "unknown time"}</p>
         </div>
       </div>
 

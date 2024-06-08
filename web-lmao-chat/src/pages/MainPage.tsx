@@ -100,7 +100,7 @@ function Friends(
 
       {/* Header */}
       <div className={`flex gap-5 w-full items-center`}>
-        <h1 className={`text-3xl`}>Chats</h1>
+        <h1 className={`text-3xl`}>Friends</h1>
 
         <div className={`flex gap-5 ml-auto`}>
           {/* Add Friend */}
@@ -163,6 +163,28 @@ function Friends(
         <button title={`Open Conversation`} onClick={handleOpenChats}>
           <Friend name={`Lmao Lmao`} newMessage={``} />
         </button>
+
+        {/* Friend 1 */}
+        <button title={`Open Conversation`} onClick={handleOpenChats}>
+          <Friend name={`Lmao Lmao`} newMessage={``} />
+        </button>
+
+        {/* Friend 2 */}
+        <button title={`Open Conversation`} onClick={handleOpenChats}>
+          <Friend name={`Lmao Lmao`} newMessage={``} />
+        </button>
+
+        {/* Friend 1 */}
+        <button title={`Open Conversation`} onClick={handleOpenChats}>
+          <Friend name={`Lmao Lmao`} newMessage={``} />
+        </button>
+
+        {/* Friend 2 */}
+        <button title={`Open Conversation`} onClick={handleOpenChats}>
+          <Friend name={`Lmao Lmao`} newMessage={``} />
+        </button>
+
+
       </div>
     </div>
   );
@@ -181,7 +203,7 @@ function Chats(
     <div
       className={`
         transition duration-[500]
-        w-full rounded-3xl m-1 flex flex-col gap-5 items-center text-sm font-medium leading-6 select-none p-5 overflow-y-scroll
+        rounded-3xl m-1 flex flex-col gap-5 items-center text-sm font-medium leading-6 select-none p-5 overflow-y-scroll
       `}
       style={{
         background: backgroundColor, 
