@@ -223,7 +223,10 @@ export default function SignInPage(): ReactElement {
                   }
                 />
 
-                <button onClick={() => setShowPassword(!showPassword)}>
+                <button
+                  onClick={() => setShowPassword(!showPassword)}
+                  title={`Toggle Password`}
+                >
                   {
                     showPassword ? 
                       <EyeOff color={iconColor} /> :
@@ -245,6 +248,7 @@ export default function SignInPage(): ReactElement {
                 style={{
                   color: linkColor, 
                 }}
+                title={`Sign Up`}
               >
                 Sign up
               </button>
@@ -258,6 +262,7 @@ export default function SignInPage(): ReactElement {
                 style={{
                   color: linkColor, 
                 }}
+                title={`Forgot Password`}
               >
                 Forgot Password?
               </button>
@@ -292,6 +297,7 @@ export default function SignInPage(): ReactElement {
                 style={{
                   backgroundColor: buttonColor
                 }}  
+                title={`Sign In`}
               >
                 Sign in
               </button>

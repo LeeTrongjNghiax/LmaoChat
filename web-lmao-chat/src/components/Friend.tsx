@@ -1,6 +1,6 @@
-import { ReactElement } from 'react';
+import { ReactElement } from "react";
 
-import AvatarFallback from './AvatarFallback.tsx';
+import AvatarFallback from "./AvatarFallback.tsx";
 
 export default function Friend(
   { name, newMessage } : { name: string, newMessage: string }
@@ -8,14 +8,14 @@ export default function Friend(
   return (
     <div className={`flex gap-5 justify-start items-center`}>
       {/* Avatar */}
-      <AvatarFallback name={name ? name : "undefined"} />
+      <AvatarFallback name={name ? name : `undefined`} />
 
       <div className={`flex flex-col items-start`}>
         {/* Name */}
         <p className={`font-bold`}>{name ? name : "undefined"}</p>
 
         {/* New Message */}
-        <p>{newMessage ? newMessage : ""}</p>
+        <p>{newMessage ? newMessage : ``}</p>
       </div>
     </div>
   )

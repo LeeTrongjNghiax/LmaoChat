@@ -257,6 +257,7 @@ export default function OTPVerifyPage(): ReactElement {
                       style={{
                         background: buttonColor
                       }}
+                      title={`Send Phone Number`}
                     >
                       Send Phone Number
                     </button>
@@ -337,6 +338,7 @@ export default function OTPVerifyPage(): ReactElement {
                       style={{
                         background: buttonColor
                       }}
+                      title={`Send OTP`}
                     >
                       Send OTP
                     </button>

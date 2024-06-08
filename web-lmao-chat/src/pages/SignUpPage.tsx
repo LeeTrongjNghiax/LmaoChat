@@ -312,7 +312,10 @@ export default function SignUpPage(): ReactElement {
                   }
                 />
 
-                <button onClick={handleShowPassword} >
+                <button
+                  onClick={handleShowPassword}
+                  title={`Toggle Password`}
+                >
                   {
                     showPassword ? 
                       <EyeOff color={iconColor} /> :
@@ -362,7 +365,10 @@ export default function SignUpPage(): ReactElement {
                   }
                 />
 
-                <button onClick={handleShowRepeatedPassword}>
+                <button
+                  onClick={handleShowRepeatedPassword}
+                  title={`Toggle Repeated Password`}
+                >
                   {
                     showRepeatedPassword ? 
                       <EyeOff color={iconColor} /> :
@@ -403,6 +409,7 @@ export default function SignUpPage(): ReactElement {
                 style={{
                   background: buttonColor
                 }}
+                title={`Sign Up`}
               >
                 Sign up
               </button>

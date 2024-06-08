@@ -1,8 +1,8 @@
-import { PropsWithChildren, ReactElement } from 'react';
-import { Moon, Sun } from 'lucide-react';
+import { PropsWithChildren, ReactElement } from "react";
+import { Moon, Sun } from "lucide-react";
 
-import { useTheme } from '../contexts/ThemeProvider';
-import ExportColor from '../GlobalVariables';
+import { useTheme } from "../contexts/ThemeProvider";
+import ExportColor from "../GlobalVariables";
 
 interface Props extends PropsWithChildren<any>{
   size?: number
@@ -17,25 +17,26 @@ export default function ChangeThemeButton({ size }: Props): ReactElement {
 
   const changeTheme = () => {
     switch (theme) {
-      case "theme1":
-        toggleTheme("theme2");
+      case `theme1`:
+        toggleTheme(`theme2`);
         break;
-      case "theme2":
-        toggleTheme("theme1");
+      case `theme2`:
+        toggleTheme(`theme1`);
         break;
       default:
-        toggleTheme("theme1");
+        toggleTheme(`theme1`);
     }
   }
   
   return (
     <>
       <button
+        title={`Change theme`}
         className={`bg-${theme}`}
         onClick={changeTheme}
       >
         {
-          theme === "theme1" ?
+          theme === `theme1` ?
             <Sun  color={iconColor} size={size ? size : 30} /> :
             <Moon color={iconColor} size={size ? size : 30} />
         }

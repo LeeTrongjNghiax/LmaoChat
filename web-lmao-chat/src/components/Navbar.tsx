@@ -1,9 +1,9 @@
-import { PropsWithChildren } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { ArrowLeft } from 'lucide-react';
+import { PropsWithChildren } from "react";
+import { useNavigate } from "react-router-dom";
+import { ArrowLeft } from "lucide-react";
 
-import ChangeThemeButton from './ChangeThemeButton.tsx';
-import ExportColor from '../GlobalVariables';
+import ChangeThemeButton from "./ChangeThemeButton.tsx";
+import ExportColor from "../GlobalVariables";
 
 interface Props extends PropsWithChildren<any>{
   size?: number
@@ -31,7 +31,7 @@ export default function Navbar( {size}: Props ) {
         background: backgroundColor
       }}
     >
-      <button onClick={goBack}>
+      <button onClick={goBack} title={`Go back`}>
         <ArrowLeft color={iconColor} size={size ? size : 30} />
       </button>
 

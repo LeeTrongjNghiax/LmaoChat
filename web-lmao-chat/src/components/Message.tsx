@@ -1,8 +1,8 @@
-import { PropsWithChildren, ReactElement, useState } from 'react';
-import { MoreVertical, SmilePlus, MessageSquareReply, MessageSquareShare, MessageSquareOff, MessageSquareX } from 'lucide-react';
+import { PropsWithChildren, ReactElement, useState } from "react";
+import { MoreVertical, SmilePlus, MessageSquareReply, MessageSquareShare, MessageSquareOff, MessageSquareX } from "lucide-react";
 
-import AvatarFallback from './AvatarFallback.tsx';
-import ExportColor from '../GlobalVariables';
+import AvatarFallback from "./AvatarFallback.tsx";
+import ExportColor from "../GlobalVariables";
 
 interface Props extends PropsWithChildren<any>{
   dir?: string, 
@@ -27,7 +27,7 @@ export default function Message({ dir, name, dateSent, content } : Props): React
     <div className={`flex flex-col gap-2`} dir={dir ? dir : "rtl"}>
 
       <div className={`flex gap-5 items-center`}>
-        <AvatarFallback name={name ? name : "undefined"} />
+        <AvatarFallback name={name ? name : `undefined`} />
 
         <div className={`flex flex-col`}>
           <p className={`font-bold`}>{name ? name : "undefined"}</p>
@@ -46,18 +46,21 @@ export default function Message({ dir, name, dateSent, content } : Props): React
             color: textColor
           }}
         >
-          {content ? content : "undefined"}
+          {content ? content : `undefined`}
         </div>
 
         <div className={`flex relative`}>
-          <button onClick={handleOpenMoreOption} title='More options for message'>
+          <button
+            onClick={handleOpenMoreOption}
+            title={`More options for message`}
+          >
             <MoreVertical size={20} />
           </button>
           
           <div
             id='moreOption'
             className={`
-              ${isOpen ? "flex" : "hidden"}
+              ${isOpen ? `flex` : `hidden`}
               top-7 absolute flex-col gap-1.5 p-1.5 rounded-xl
             `}
             style={{
@@ -65,27 +68,42 @@ export default function Message({ dir, name, dateSent, content } : Props): React
               color: textColor
             }}  
           >
-            <button className={`flex gap-1.5 items-center`} title='Click to add emoji to message'>
+            <button
+              className={`flex gap-1.5 items-center`}
+              title={`Click to add emoji to message`}
+            >
               <SmilePlus />
               <p>Emoji</p>
             </button>
             
-            <button className={`flex gap-1.5 items-center`} title='Click to reply message'>
+            <button
+              className={`flex gap-1.5 items-center`}
+              title={`Click to reply message`}
+            >
               <MessageSquareReply />
               <p>Reply</p>
             </button>
 
-            <button className={`flex gap-1.5 items-center`} title='Click to share message'>
+            <button
+              className={`flex gap-1.5 items-center`}
+              title={`Click to share message`}
+            >
               <MessageSquareShare />
               <p>Share</p>
             </button>
 
-            <button className={`flex gap-1.5 items-center`} title='Click to remove message'>
+            <button
+              className={`flex gap-1.5 items-center`}
+              title={`Click to remove message`}
+            >
               <MessageSquareOff />
               <p>Remove</p>
             </button>
 
-            <button className={`flex gap-1.5 items-center`} title='Click to delete message'>
+            <button
+              className={`flex gap-1.5 items-center`}
+              title={`Click to delete message`}
+            >
               <MessageSquareX />
               <p>Delete</p>
             </button>

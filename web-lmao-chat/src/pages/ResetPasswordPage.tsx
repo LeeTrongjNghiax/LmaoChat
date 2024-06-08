@@ -157,7 +157,10 @@ export default function ResetPasswordPage(): ReactElement {
                   }
                 />
 
-                <button onClick={() => setShowPassword(!showPassword)}>
+                <button
+                  onClick={() => setShowPassword(!showPassword)}
+                  title={`Toggle Password`}
+                >
                   {
                     showPassword ? 
                       <EyeOff color={iconColor} /> :
@@ -207,7 +210,10 @@ export default function ResetPasswordPage(): ReactElement {
                   }
                 />
 
-                <button onClick={() => setShowRepeatedPassword(!showRepeatedPassword)}>
+                <button
+                  onClick={() => setShowRepeatedPassword(!showRepeatedPassword)}
+                  title={`Toggle Repeated Password`}
+                >
                   {
                     showRepeatedPassword ? 
                       <EyeOff color={iconColor} /> :
@@ -247,6 +253,7 @@ export default function ResetPasswordPage(): ReactElement {
                 style={{
                   background: buttonColor
                 }}
+                title={`Reset Password`}
               >
                 Reset Password
               </button>
