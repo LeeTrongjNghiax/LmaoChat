@@ -28,8 +28,6 @@ export default function AvatarFallback({name, size}: Props): ReactElement {
         borderRadius: size ? (size / 2) : 20, 
         fontSize: size ? size / 2 : 12, 
         aspectRatio: 1 / 1, 
-        // background: linkColor, 
-        // color: textColor
       }}
     >
       {getNameInit(name ? name : ``)}
