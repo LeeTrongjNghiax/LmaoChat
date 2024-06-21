@@ -1,6 +1,6 @@
 import { MouseEventHandler, ReactElement, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { MessageCircle, UserPlus, Users, Settings, LogOut, Search, Phone, Video, MoreHorizontal, SmilePlus, Mic, Paperclip, Send, ImagePlus, Save } from "lucide-react";
+import { MessageCircle, UserPlus, Users, Settings, LogOut, Search, Phone, Video, MoreHorizontal, SmilePlus, Mic, Paperclip, Send, ImagePlus, Save, X } from "lucide-react";
 
 import AvatarFallback from "../components/AvatarFallback.tsx";
 import ChangeThemeButton from "../components/ChangeThemeButton.tsx";
@@ -12,7 +12,7 @@ import GlobalStyles from "../GlobalStyles.js";
 import ExportColor from "../GlobalVariables.js";
 
 function Sidebar(
-  { direction, backgroundColor, textColor, iconColor, iconSize, user, handleOpenSetting, handleLogOut, handleOpenPersonalInfo } :
+  { direction, backgroundColor, textColor, iconColor, iconSize, user, handleOpenFriends, handleOpenSetting, handleLogOut, handleOpenPersonalInfo } :
   {
     direction: number,
     backgroundColor: string,
@@ -20,6 +20,7 @@ function Sidebar(
     iconColor: string,
     iconSize: number,
     user: any,
+    handleOpenFriends: MouseEventHandler<HTMLButtonElement>, 
     handleOpenSetting: MouseEventHandler<HTMLButtonElement>,
     handleLogOut: MouseEventHandler<HTMLButtonElement>,
     handleOpenPersonalInfo: MouseEventHandler<HTMLButtonElement>
@@ -53,7 +54,7 @@ function Sidebar(
       >
       <Logo />
 
-        <button title={`Click to open all message`}>
+        <button title={`Click to open all message`} onClick={handleOpenFriends}>
           <MessageCircle size={iconSize} color={iconColor} />
         </button>
 
@@ -76,13 +77,15 @@ function Sidebar(
 }
 
 function Friends(
-  { direction, backgroundColor, textColor, iconColor, iconSize, handleOpenChats } :
+  { direction, backgroundColor, textColor, iconColor, iconSize, currentSmallTab, handleAddFriend, handleOpenChats } :
   {
     direction: number,
     backgroundColor: string,
     textColor: string,
     iconColor: string,
     iconSize: number,
+    currentSmallTab: string, 
+    handleAddFriend: MouseEventHandler<HTMLButtonElement>, 
     handleOpenChats: MouseEventHandler<HTMLButtonElement>
   } 
 ) {
@@ -104,8 +107,9 @@ function Friends(
 
         <div className={`flex gap-5 ml-auto`}>
           {/* Add Friend */}
-          <button title={`Click to add friend`} className={`ml-auto`}>
-            <UserPlus size={iconSize} color={iconColor} />
+          <button title={`Click to add friend`} className={`ml-auto`} onClick={handleAddFriend}>
+            <UserPlus id={`button_UserPlus`} size={iconSize} color={iconColor} />
+            <X id={`button_X`} size={iconSize} color={iconColor} className={`hidden`} />
           </button>
 
           {/* Create Group */}
@@ -115,77 +119,121 @@ function Friends(
         </div>
       </div>
 
-      {/* Search Chats */}
-      <div className={`
-        ${direction === 0 ? `` : `w-full`}
-        flex gap-5
-      `}>
-        <div className={`
-          ${direction === 0 ? `` : `w-full`}
-          flex p-1.5 rounded-md ring-1 ring-gray-300 gap-1.5
-        `}>
-          <input
-            name={`searchMessage`}
-            type={`text`}
-            autoComplete={``}
-            placeholder={`Search Message`}
-            // value={password}
-            // onChange={handleChangePassword}
-            required
-            className={`
-              transition duration-[500] 
-              placeholder:text-gray-400
-              w-full sm:text-sm select-none focus:outline-none
-            `}
-            style={{
-              background: backgroundColor, 
-              color: textColor
-            }}
-          />
-        </div>
+      {
+        currentSmallTab === `LIST_FRIENDS` ? 
+          (
+            <>
+              {/* Search Chats */}
+              <div className={`
+                ${direction === 0 ? `` : `w-full`}
+                flex gap-5
+              `}>
+                <div className={`
+                  ${direction === 0 ? `` : `w-full`}
+                  flex p-1.5 rounded-md ring-1 ring-gray-300 gap-1.5
+                `}>
+                  <input
+                    name={`searchMessage`}
+                    type={`text`}
+                    autoComplete={``}
+                    placeholder={`Search Message`}
+                    // value={password}
+                    // onChange={handleChangePassword}
+                    required
+                    className={`
+                      transition duration-[500] 
+                      placeholder:text-gray-400
+                      w-full sm:text-sm select-none focus:outline-none
+                    `}
+                    style={{
+                      background: backgroundColor, 
+                      color: textColor
+                    }}
+                  />
+                </div>
 
-        <button title={`Click to search message`}>
-          <Search size={iconSize} color={iconColor} />
-        </button>
-      </div>
+                <button title={`Click to search message`}>
+                  <Search size={iconSize} color={iconColor} />
+                </button>
+              </div>
 
-      {/* Friends */}
-      <div className={`
-        flex-1 flex flex-col w-full gap-5 overflow-scroll
-      `}>
+              {/* Friends */}
+              <div className={`
+                flex-1 flex flex-col w-full gap-5 overflow-scroll
+              `}>
 
-        {/* Friend 1 */}
-        <button title={`Open Conversation`} onClick={handleOpenChats}>
-          <Friend name={`Lmao Lmao`} newMessage={``} />
-        </button>
+                {/* Friend 1 */}
+                <button title={`Open Conversation`} onClick={handleOpenChats}>
+                  <Friend name={`Lmao Lmao`} newMessage={``} />
+                </button>
 
-        {/* Friend 2 */}
-        <button title={`Open Conversation`} onClick={handleOpenChats}>
-          <Friend name={`Lmao Lmao`} newMessage={``} />
-        </button>
+                {/* Friend 2 */}
+                <button title={`Open Conversation`} onClick={handleOpenChats}>
+                  <Friend name={`Lmao Lmao 2`} newMessage={``} />
+                </button>
 
-        {/* Friend 1 */}
-        <button title={`Open Conversation`} onClick={handleOpenChats}>
-          <Friend name={`Lmao Lmao`} newMessage={``} />
-        </button>
+                {/* Friend 1 */}
+                <button title={`Open Conversation`} onClick={handleOpenChats}>
+                  <Friend name={`Lmao Lmao 3`} newMessage={``} />
+                </button>
 
-        {/* Friend 2 */}
-        <button title={`Open Conversation`} onClick={handleOpenChats}>
-          <Friend name={`Lmao Lmao`} newMessage={``} />
-        </button>
+                {/* Friend 2 */}
+                <button title={`Open Conversation`} onClick={handleOpenChats}>
+                  <Friend name={`Lmao Lmao`} newMessage={``} />
+                </button>
 
-        {/* Friend 1 */}
-        <button title={`Open Conversation`} onClick={handleOpenChats}>
-          <Friend name={`Lmao Lmao`} newMessage={``} />
-        </button>
+                {/* Friend 1 */}
+                <button title={`Open Conversation`} onClick={handleOpenChats}>
+                  <Friend name={`Lmao Lmao`} newMessage={``} />
+                </button>
 
-        {/* Friend 2 */}
-        <button title={`Open Conversation`} onClick={handleOpenChats}>
-          <Friend name={`Lmao Lmao`} newMessage={``} />
-        </button>
+                {/* Friend 2 */}
+                <button title={`Open Conversation`} onClick={handleOpenChats}>
+                  <Friend name={`Lmao Lmao`} newMessage={``} />
+                </button>
 
 
-      </div>
+              </div>
+            </>
+          ) : (
+            <>
+              {/* Search Friend */}
+              <div className={`
+                ${direction === 0 ? `` : `w-full`}
+                flex gap-5
+              `}>
+                <div className={`
+                  ${direction === 0 ? `` : `w-full`}
+                  flex p-1.5 rounded-md ring-1 ring-gray-300 gap-1.5
+                `}>
+                  <input
+                    name={`searchFriend`}
+                    type={`text`}
+                    autoComplete={``}
+                    placeholder={`Search Friend`}
+                    // value={password}
+                    // onChange={handleChangePassword}
+                    required
+                    className={`
+                      transition duration-[500] 
+                      placeholder:text-gray-400
+                      w-full sm:text-sm select-none focus:outline-none
+                    `}
+                    style={{
+                      background: backgroundColor, 
+                      color: textColor
+                    }}
+                  />
+                </div>
+
+                <button title={`Click to search message`}>
+                  <Search size={iconSize} color={iconColor} />
+                </button>
+              </div>
+            </>
+          )
+      }
+
     </div>
   );
 }
@@ -331,7 +379,7 @@ function PersonalInfor(
     <div
       className={`
         transition duration-[500]
-        w-full rounded-3xl m-1 flex flex-col gap-5 items-center text-sm font-medium leading-6 select-none p-5 overflow-scroll
+        w-full rounded-3xl m-1 flex flex-1 flex-col gap-5 items-center text-sm font-medium leading-6 select-none p-5 overflow-scroll
       `}
       style={{
         background: backgroundColor, 
@@ -578,7 +626,8 @@ function PersonalInfor(
 }
 
 export default function MainPage(): ReactElement {
-  const [currentTab, setCurrentTab] = useState(`CHATS`);
+  const [currentTab, setCurrentTab] = useState(`FRIENDS`);
+  const [currentSmallTab, setCurrentSmallTab] = useState(`LIST_FRIENDS`);
   const { state } = useLocation();
   const navigate = useNavigate();
   const user = state ? state.user.data ? state.user.data : {} : {};
@@ -596,6 +645,10 @@ export default function MainPage(): ReactElement {
     textColor,
   } = ExportColor();
 
+  const handleOpenFriends = () => {
+    setCurrentTab(`FRIENDS`);
+  }
+
   const handleOpenChats = () => {
     setCurrentTab(`CHATS`);
   }
@@ -606,6 +659,22 @@ export default function MainPage(): ReactElement {
 
   const handleOpenPersonalInfo = () => {
     setCurrentTab(`PERSONAL_INFO`);
+  }
+
+  const handleAddFriend = () => {
+    const button_X: HTMLButtonElement | null = document.querySelector(`#button_X`)!;
+    const button_UserPlus: HTMLButtonElement | null = document.querySelector(`#button_UserPlus`)!;
+  
+    if (currentSmallTab === `LIST_FRIENDS`) {
+      setCurrentSmallTab(`ADD_FRIEND`);
+      button_X.style.display = `block`;
+      button_UserPlus.style.display = `none`;
+    }
+    else {
+      setCurrentSmallTab(`LIST_FRIENDS`);
+      button_X.style.display = `none`;
+      button_UserPlus.style.display = `block`;
+    }
   }
 
   const handleLogOut = () => {
@@ -641,13 +710,14 @@ export default function MainPage(): ReactElement {
         iconColor={iconColor}
         iconSize={iconSize}
         user={user}
+        handleOpenFriends={handleOpenFriends}
         handleLogOut={handleLogOut}
         handleOpenSetting={handleOpenSetting} handleOpenPersonalInfo={handleOpenPersonalInfo}
       />
 
       {
         direction === 0 ?
-          currentTab === `CHATS` ?
+          currentTab === `CHATS` || currentTab === 'FRIENDS' ?
             ([
               <Friends
                 key={`Friends`}
@@ -656,6 +726,8 @@ export default function MainPage(): ReactElement {
                 textColor={textColor}
                 iconColor={iconColor}
                 iconSize={iconSize}
+                currentSmallTab={currentSmallTab}
+                handleAddFriend={handleAddFriend}
                 handleOpenChats={handleOpenChats}
               />, 
               <Chats
@@ -681,6 +753,8 @@ export default function MainPage(): ReactElement {
               textColor={textColor}
               iconColor={iconColor}
               iconSize={iconSize}
+              currentSmallTab={currentSmallTab}
+              handleAddFriend={handleAddFriend}
               handleOpenChats={handleOpenChats}
             /> :
             currentTab === `CHATS` ?

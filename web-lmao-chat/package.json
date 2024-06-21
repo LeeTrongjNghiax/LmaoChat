@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@cloudinary/react": "^1.13.0",
+    "@cloudinary/url-gen": "^1.19.0",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
@@ -22,7 +24,7 @@
   "scripts": {
     "start": "set PORT=3030 && react-scripts start",
     "build": "set PORT=3030 && react-scripts build",
-    "test" : "set PORT=3030 && react-scripts test",
+    "test": "set PORT=3030 && react-scripts test",
     "eject": "set PORT=3030 && react-scripts eject"
   },
   "eslintConfig": {
