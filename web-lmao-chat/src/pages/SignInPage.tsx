@@ -1,4 +1,4 @@
-import { BaseSyntheticEvent, ReactElement, useEffect, useState } from "react";
+import { BaseSyntheticEvent, ReactElement, useContext, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Eye, EyeOff, LoaderCircle } from "lucide-react";
 
@@ -8,6 +8,7 @@ import SERVER_RESPONSE from "../interfaces/ServerResponse.tsx";
 import userService from "../services/UserServices.tsx";
 import GlobalStyles from "../GlobalStyles.js";
 import ExportColor, { GlobalVariables } from "../GlobalVariables";
+import SocketContext from "../contexts/SocketContext.js";
 
 export default function SignInPage(): ReactElement {
   const [phoneNumber, setPhoneNumber] = useState(``);
@@ -19,7 +20,10 @@ export default function SignInPage(): ReactElement {
   const { state } = useLocation();
   const styles = GlobalStyles();
   const status = GlobalVariables.status;
+  const socket = GlobalVariables.socket;
   
+  console.log(socket);
+
   const {
     backgroundColor,
     buttonColor,
@@ -102,6 +106,7 @@ export default function SignInPage(): ReactElement {
       case status.OK:
         setError(null);
         alert`Sign in successfully!`;
+        socket.emit(`User Join`, { data: phoneNumber });
         navigate(`/MainPage`, { state: { user: response.data } });
     }
   }

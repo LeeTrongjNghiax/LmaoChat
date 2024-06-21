@@ -45,9 +45,9 @@ const root = ReactDOM.createRoot(document.getElementById(`root`));
 root.render(
   // <React.StrictMode>
     <ThemeProvider>
-      <SocketContext.Provider value={GlobalVariables.socket}>
+      {/* <SocketContext.Provider value={GlobalVariables.socket}> */}
         <RouterProvider router={router} />
-      </SocketContext.Provider>
+      {/* </SocketContext.Provider> */}
     </ThemeProvider>
   // </React.StrictMode>
 );

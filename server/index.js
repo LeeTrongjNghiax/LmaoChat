@@ -33,6 +33,10 @@ app.get("/", (req, res) => {
 io.on("connection", socket => {
   console.log("Socket: A user connected");
 
+  socket.on("User Join", ({data}) => {
+    console.log(`Socket: A user had login: ${data}`);
+  })
+
   socket.on("disconnect", () => {
     console.log("Socket: A user disconnected");
   });
