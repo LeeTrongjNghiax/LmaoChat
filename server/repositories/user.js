@@ -28,9 +28,6 @@ const addUser = async ({ phoneNumber, firstName, lastName, password }) => {
     if (!!FOUND_USER)
       return undefined;
 
-    // TODO: Fix bcrypt magic algorithms
-    let hash_password;
-
     bcrypt.genSalt(parseInt(process.env.SALT_ROUNDS), (err, salt) => {
       bcrypt.hash(password, salt, async (err, hash) => {
         const NEW_USER = await USER.create({
