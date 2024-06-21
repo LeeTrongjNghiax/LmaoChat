@@ -88,8 +88,6 @@ const login = async (req, res) => {
   try {
     const FOUND_USER = await USER_REPOSITORY.login({ phoneNumber, password });
 
-    console.error(FOUND_USER);
-
     let status = STATUS_OK;
     let message = "Login user sucessfully!";
 

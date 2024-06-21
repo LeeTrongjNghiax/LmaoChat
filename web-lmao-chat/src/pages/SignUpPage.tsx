@@ -97,7 +97,9 @@ export default function SignUpPage(): ReactElement {
       setLoading(`LOAD`);
 
       const response: SERVER_RESPONSE = await userService.addUser(phoneNumber, firstName, lastName, password);
-      
+
+      console.log(response);
+
       setLoading(`NOT_LOAD`);
 
       switch (response.status) {
@@ -110,7 +112,7 @@ export default function SignUpPage(): ReactElement {
         case status.ACCEPTED:
           setError(`Sign up failed!`);
           break;
-        case status.OK:
+        case status.CREATED:
           setError(null);
           alert`Sign Up successfully!`;
           navigate(`/`, { state: { phoneNumber, password } });

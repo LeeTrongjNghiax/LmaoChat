@@ -29,24 +29,25 @@ const addUser = async ({ phoneNumber, firstName, lastName, password }) => {
       return undefined;
 
     // TODO: Fix bcrypt magic algorithms
-    const HASH_PASSWORD = await bcrypt.hash(
-      password,
-      parseInt(process.env.SALT_ROUNDS)
-    );
+    let hash_password;
 
-    const NEW_USER = await USER.create({
-      firstName,
-      lastName,
-      phoneNumber, 
-      email: "", 
-      password: HASH_PASSWORD,
-      avatarUrl: "",
-      friends: [], 
-      requestSends: [], 
-      requestGets: []
+    bcrypt.genSalt(parseInt(process.env.SALT_ROUNDS), (err, salt) => {
+      bcrypt.hash(password, salt, async (err, hash) => {
+        const NEW_USER = await USER.create({
+          firstName,
+          lastName,
+          phoneNumber, 
+          email: "", 
+          password: hash,
+          avatarUrl: "",
+          friends: [], 
+          requestSends: [], 
+          requestGets: []
+        });
+
+        return NEW_USER;
+      });
     });
-
-    return NEW_USER;
   } catch (error) {
     console.error("User Repository: Error add user: " + error);
     throw new Error("User Repository: Error add user: " + error);
@@ -55,23 +56,19 @@ const addUser = async ({ phoneNumber, firstName, lastName, password }) => {
 
 const login = async ({ phoneNumber, password }) => {
   try {
-    // TODO: Fix bcrypt magic algorithms
-    const HASH_PASSWORD = await bcrypt.hash(
-      password,
-      parseInt(process.env.SALT_ROUNDS)
-    );
-
     const FOUND_USER = await USER.findOne(
-      { phoneNumber, 'password': HASH_PASSWORD }
+      { phoneNumber }
     ).exec();
 
-    // console.log("--------------------------------");
-    // console.log(phoneNumber);
-    // console.log(password);
-    // console.log(HASH_PASSWORD);
-    // console.log(FOUND_USER);
+    if (!FOUND_USER)
+      return FOUND_USER;
+    
+    const RESULT = await bcrypt.compare(password, FOUND_USER.password);
 
-    return FOUND_USER;
+    if (RESULT)
+      return FOUND_USER;
+    
+    return null;
   } catch (error) {
     console.error("User Repository: Error login user: " + error);
     throw new Error("User Repository: Error login user: " + error);
