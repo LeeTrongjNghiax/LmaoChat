@@ -581,7 +581,7 @@ export default function MainPage(): ReactElement {
   const [currentTab, setCurrentTab] = useState(`CHATS`);
   const { state } = useLocation();
   const navigate = useNavigate();
-  const user = state ? state.user ? state.user : {} : {};
+  const user = state ? state.user.data ? state.user.data : {} : {};
   const iconSize = 30;
   const { width, height }: {
     width: number, 
