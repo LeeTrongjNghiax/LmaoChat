@@ -22,8 +22,6 @@ export default function SignInPage(): ReactElement {
   const status = GlobalVariables.status;
   const socket = GlobalVariables.socket;
   
-  console.log(socket);
-
   const {
     backgroundColor,
     buttonColor,

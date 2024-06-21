@@ -19,6 +19,7 @@ const io = new Server(server, {
 });
 const cors = require("cors");
 const { USER_ROUTER } = require("./routers/index");
+const { USER_REPOSITORY } = require("./repositories");
 
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
@@ -28,14 +29,26 @@ app.use("/api/users", USER_ROUTER);
 
 app.get("/", (req, res) => {
   res.send("<h1>Lmao</h1>")
-})
+});
+
+let users = [];
 
 io.on("connection", socket => {
   console.log("Socket: A user connected");
 
-  socket.on("User Join", ({data}) => {
-    console.log(`Socket: A user had login: ${data}`);
-  })
+  socket.on("User Join", async ({ data }) => {
+    console.log(`Socket: ${data} had login`);
+
+    const USER = await USER_REPOSITORY.getUser({ phoneNumber: data });
+    users.push(USER);
+  });
+
+  socket.on("User Leave", async ({ data }) => {
+    const REMOVED_INDEX = users.map(user => user.phoneNumber).indexOf(data);
+    ~REMOVED_INDEX && users.splice(REMOVED_INDEX, 1);
+
+    console.log(`Socket: ${data} had leave`);
+  });
 
   socket.on("disconnect", () => {
     console.log("Socket: A user disconnected");

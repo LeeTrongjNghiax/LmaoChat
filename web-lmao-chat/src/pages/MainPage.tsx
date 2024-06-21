@@ -1,4 +1,4 @@
-import { MouseEventHandler, ReactElement, useState } from "react";
+import { MouseEventHandler, ReactElement, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { MessageCircle, UserPlus, Users, Settings, LogOut, Search, Phone, Video, MoreHorizontal, SmilePlus, Mic, Paperclip, Send, ImagePlus, Save, X } from "lucide-react";
 
@@ -9,7 +9,7 @@ import Logo from "../components/Logo.tsx";
 import Message from "../components/Message.tsx";
 import useWindowDimensions from "../hooks/useWindowDimensions.js";
 import GlobalStyles from "../GlobalStyles.js";
-import ExportColor from "../GlobalVariables.js";
+import ExportColor, { GlobalVariables } from "../GlobalVariables.js";
 
 function Sidebar(
   { direction, backgroundColor, textColor, iconColor, iconSize, user, handleOpenFriends, handleOpenSetting, handleLogOut, handleOpenPersonalInfo } :
@@ -637,6 +637,7 @@ export default function MainPage(): ReactElement {
     height: number
   } = useWindowDimensions();
   let direction: number;
+  const socket = GlobalVariables.socket;
 
   const {
     backgroundColor,
@@ -644,6 +645,12 @@ export default function MainPage(): ReactElement {
     iconColor,
     textColor,
   } = ExportColor();
+
+  useEffect(() => {
+    return () => {
+      socket.emit("User Leave", { data: user.phoneNumber });
+    }
+  })
 
   const handleOpenFriends = () => {
     setCurrentTab(`FRIENDS`);
