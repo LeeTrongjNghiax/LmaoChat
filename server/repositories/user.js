@@ -112,6 +112,9 @@ const addFriendRequest = async ({ phoneNumberSend, phoneNumberGet }) => {
     if (!USER_RECEIVE_FRIEND_REQUEST)
       return null;
 
+    USER_ADD_FRIEND_REQUEST.requestSends.push(phoneNumberGet);
+    USER_ADD_FRIEND_REQUEST.save();
+
     USER_RECEIVE_FRIEND_REQUEST.requestGets.push(phoneNumberSend)
     USER_RECEIVE_FRIEND_REQUEST.save();
 

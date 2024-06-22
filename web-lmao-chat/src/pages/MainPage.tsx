@@ -1,6 +1,6 @@
 import { BaseSyntheticEvent, ChangeEventHandler, MouseEventHandler, ReactElement, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { MessageCircle, UserPlus, UserSearch, Users, Settings, LogOut, Search, Phone, Video, MoreHorizontal, SmilePlus, Mic, Paperclip, Send, ImagePlus, Save, X, User } from "lucide-react";
+import { MessageCircle, UserPlus, UserSearch, Users, Settings, LogOut, Search, Phone, Video, MoreHorizontal, SmilePlus, Mic, Paperclip, Send, ImagePlus, Save, X, User, ListEnd, icons, ListStart } from "lucide-react";
 
 import AvatarFallback from "../components/AvatarFallback.tsx";
 import ChangeThemeButton from "../components/ChangeThemeButton.tsx";
@@ -79,7 +79,7 @@ function Sidebar(
 }
 
 function Friends(
-  { direction, backgroundColor, textColor, iconColor, iconSize, currentSmallTab, searchFriendPhoneNumber, searchFriend, user, handleAddFriendRequest, handleChangeSearchFriendPhoneNumber, handleSearchFriendPhoneNumber, handleChangeSmallTab, handleOpenChats } :
+  { direction, backgroundColor, textColor, iconColor, iconSize, currentSmallTab, searchFriendPhoneNumber, searchFriend, user, handleAddFriendRequest, handleChangeSearchFriendPhoneNumber, handleSearchFriendPhoneNumber, handleOpenSmallTabFriends, handleOpenSmallTabSearchFriend, handleOpenSmallTabListRequestSend, handleOpenSmallTabListRequestGet, handleOpenSmallTabCreateGroup, handleOpenChats } :
   {
     direction: number,
     backgroundColor: string,
@@ -93,7 +93,11 @@ function Friends(
     handleAddFriendRequest: () => any, 
     handleChangeSearchFriendPhoneNumber: ChangeEventHandler<HTMLInputElement>, 
     handleSearchFriendPhoneNumber: () => any, 
-    handleChangeSmallTab: MouseEventHandler<HTMLButtonElement>, 
+    handleOpenSmallTabFriends: MouseEventHandler<HTMLButtonElement>, 
+    handleOpenSmallTabSearchFriend: MouseEventHandler<HTMLButtonElement>, 
+    handleOpenSmallTabListRequestSend: MouseEventHandler<HTMLButtonElement>, 
+    handleOpenSmallTabListRequestGet: MouseEventHandler<HTMLButtonElement>, 
+    handleOpenSmallTabCreateGroup: MouseEventHandler<HTMLButtonElement>, 
     handleOpenChats: MouseEventHandler<HTMLButtonElement>
   } 
 ) {
@@ -111,114 +115,112 @@ function Friends(
 
       {/* Header */}
       <div className={`flex gap-5 w-full items-center`}>
-        <h1 className={`text-3xl`}>Friends</h1>
+        <h1 className={`text-3xl`}>
+          { currentSmallTab === `FRIENDS` && `Friends` }
+          { currentSmallTab === `SEARCH_FRIEND` && `Search Friends` }
+          { currentSmallTab === `LIST_REQUEST_SEND` && `Friend Request Sent` }
+          { currentSmallTab === `LIST_REQUEST_GET` && `Friend Request Get` }
+          { currentSmallTab === `CREATE_GROUP` && `Create Group` }
+        </h1>
+      </div>
 
-        <div className={`flex gap-5 ml-auto`}>
-          {/* Add Friend */}
-          <button title={`Click to add friend`} className={`ml-auto`} onClick={handleChangeSmallTab}>
-            <UserSearch id={`button_UserPlus`} size={iconSize} color={iconColor} />
-            <X id={`button_X`} size={iconSize} color={iconColor} className={`hidden`} />
-          </button>
+      {/* Small tabs icon */}
+      <div className={`flex w-full gap-5 item-centers justify-around`}>
+        {/* Friends */}
+        <button title={`Click to open list friends`} className={``} onClick={handleOpenSmallTabFriends}>
+          <User id={`FRIENDS`} size={iconSize} color={iconColor} />
+        </button>
 
-          {/* Create Group */}
-          <button title={`Click to create group`} className={`ml-auto`}>
-            <Users size={iconSize} color={iconColor} />
-          </button>
-        </div>
+        {/* Search Friend */}
+        <button title={`Click to search and add friend`} className={``} onClick={handleOpenSmallTabSearchFriend}>
+          <UserSearch id={`SEARCH_FRIEND`} size={iconSize} color={iconColor} />
+        </button>
+
+        {/* List request send */}
+        <button title={`Click to view list friend request you had sent`} className={``} onClick={handleOpenSmallTabListRequestSend}>
+          <ListStart id={`LIST_REQUEST_SEND`} size={iconSize} color={iconColor} />
+        </button>
+
+        {/* List request get */}
+        <button title={`Click to view list friend request you had get`} className={``} onClick={handleOpenSmallTabListRequestGet}>
+          <ListEnd id={`LIST_REQUEST_GET`} size={iconSize} color={iconColor} />
+        </button>
+
+        {/* Create Group */}
+        <button title={`Click to create group`} className={``} onClick={handleOpenSmallTabCreateGroup}>
+          <Users id={`CREATE_GROUP`} size={iconSize} color={iconColor} />
+        </button>
       </div>
 
       {
-        currentSmallTab === `LIST_FRIENDS` ? 
-          (
-            <>
-              {/* Search Chats */}
+        currentSmallTab === `FRIENDS` && (
+          <>
+            {/* Search Chats */}
+            <div className={`
+              ${direction === 0 ? `w-full` : `w-full`}
+              flex gap-5
+            `}>
               <div className={`
                 ${direction === 0 ? `` : `w-full`}
-                flex gap-5
+                flex flex-1 p-1.5 rounded-md ring-1 ring-gray-300 gap-1.5
               `}>
-                <div className={`
-                  ${direction === 0 ? `` : `w-full`}
-                  flex p-1.5 rounded-md ring-1 ring-gray-300 gap-1.5
-                `}>
-                  <input
-                    name={`searchMessage`}
-                    type={`text`}
-                    autoComplete={``}
-                    placeholder={`Search Message`}
-                    // value={password}
-                    // onChange={handleChangePassword}
-                    required
-                    className={`
-                      transition duration-[500] 
-                      placeholder:text-gray-400
-                      w-full sm:text-sm select-none focus:outline-none
-                    `}
-                    style={{
-                      background: backgroundColor, 
-                      color: textColor
-                    }}
-                  />
-                </div>
-
-                <button title={`Click to search message`}>
-                  <Search size={iconSize} color={iconColor} />
-                </button>
+                <input
+                  name={`searchMessage`}
+                  type={`text`}
+                  autoComplete={``}
+                  placeholder={`Search Message`}
+                  // value={password}
+                  // onChange={handleChangePassword}
+                  required
+                  className={`
+                    transition duration-[500] 
+                    placeholder:text-gray-400
+                    w-full sm:text-sm select-none focus:outline-none
+                  `}
+                  style={{
+                    background: backgroundColor, 
+                    color: textColor
+                  }}
+                />
               </div>
 
-              {/* Friends */}
-              <div className={`
-                flex-1 flex flex-col w-full gap-5 overflow-scroll
-              `}>
+              <button title={`Click to search message`}>
+                <Search size={iconSize} color={iconColor} />
+              </button>
+            </div>
 
-                {/* Friend 1 */}
-                <button title={`Open Conversation`} onClick={handleOpenChats}>
-                  <Friend name={`Lmao Lmao`} newMessage={``} />
-                </button>
+            {/* Friends */}
+            <div className={`
+              flex-1 flex flex-col w-full gap-5 overflow-scroll
+            `}>
 
-                {/* Friend 2 */}
-                <button title={`Open Conversation`} onClick={handleOpenChats}>
-                  <Friend name={`Lmao Lmao 2`} newMessage={``} />
-                </button>
+              {/* Friend 1 */}
+              <button title={`Open Conversation`} onClick={handleOpenChats}>
+                <Friend name={`Lmao Lmao`} newMessage={``} />
+              </button>
 
-                {/* Friend 1 */}
-                <button title={`Open Conversation`} onClick={handleOpenChats}>
-                  <Friend name={`Lmao Lmao 3`} newMessage={``} />
-                </button>
+            </div>
+          </>
+        )
+      }
 
-                {/* Friend 2 */}
-                <button title={`Open Conversation`} onClick={handleOpenChats}>
-                  <Friend name={`Lmao Lmao`} newMessage={``} />
-                </button>
-
-                {/* Friend 1 */}
-                <button title={`Open Conversation`} onClick={handleOpenChats}>
-                  <Friend name={`Lmao Lmao`} newMessage={``} />
-                </button>
-
-                {/* Friend 2 */}
-                <button title={`Open Conversation`} onClick={handleOpenChats}>
-                  <Friend name={`Lmao Lmao`} newMessage={``} />
-                </button>
-
-
-              </div>
-            </>
-          ) : (
+      {
+          currentSmallTab === `SEARCH_FRIEND` && (
             <>
               {/* Search Friend */}
               <div className={`
-                ${direction === 0 ? `` : `w-full`}
+                ${direction === 0 ? `w-full` : `w-full`}
                 flex gap-5
               `}>
                 <div className={`
                   ${direction === 0 ? `` : `w-full`}
-                  flex p-1.5 rounded-md ring-1 ring-gray-300 gap-1.5
+                  flex flex-1 p-1.5 rounded-md ring-1 ring-gray-300 gap-1.5
                 `}>
                   <input
                     name={`searchFriend`}
                     type={`text`}
                     autoComplete={``}
-                    placeholder={`Search Friend`}
+                    placeholder={`Search Friend by Phone Number`}
                     value={searchFriendPhoneNumber}
                     onChange={handleChangeSearchFriendPhoneNumber}
                     required
@@ -265,8 +267,8 @@ function Friends(
                 }
 
               </div>
-            </>
-          )
+          </>
+        )
       }
 
     </div>
@@ -662,7 +664,7 @@ function PersonalInfor(
 
 export default function MainPage(): ReactElement {
   const [currentTab, setCurrentTab] = useState(`FRIENDS`);
-  const [currentSmallTab, setCurrentSmallTab] = useState(`LIST_FRIENDS`);
+  const [currentSmallTab, setCurrentSmallTab] = useState(`FRIENDS`);
   const [searchFriendPhoneNumber, setSearchFriendPhoneNumber] = useState(``);
   const [searchPhoneNumberStatus, setSearchPhoneNumberStatus] = useState<string | null>(``);
   const [searchFriend, setSearchFriend] = useState(null);
@@ -736,21 +738,29 @@ export default function MainPage(): ReactElement {
     setCurrentTab(`PERSONAL_INFO`);
   }
 
-  const handleChangeSmallTab = () => {
-    const button_X: HTMLButtonElement | null = document.querySelector(`#button_X`)!;
-    const button_UserPlus: HTMLButtonElement | null = document.querySelector(`#button_UserPlus`)!;
-  
-    if (currentSmallTab === `LIST_FRIENDS`) {
-      setCurrentSmallTab(`ADD_FRIEND`);
-      button_X.style.display = `block`;
-      button_UserPlus.style.display = `none`;
-    }
-    else {
-      setCurrentSmallTab(`LIST_FRIENDS`);
-      setSearchFriend(null);
-      button_X.style.display = `none`;
-      button_UserPlus.style.display = `block`;
-    }
+  const handleOpenSmallTabFriends = () => {
+    setSearchFriend(null);
+    setCurrentSmallTab(`FRIENDS`);
+  }
+
+  const handleOpenSmallTabSearchFriend = () => {
+    setSearchFriend(null);
+    setCurrentSmallTab(`SEARCH_FRIEND`);
+  }
+
+  const handleOpenSmallTabListRequestSend = () => {
+    setSearchFriend(null);
+    setCurrentSmallTab(`LIST_REQUEST_SEND`);
+  }
+
+  const handleOpenSmallTabListRequestGet = () => {
+    setSearchFriend(null);
+    setCurrentSmallTab(`LIST_REQUEST_GET`);
+  }
+
+  const handleOpenSmallTabCreateGroup = () => {
+    setSearchFriend(null);
+    setCurrentSmallTab(`CREATE_GROUP`);
   }
 
   const handleLogOut = () => {
@@ -809,7 +819,11 @@ export default function MainPage(): ReactElement {
                 handleAddFriendRequest={handleAddFriendRequest}
                 handleChangeSearchFriendPhoneNumber={handleChangeSearchFriendPhoneNumber}
                 handleSearchFriendPhoneNumber={handleSearchFriendPhoneNumber}
-                handleChangeSmallTab={handleChangeSmallTab}
+                handleOpenSmallTabFriends={handleOpenSmallTabFriends}
+                handleOpenSmallTabSearchFriend={handleOpenSmallTabSearchFriend}
+                handleOpenSmallTabListRequestSend={handleOpenSmallTabListRequestSend}
+                handleOpenSmallTabListRequestGet={handleOpenSmallTabListRequestGet}
+                handleOpenSmallTabCreateGroup={handleOpenSmallTabCreateGroup}
                 handleOpenChats={handleOpenChats}
               />, 
               <Chats
@@ -842,7 +856,11 @@ export default function MainPage(): ReactElement {
               handleAddFriendRequest={handleAddFriendRequest}
               handleChangeSearchFriendPhoneNumber={handleChangeSearchFriendPhoneNumber}
               handleSearchFriendPhoneNumber={handleSearchFriendPhoneNumber}
-              handleChangeSmallTab={handleChangeSmallTab}
+              handleOpenSmallTabFriends={handleOpenSmallTabFriends}
+              handleOpenSmallTabSearchFriend={handleOpenSmallTabSearchFriend}
+              handleOpenSmallTabListRequestSend={handleOpenSmallTabListRequestSend}
+              handleOpenSmallTabListRequestGet={handleOpenSmallTabListRequestGet}
+              handleOpenSmallTabCreateGroup={handleOpenSmallTabCreateGroup}
               handleOpenChats={handleOpenChats}
             /> :
             currentTab === `CHATS` ?
