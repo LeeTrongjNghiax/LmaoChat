@@ -135,12 +135,31 @@ const updateUser = async (
   }
 };
 
+const addFriendRequest = async (phoneNumberSend: string, phoneNumberGet: string) => {
+  try {
+    const response = await axios.get(
+      `${api_host}/api/users/addFriendRequest/${phoneNumberSend}/${phoneNumberGet}`
+    );
+
+    return {
+      status: response.status, 
+      data: response.data
+    }
+  } catch (error) {
+    const result: string = getError(error)!;
+
+    console.error(`User Service: Add friend request error: ${result}`);
+
+    return sendErrorMessage(result);
+  }
+};
 const UserServices = {
   getUser, 
   getUsers, 
   addUser, 
   login, 
-  updateUser
+  updateUser, 
+  addFriendRequest
 }
 
 export default UserServices;

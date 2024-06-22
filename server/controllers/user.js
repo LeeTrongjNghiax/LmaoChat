@@ -139,17 +139,17 @@ const addFriendRequest = async (req, res) => {
 
     if (RESULT === undefined) {
       status = STATUS_NO_CONTENT;
-      message = "User send friend request does not exist";
+      message = "User send friend request or user get friend request does not exist";
     }
 
     if (RESULT === null) {
-      status = STATUS_NO_CONTENT;
-      message = "User receiver friend request does not exist";
+      status = STATUS_CONFLICT;
+      message = "User receive friend request already had friend request from user send friend request";
     }
 
     sendJsonResponse(res, status, message, RESULT);
   } catch (error) {
-    console.error("User Controller: Error update user: " + error);
+    console.error("User Controller: Error add friend request: " + error);
 
     sendJsonResponse(res, STATUS_INTERNAL_SERVER_ERROR, error, undefined);
   }

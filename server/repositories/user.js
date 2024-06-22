@@ -103,6 +103,9 @@ const updateUser = async ({ phoneNumber, password, email, avatarUrl }) => {
 
 const addFriendRequest = async ({ phoneNumberSend, phoneNumberGet }) => {
   try {
+    if (phoneNumberSend === phoneNumberGet)
+      return null;
+
     const USER_ADD_FRIEND_REQUEST = await USER.findOne( { phoneNumber: phoneNumberSend }).exec();
     const USER_RECEIVE_FRIEND_REQUEST = await USER.findOne( { phoneNumber: phoneNumberGet }).exec();
 
@@ -110,18 +113,24 @@ const addFriendRequest = async ({ phoneNumberSend, phoneNumberGet }) => {
       return undefined;
 
     if (!USER_RECEIVE_FRIEND_REQUEST)
+      return undefined;
+
+    if (USER_ADD_FRIEND_REQUEST.requestSends.includes(phoneNumberGet))
+      return null;
+
+    if (USER_RECEIVE_FRIEND_REQUEST.requestGets.includes(phoneNumberSend))
       return null;
 
     USER_ADD_FRIEND_REQUEST.requestSends.push(phoneNumberGet);
     USER_ADD_FRIEND_REQUEST.save();
 
-    USER_RECEIVE_FRIEND_REQUEST.requestGets.push(phoneNumberSend)
+    USER_RECEIVE_FRIEND_REQUEST.requestGets.push(phoneNumberSend);
     USER_RECEIVE_FRIEND_REQUEST.save();
 
     return USER_RECEIVE_FRIEND_REQUEST;
   } catch (error) {
-    console.error("User Repository: Error update user: " + error);
-    throw new Error("User Repository: Error update user: " + error);
+    console.error("User Repository: Error add friend request: " + error);
+    throw new Error("User Repository: Error add friend request: " + error);
   }
 }
 

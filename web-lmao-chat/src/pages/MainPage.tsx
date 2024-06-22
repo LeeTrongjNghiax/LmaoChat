@@ -1,6 +1,6 @@
 import { BaseSyntheticEvent, ChangeEventHandler, MouseEventHandler, ReactElement, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { MessageCircle, UserPlus, UserSearch, Users, Settings, LogOut, Search, Phone, Video, MoreHorizontal, SmilePlus, Mic, Paperclip, Send, ImagePlus, Save, X, User, ListEnd, icons, ListStart } from "lucide-react";
+import { MessageCircle, UserPlus, UserSearch, Users, Settings, LogOut, Search, Phone, Video, MoreHorizontal, SmilePlus, Mic, Paperclip, Send, ImagePlus, Save, User, ListEnd, ListStart } from "lucide-react";
 
 import AvatarFallback from "../components/AvatarFallback.tsx";
 import ChangeThemeButton from "../components/ChangeThemeButton.tsx";
@@ -248,7 +248,7 @@ function Friends(
               `}>
                 {
                   searchFriend !== null ? 
-                    searchFriend.requestGets.some((phoneNumber: string) => phoneNumber === user.phoneNumber) ?
+                    searchFriend.requestGets.some((phoneNumber: string) => phoneNumber === user.phoneNumber) || searchFriend.phoneNumber === user.phoneNumber ?
                       (
                         <Friend name={`${searchFriend.firstName} ${searchFriend.lastName}`} newMessage={`${searchFriend.phoneNumber}`} />
                       ) :
@@ -666,8 +666,7 @@ export default function MainPage(): ReactElement {
   const [currentTab, setCurrentTab] = useState(`FRIENDS`);
   const [currentSmallTab, setCurrentSmallTab] = useState(`FRIENDS`);
   const [searchFriendPhoneNumber, setSearchFriendPhoneNumber] = useState(``);
-  const [searchPhoneNumberStatus, setSearchPhoneNumberStatus] = useState<string | null>(``);
-  const [searchFriend, setSearchFriend] = useState(null);
+  const [searchFriend, setSearchFriend] = useState<{phoneNumber: string} | null>(null);
   const { state } = useLocation();
   const navigate = useNavigate();
   const user = state ? state.user.data ? state.user.data : {} : {};
@@ -693,8 +692,27 @@ export default function MainPage(): ReactElement {
     }
   });
 
-  const handleAddFriendRequest = () => {
-    console.log("Clicked add friend request")
+  const handleAddFriendRequest = async () => {
+    if (searchFriend === null)
+      return;
+
+    const response = await UserServices.addFriendRequest(user.phoneNumber, searchFriend!.phoneNumber);
+
+    switch (response.status) {
+      case status.INTERNAL_SERVER_ERROR:
+        alert`Internal Server Error`;
+        break;
+      case status.NO_CONTENT:
+        alert`No content`;
+        break;
+      case status.CONFLICT:
+        alert`Conflict`;
+        break;
+      case status.OK:
+        alert`Add Friend Request Successfully!`;
+        setSearchFriend(null);
+        break;
+    }
   }
 
   const handleChangeSearchFriendPhoneNumber = (e: BaseSyntheticEvent) => {
