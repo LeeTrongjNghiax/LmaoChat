@@ -1,6 +1,6 @@
 import { BaseSyntheticEvent, ChangeEventHandler, MouseEventHandler, ReactElement, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { MessageCircle, UserPlus, Users, Settings, LogOut, Search, Phone, Video, MoreHorizontal, SmilePlus, Mic, Paperclip, Send, ImagePlus, Save, X } from "lucide-react";
+import { MessageCircle, UserPlus, UserSearch, Users, Settings, LogOut, Search, Phone, Video, MoreHorizontal, SmilePlus, Mic, Paperclip, Send, ImagePlus, Save, X, User } from "lucide-react";
 
 import AvatarFallback from "../components/AvatarFallback.tsx";
 import ChangeThemeButton from "../components/ChangeThemeButton.tsx";
@@ -79,7 +79,7 @@ function Sidebar(
 }
 
 function Friends(
-  { direction, backgroundColor, textColor, iconColor, iconSize, currentSmallTab, searchFriendPhoneNumber, searchFriend, handleChangeSearchFriendPhoneNumber, handleSearchFriendPhoneNumber, handleAddFriend, handleOpenChats } :
+  { direction, backgroundColor, textColor, iconColor, iconSize, currentSmallTab, searchFriendPhoneNumber, searchFriend, user, handleAddFriendRequest, handleChangeSearchFriendPhoneNumber, handleSearchFriendPhoneNumber, handleChangeSmallTab, handleOpenChats } :
   {
     direction: number,
     backgroundColor: string,
@@ -89,9 +89,11 @@ function Friends(
     currentSmallTab: string, 
     searchFriendPhoneNumber: string, 
     searchFriend: any, 
+    user: any, 
+    handleAddFriendRequest: () => any, 
     handleChangeSearchFriendPhoneNumber: ChangeEventHandler<HTMLInputElement>, 
     handleSearchFriendPhoneNumber: () => any, 
-    handleAddFriend: MouseEventHandler<HTMLButtonElement>, 
+    handleChangeSmallTab: MouseEventHandler<HTMLButtonElement>, 
     handleOpenChats: MouseEventHandler<HTMLButtonElement>
   } 
 ) {
@@ -113,8 +115,8 @@ function Friends(
 
         <div className={`flex gap-5 ml-auto`}>
           {/* Add Friend */}
-          <button title={`Click to add friend`} className={`ml-auto`} onClick={handleAddFriend}>
-            <UserPlus id={`button_UserPlus`} size={iconSize} color={iconColor} />
+          <button title={`Click to add friend`} className={`ml-auto`} onClick={handleChangeSmallTab}>
+            <UserSearch id={`button_UserPlus`} size={iconSize} color={iconColor} />
             <X id={`button_X`} size={iconSize} color={iconColor} className={`hidden`} />
           </button>
 
@@ -243,13 +245,22 @@ function Friends(
                 flex-1 flex flex-col w-full gap-5 overflow-scroll
               `}>
                 {
-                  searchFriend !== null ?
-                    (
-                      <button title={`Open Conversation`} onClick={handleOpenChats}>
+                  searchFriend !== null ? 
+                    searchFriend.requestGets.some((phoneNumber: string) => phoneNumber === user.phoneNumber) ?
+                      (
                         <Friend name={`${searchFriend.firstName} ${searchFriend.lastName}`} newMessage={`${searchFriend.phoneNumber}`} />
-                      </button>
-                    ) : (
-                      <>No user found</>    
+                      ) :
+                      (
+                        <div className={`flex items-center justify-between`}>
+                          <Friend name={`${searchFriend.firstName} ${searchFriend.lastName}`} newMessage={`${searchFriend.phoneNumber}`} />
+                          
+                          <button title={`Click to add friend request`} onClick={handleAddFriendRequest}>
+                            <UserPlus />
+                          </button>
+                        </div>
+                      ) :
+                    (
+                      <>No user found</>
                     )
                 }
 
@@ -680,6 +691,10 @@ export default function MainPage(): ReactElement {
     }
   });
 
+  const handleAddFriendRequest = () => {
+    console.log("Clicked add friend request")
+  }
+
   const handleChangeSearchFriendPhoneNumber = (e: BaseSyntheticEvent) => {
     setSearchFriendPhoneNumber(e.target.value);
   }
@@ -721,7 +736,7 @@ export default function MainPage(): ReactElement {
     setCurrentTab(`PERSONAL_INFO`);
   }
 
-  const handleAddFriend = () => {
+  const handleChangeSmallTab = () => {
     const button_X: HTMLButtonElement | null = document.querySelector(`#button_X`)!;
     const button_UserPlus: HTMLButtonElement | null = document.querySelector(`#button_UserPlus`)!;
   
@@ -790,9 +805,11 @@ export default function MainPage(): ReactElement {
                 currentSmallTab={currentSmallTab}
                 searchFriendPhoneNumber={searchFriendPhoneNumber}
                 searchFriend={searchFriend}
+                user={user}
+                handleAddFriendRequest={handleAddFriendRequest}
                 handleChangeSearchFriendPhoneNumber={handleChangeSearchFriendPhoneNumber}
                 handleSearchFriendPhoneNumber={handleSearchFriendPhoneNumber}
-                handleAddFriend={handleAddFriend}
+                handleChangeSmallTab={handleChangeSmallTab}
                 handleOpenChats={handleOpenChats}
               />, 
               <Chats
@@ -821,9 +838,11 @@ export default function MainPage(): ReactElement {
               currentSmallTab={currentSmallTab}
               searchFriendPhoneNumber={searchFriendPhoneNumber}
               searchFriend={searchFriend}
+              user={user}
+              handleAddFriendRequest={handleAddFriendRequest}
               handleChangeSearchFriendPhoneNumber={handleChangeSearchFriendPhoneNumber}
               handleSearchFriendPhoneNumber={handleSearchFriendPhoneNumber}
-              handleAddFriend={handleAddFriend}
+              handleChangeSmallTab={handleChangeSmallTab}
               handleOpenChats={handleOpenChats}
             /> :
             currentTab === `CHATS` ?
