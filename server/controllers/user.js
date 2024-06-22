@@ -127,10 +127,39 @@ const updateUser = async (req, res) => {
   }
 }
 
+const addFriendRequest = async (req, res) => {
+  const phoneNumberSend = req.params.phoneNumberSend;
+  const phoneNumberGet = req.params.phoneNumberGet;
+
+  try {
+    const RESULT = await USER_REPOSITORY.addFriendRequest({ phoneNumberSend, phoneNumberGet });
+  
+    let status = STATUS_OK;
+    let message = "Send friend request sucessfully!";
+
+    if (RESULT === undefined) {
+      status = STATUS_NO_CONTENT;
+      message = "User send friend request does not exist";
+    }
+
+    if (RESULT === null) {
+      status = STATUS_NO_CONTENT;
+      message = "User receiver friend request does not exist";
+    }
+
+    sendJsonResponse(res, status, message, RESULT);
+  } catch (error) {
+    console.error("User Controller: Error update user: " + error);
+
+    sendJsonResponse(res, STATUS_INTERNAL_SERVER_ERROR, error, undefined);
+  }
+}
+
 module.exports = {
   getUser, 
   getUsers, 
   addUser, 
   login, 
-  updateUser
+  updateUser, 
+  addFriendRequest
 }

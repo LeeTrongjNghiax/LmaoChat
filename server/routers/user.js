@@ -7,5 +7,6 @@ ROUTER.get("/", USER_CONTROLLER.getUsers);
 ROUTER.post("/", USER_CONTROLLER.addUser);
 ROUTER.post("/login", USER_CONTROLLER.login);
 ROUTER.put("/:phoneNumber", USER_CONTROLLER.updateUser);
+ROUTER.get("/addFriendRequest/:phoneNumberSend/:phoneNumberGet", USER_CONTROLLER.addFriendRequest);
 
 module.exports = ROUTER;

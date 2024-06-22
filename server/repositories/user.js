@@ -52,9 +52,7 @@ const addUser = async ({ phoneNumber, firstName, lastName, password }) => {
 
 const login = async ({ phoneNumber, password }) => {
   try {
-    const FOUND_USER = await USER.findOne(
-      { phoneNumber }
-    ).exec();
+    const FOUND_USER = await USER.findOne( { phoneNumber }).exec();
 
     if (!FOUND_USER)
       return FOUND_USER;
@@ -103,10 +101,32 @@ const updateUser = async ({ phoneNumber, password, email, avatarUrl }) => {
   }
 }
 
+const addFriendRequest = async ({ phoneNumberSend, phoneNumberGet }) => {
+  try {
+    const USER_ADD_FRIEND_REQUEST = await USER.findOne( { phoneNumber: phoneNumberSend }).exec();
+    const USER_RECEIVE_FRIEND_REQUEST = await USER.findOne( { phoneNumber: phoneNumberGet }).exec();
+
+    if (!USER_ADD_FRIEND_REQUEST)
+      return undefined;
+
+    if (!USER_RECEIVE_FRIEND_REQUEST)
+      return null;
+
+    USER_RECEIVE_FRIEND_REQUEST.requestGets.push(phoneNumberSend)
+    USER_RECEIVE_FRIEND_REQUEST.save();
+
+    return USER_RECEIVE_FRIEND_REQUEST;
+  } catch (error) {
+    console.error("User Repository: Error update user: " + error);
+    throw new Error("User Repository: Error update user: " + error);
+  }
+}
+
 module.exports = {
   getUser, 
   getUsers, 
   addUser, 
   login, 
-  updateUser
+  updateUser, 
+  addFriendRequest
 }
