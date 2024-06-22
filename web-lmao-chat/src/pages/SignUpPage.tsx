@@ -98,8 +98,6 @@ export default function SignUpPage(): ReactElement {
 
       const response: SERVER_RESPONSE = await userService.addUser(phoneNumber, firstName, lastName, password);
 
-      console.log(response);
-
       setLoading(`NOT_LOAD`);
 
       switch (response.status) {

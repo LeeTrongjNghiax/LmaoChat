@@ -59,8 +59,8 @@ const addUser = async (req, res) => {
   const { phoneNumber, firstName, lastName, password } = req.body;
 
   try {
-    const FOUND_USER = await USER_REPOSITORY.addUser({ phoneNumber, firstName, lastName, password });
-    
+    const FOUND_USER = await USER_REPOSITORY.addUser({ phoneNumber, firstName, lastName, password }); 
+
     let status = STATUS_CREATED;
     let message = "Add user sucessfully!";
 

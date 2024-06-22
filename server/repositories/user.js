@@ -27,24 +27,23 @@ const addUser = async ({ phoneNumber, firstName, lastName, password }) => {
 
     if (!!FOUND_USER)
       return undefined;
+    
+    const SALT = await bcrypt.genSaltSync(parseInt(process.env.SALT_ROUNDS));
+    const HASH = await bcrypt.hashSync(password, SALT);
 
-    bcrypt.genSalt(parseInt(process.env.SALT_ROUNDS), (err, salt) => {
-      bcrypt.hash(password, salt, async (err, hash) => {
-        const NEW_USER = await USER.create({
-          firstName,
-          lastName,
-          phoneNumber, 
-          email: "", 
-          password: hash,
-          avatarUrl: "",
-          friends: [], 
-          requestSends: [], 
-          requestGets: []
-        });
-
-        return NEW_USER;
-      });
+    const NEW_USER = await USER.create({
+      firstName,
+      lastName,
+      phoneNumber,
+      email: "",
+      password: HASH,
+      avatarUrl: "",
+      friends: [],
+      requestSends: [],
+      requestGets: []
     });
+
+    return NEW_USER;
   } catch (error) {
     console.error("User Repository: Error add user: " + error);
     throw new Error("User Repository: Error add user: " + error);
