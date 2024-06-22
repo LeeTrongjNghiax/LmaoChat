@@ -1,4 +1,4 @@
-import { MouseEventHandler, ReactElement, useEffect, useState } from "react";
+import { BaseSyntheticEvent, ChangeEventHandler, MouseEventHandler, ReactElement, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { MessageCircle, UserPlus, Users, Settings, LogOut, Search, Phone, Video, MoreHorizontal, SmilePlus, Mic, Paperclip, Send, ImagePlus, Save, X } from "lucide-react";
 
@@ -10,6 +10,8 @@ import Message from "../components/Message.tsx";
 import useWindowDimensions from "../hooks/useWindowDimensions.js";
 import GlobalStyles from "../GlobalStyles.js";
 import ExportColor, { GlobalVariables } from "../GlobalVariables.js";
+import UserServices from "../services/UserServices.tsx";
+import SERVER_RESPONSE from "../interfaces/ServerResponse.tsx";
 
 function Sidebar(
   { direction, backgroundColor, textColor, iconColor, iconSize, user, handleOpenFriends, handleOpenSetting, handleLogOut, handleOpenPersonalInfo } :
@@ -77,7 +79,7 @@ function Sidebar(
 }
 
 function Friends(
-  { direction, backgroundColor, textColor, iconColor, iconSize, currentSmallTab, handleAddFriend, handleOpenChats } :
+  { direction, backgroundColor, textColor, iconColor, iconSize, currentSmallTab, searchFriendPhoneNumber, searchFriend, handleChangeSearchFriendPhoneNumber, handleSearchFriendPhoneNumber, handleAddFriend, handleOpenChats } :
   {
     direction: number,
     backgroundColor: string,
@@ -85,6 +87,10 @@ function Friends(
     iconColor: string,
     iconSize: number,
     currentSmallTab: string, 
+    searchFriendPhoneNumber: string, 
+    searchFriend: any, 
+    handleChangeSearchFriendPhoneNumber: ChangeEventHandler<HTMLInputElement>, 
+    handleSearchFriendPhoneNumber: () => any, 
     handleAddFriend: MouseEventHandler<HTMLButtonElement>, 
     handleOpenChats: MouseEventHandler<HTMLButtonElement>
   } 
@@ -211,8 +217,8 @@ function Friends(
                     type={`text`}
                     autoComplete={``}
                     placeholder={`Search Friend`}
-                    // value={password}
-                    // onChange={handleChangePassword}
+                    value={searchFriendPhoneNumber}
+                    onChange={handleChangeSearchFriendPhoneNumber}
                     required
                     className={`
                       transition duration-[500] 
@@ -226,9 +232,27 @@ function Friends(
                   />
                 </div>
 
-                <button title={`Click to search message`}>
+                <button title={`Click to search message`} onClick={handleSearchFriendPhoneNumber}>
                   <Search size={iconSize} color={iconColor} />
                 </button>
+              </div>
+
+
+              {/* Searched Friend */}
+              <div className={`
+                flex-1 flex flex-col w-full gap-5 overflow-scroll
+              `}>
+                {
+                  searchFriend !== null ?
+                    (
+                      <button title={`Open Conversation`} onClick={handleOpenChats}>
+                        <Friend name={`${searchFriend.firstName} ${searchFriend.lastName}`} newMessage={`${searchFriend.phoneNumber}`} />
+                      </button>
+                    ) : (
+                      <>No user found</>    
+                    )
+                }
+
               </div>
             </>
           )
@@ -628,6 +652,9 @@ function PersonalInfor(
 export default function MainPage(): ReactElement {
   const [currentTab, setCurrentTab] = useState(`FRIENDS`);
   const [currentSmallTab, setCurrentSmallTab] = useState(`LIST_FRIENDS`);
+  const [searchFriendPhoneNumber, setSearchFriendPhoneNumber] = useState(``);
+  const [searchPhoneNumberStatus, setSearchPhoneNumberStatus] = useState<string | null>(``);
+  const [searchFriend, setSearchFriend] = useState(null);
   const { state } = useLocation();
   const navigate = useNavigate();
   const user = state ? state.user.data ? state.user.data : {} : {};
@@ -638,6 +665,7 @@ export default function MainPage(): ReactElement {
   } = useWindowDimensions();
   let direction: number;
   const socket = GlobalVariables.socket;
+  const status = GlobalVariables.status;
 
   const {
     backgroundColor,
@@ -650,7 +678,32 @@ export default function MainPage(): ReactElement {
     return () => {
       socket.emit("User Leave", { data: user.phoneNumber });
     }
-  })
+  });
+
+  const handleChangeSearchFriendPhoneNumber = (e: BaseSyntheticEvent) => {
+    setSearchFriendPhoneNumber(e.target.value);
+  }
+
+  const handleSearchFriendPhoneNumber = async () => {
+    setSearchFriend(null);
+
+    if (searchFriendPhoneNumber === ``)
+      return;
+    
+    const respsone: SERVER_RESPONSE = await UserServices.getUser(searchFriendPhoneNumber);
+
+    setSearchFriendPhoneNumber(``);
+
+    switch (respsone.status) {
+      case status.INTERNAL_SERVER_ERROR:
+        break;
+      case status.NO_CONTENT:
+        break;
+      case status.OK:
+        setSearchFriend(respsone.data.data);
+        break;
+    }
+  }
 
   const handleOpenFriends = () => {
     setCurrentTab(`FRIENDS`);
@@ -679,6 +732,7 @@ export default function MainPage(): ReactElement {
     }
     else {
       setCurrentSmallTab(`LIST_FRIENDS`);
+      setSearchFriend(null);
       button_X.style.display = `none`;
       button_UserPlus.style.display = `block`;
     }
@@ -734,6 +788,10 @@ export default function MainPage(): ReactElement {
                 iconColor={iconColor}
                 iconSize={iconSize}
                 currentSmallTab={currentSmallTab}
+                searchFriendPhoneNumber={searchFriendPhoneNumber}
+                searchFriend={searchFriend}
+                handleChangeSearchFriendPhoneNumber={handleChangeSearchFriendPhoneNumber}
+                handleSearchFriendPhoneNumber={handleSearchFriendPhoneNumber}
                 handleAddFriend={handleAddFriend}
                 handleOpenChats={handleOpenChats}
               />, 
@@ -761,6 +819,10 @@ export default function MainPage(): ReactElement {
               iconColor={iconColor}
               iconSize={iconSize}
               currentSmallTab={currentSmallTab}
+              searchFriendPhoneNumber={searchFriendPhoneNumber}
+              searchFriend={searchFriend}
+              handleChangeSearchFriendPhoneNumber={handleChangeSearchFriendPhoneNumber}
+              handleSearchFriendPhoneNumber={handleSearchFriendPhoneNumber}
               handleAddFriend={handleAddFriend}
               handleOpenChats={handleOpenChats}
             /> :
