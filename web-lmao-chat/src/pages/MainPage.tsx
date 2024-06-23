@@ -21,7 +21,7 @@ function Sidebar(
     textColor: string,
     iconColor: string,
     iconSize: number,
-    user: any,
+    user: USER_INTERFACE,
     handleOpenFriends: MouseEventHandler<HTMLButtonElement>, 
     handleOpenSetting: MouseEventHandler<HTMLButtonElement>,
     handleLogOut: MouseEventHandler<HTMLButtonElement>,
@@ -79,30 +79,112 @@ function Sidebar(
 }
 
 function Friends(
-  { direction, backgroundColor, textColor, iconColor, iconSize, currentSmallTab, searchFriendPhoneNumber, searchFriend, user, handleAddFriendRequest, handleChangeSearchFriendPhoneNumber, handleSearchFriendPhoneNumber, handleOpenSmallTabFriends, handleOpenSmallTabSearchFriend, handleOpenSmallTabListRequestSend, handleOpenSmallTabListRequestGet, handleOpenSmallTabCreateGroup, handleOpenChats } :
+  { direction, backgroundColor, textColor, iconColor, iconSize, user,  handleOpenChats } :
   {
     direction: number,
     backgroundColor: string,
     textColor: string,
     iconColor: string,
     iconSize: number,
-    currentSmallTab: string, 
-    searchFriendPhoneNumber: string, 
-    searchFriend: any, 
-    user: any, 
-    handleAddFriendRequest: () => any, 
-    handleChangeSearchFriendPhoneNumber: ChangeEventHandler<HTMLInputElement>, 
-    handleSearchFriendPhoneNumber: () => any, 
-    handleOpenSmallTabFriends: MouseEventHandler<HTMLButtonElement>, 
-    handleOpenSmallTabSearchFriend: MouseEventHandler<HTMLButtonElement>, 
-    handleOpenSmallTabListRequestSend: MouseEventHandler<HTMLButtonElement>, 
-    handleOpenSmallTabListRequestGet: MouseEventHandler<HTMLButtonElement>, 
-    handleOpenSmallTabCreateGroup: MouseEventHandler<HTMLButtonElement>, 
-    handleOpenChats: MouseEventHandler<HTMLButtonElement>
+    user: USER_INTERFACE, 
+    handleOpenChats: MouseEventHandler<HTMLButtonElement>, 
   } 
 ) {
+  const status = GlobalVariables.status;
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [searchFriendPhoneNumber, setSearchFriendPhoneNumber] = useState(``);
+  const [searchFriend, setSearchFriend] = useState<USER_INTERFACE | null>(null);
+  const [friends, getFriends] = useState<USER_INTERFACE[]>([]);
+  const [friendRequestSends, setFriendRequestSends] = useState<USER_INTERFACE[]>([]);
+  const [friendRequestGets, setFriendRequestGets] = useState<USER_INTERFACE[]>([]);
+
+  const handleSetActiveIndex = (i: number) => {
+    setActiveIndex(i);
+  }
+
+  const handleAddFriendRequest = async () => {
+    if (searchFriend === null)
+      return;
+
+    const response = await UserServices.addFriendRequest(user.phoneNumber, searchFriend!.phoneNumber);
+
+    switch (response.status) {
+      case status.INTERNAL_SERVER_ERROR:
+        alert`Internal Server Error`;
+        break;
+      case status.NO_CONTENT:
+        alert`No content`;
+        break;
+      case status.CONFLICT:
+        alert`Conflict`;
+        break;
+      case status.OK:
+        alert`Add Friend Request Successfully!`;
+        setSearchFriend(null);
+        break;
+    }
+  }
+
+  const handleChangeSearchFriendPhoneNumber = (e: BaseSyntheticEvent) => {
+    setSearchFriendPhoneNumber(e.target.value);
+  }
+
+  const handleSearchFriendPhoneNumber = async () => {
+    setSearchFriend(null);
+
+    if (searchFriendPhoneNumber === ``)
+      return;
+    
+    const respsone: SERVER_RESPONSE = await UserServices.getUser(searchFriendPhoneNumber);
+
+    setSearchFriendPhoneNumber(``);
+
+    switch (respsone.status) {
+      case status.INTERNAL_SERVER_ERROR:
+        break;
+      case status.NO_CONTENT:
+        break;
+      case status.OK:
+        setSearchFriend(respsone.data.data);
+        break;
+    }
+  }
+
+  const getFriendRequestSend = async () => {
+    const response: SERVER_RESPONSE = await UserServices.getUser(user.phoneNumber);
+
+    switch (response.status) {
+      case status.INTERNAL_SERVER_ERROR:
+        break;
+      case status.NO_CONTENT:
+        break;
+      case status.OK:
+        let requestSends: USER_INTERFACE[] = [];
+       
+        for (let i = 0; i < response.data.data.requestSends.length; i++) {
+          const userReceiveFriendRequest: SERVER_RESPONSE = await UserServices.getUser(response.data.data.requestSends[i]);
+
+          console.log(userReceiveFriendRequest.data.data);
+          
+          requestSends.push(userReceiveFriendRequest.data.data);
+        }
+
+        setFriendRequestSends(requestSends);
+
+        console.log(requestSends);
+        console.log(friendRequestSends);
+        
+        break;
+    }
+  }
+
+  useEffect(() => {
+    getFriendRequestSend();
+  }, []);
+
   return (
     <div
+      key={friendRequestSends.length}
       className={`
         transition duration-[500]
         rounded-3xl m-1 flex flex-col gap-5 items-center text-sm font-medium leading-6 select-none p-5 overflow-y-scroll min-w-min flex-1 
@@ -116,44 +198,45 @@ function Friends(
       {/* Header */}
       <div className={`flex gap-5 w-full items-center`}>
         <h1 className={`text-3xl`}>
-          { currentSmallTab === `FRIENDS` && `Friends` }
-          { currentSmallTab === `SEARCH_FRIEND` && `Search Friends` }
-          { currentSmallTab === `LIST_REQUEST_SEND` && `Friend Request Sent` }
-          { currentSmallTab === `LIST_REQUEST_GET` && `Friend Request Get` }
-          { currentSmallTab === `CREATE_GROUP` && `Create Group` }
+          { activeIndex === 0 && `Friends` }
+          { activeIndex === 1 && `Search Friends` }
+          { activeIndex === 2 && `Friend Request Sent` }
+          { activeIndex === 3 && `Friend Request Get` }
+          { activeIndex === 4 && `Create Group` }
         </h1>
       </div>
 
       {/* Small tabs icon */}
       <div className={`flex w-full gap-5 item-centers justify-around`}>
         {/* Friends */}
-        <button title={`Click to open list friends`} className={``} onClick={handleOpenSmallTabFriends}>
+        <button title={`Click to open list friends`} className={``} onClick={() => handleSetActiveIndex(0)}>
           <User id={`FRIENDS`} size={iconSize} color={iconColor} />
         </button>
 
         {/* Search Friend */}
-        <button title={`Click to search and add friend`} className={``} onClick={handleOpenSmallTabSearchFriend}>
+        <button title={`Click to search and add friend`} className={``} onClick={() => handleSetActiveIndex(1)}>
           <UserSearch id={`SEARCH_FRIEND`} size={iconSize} color={iconColor} />
         </button>
 
         {/* List request send */}
-        <button title={`Click to view list friend request you had sent`} className={``} onClick={handleOpenSmallTabListRequestSend}>
+        <button title={`Click to view list friend request you had sent`} className={``} onClick={() => handleSetActiveIndex(2)}>
           <ListStart id={`LIST_REQUEST_SEND`} size={iconSize} color={iconColor} />
         </button>
 
         {/* List request get */}
-        <button title={`Click to view list friend request you had get`} className={``} onClick={handleOpenSmallTabListRequestGet}>
+        <button title={`Click to view list friend request you had get`} className={``} onClick={() => handleSetActiveIndex(3)}>
           <ListEnd id={`LIST_REQUEST_GET`} size={iconSize} color={iconColor} />
         </button>
 
         {/* Create Group */}
-        <button title={`Click to create group`} className={``} onClick={handleOpenSmallTabCreateGroup}>
+        <button title={`Click to create group`} className={``} onClick={() => handleSetActiveIndex(4)}>
           <Users id={`CREATE_GROUP`} size={iconSize} color={iconColor} />
         </button>
       </div>
 
+      {/* FRIENDS */}
       {
-        currentSmallTab === `FRIENDS` && (
+        activeIndex === 0 && (
           <>
             {/* Search Chats */}
             <div className={`
@@ -194,80 +277,121 @@ function Friends(
               flex-1 flex flex-col w-full gap-5 overflow-scroll
             `}>
 
-              {/* Friend 1 */}
-              <button title={`Open Conversation`} onClick={handleOpenChats}>
+              {/* <button title={`Open Conversation`} onClick={handleOpenChats}>
                 <Friend name={`Lmao Lmao`} newMessage={``} />
-              </button>
+              </button> */}
+
+            {/* {
+              friendRequestSends.map((e, i) => (
+                <button key={i} title={`Open Conversation`} onClick={handleOpenChats}>
+                  <Friend name={`${e.firstName} ${e.lastName}`} newMessage={``} />
+                </button>
+              ))
+            } */}
 
             </div>
           </>
         )
       }
 
+      {/* SEARCH FRIEND */}
       {
-          currentSmallTab === `SEARCH_FRIEND` && (
-            <>
-              {/* Search Friend */}
+        activeIndex === 1 && (
+          <>
+            {/* Search Friend */}
+            <div className={`
+              ${direction === 0 ? `w-full` : `w-full`}
+              flex gap-5
+            `}>
               <div className={`
-                ${direction === 0 ? `w-full` : `w-full`}
-                flex gap-5
+                ${direction === 0 ? `` : `w-full`}
+                flex flex-1 p-1.5 rounded-md ring-1 ring-gray-300 gap-1.5
               `}>
-                <div className={`
-                  ${direction === 0 ? `` : `w-full`}
-                  flex flex-1 p-1.5 rounded-md ring-1 ring-gray-300 gap-1.5
-                `}>
-                  <input
-                    name={`searchFriend`}
-                    type={`text`}
-                    autoComplete={``}
-                    placeholder={`Search Friend by Phone Number`}
-                    value={searchFriendPhoneNumber}
-                    onChange={handleChangeSearchFriendPhoneNumber}
-                    required
-                    className={`
-                      transition duration-[500] 
-                      placeholder:text-gray-400
-                      w-full sm:text-sm select-none focus:outline-none
-                    `}
-                    style={{
-                      background: backgroundColor, 
-                      color: textColor
-                    }}
-                  />
-                </div>
-
-                <button title={`Click to search message`} onClick={handleSearchFriendPhoneNumber}>
-                  <Search size={iconSize} color={iconColor} />
-                </button>
+                <input
+                  name={`searchFriend`}
+                  type={`text`}
+                  autoComplete={``}
+                  placeholder={`Search Friend by Phone Number`}
+                  value={searchFriendPhoneNumber}
+                  onChange={handleChangeSearchFriendPhoneNumber}
+                  required
+                  className={`
+                    transition duration-[500] 
+                    placeholder:text-gray-400
+                    w-full sm:text-sm select-none focus:outline-none
+                  `}
+                  style={{
+                    background: backgroundColor, 
+                    color: textColor
+                  }}
+                />
               </div>
 
+              <button title={`Click to search message`} onClick={handleSearchFriendPhoneNumber}>
+                <Search size={iconSize} color={iconColor} />
+              </button>
+            </div>
 
-              {/* Searched Friend */}
-              <div className={`
-                flex-1 flex flex-col w-full gap-5 overflow-scroll
-              `}>
-                {
-                  searchFriend !== null ? 
-                    searchFriend.requestGets.some((phoneNumber: string) => phoneNumber === user.phoneNumber) || searchFriend.phoneNumber === user.phoneNumber ?
-                      (
-                        <Friend name={`${searchFriend.firstName} ${searchFriend.lastName}`} newMessage={`${searchFriend.phoneNumber}`} />
-                      ) :
-                      (
-                        <div className={`flex items-center justify-between`}>
-                          <Friend name={`${searchFriend.firstName} ${searchFriend.lastName}`} newMessage={`${searchFriend.phoneNumber}`} />
-                          
-                          <button title={`Click to add friend request`} onClick={handleAddFriendRequest}>
-                            <UserPlus />
-                          </button>
-                        </div>
-                      ) :
+
+            {/* Searched Friend */}
+            <div className={`
+              flex-1 flex flex-col w-full gap-5 overflow-scroll
+            `}>
+              {
+                searchFriend !== null ? 
+                  searchFriend.requestGets.some((phoneNumber: string) => phoneNumber === user.phoneNumber) || searchFriend.phoneNumber === user.phoneNumber ?
                     (
-                      <>No user found</>
-                    )
-                }
+                      <Friend name={`${searchFriend.firstName} ${searchFriend.lastName}`} newMessage={`${searchFriend.phoneNumber}`} />
+                    ) :
+                    (
+                      <div className={`flex items-center justify-between`}>
+                        <Friend name={`${searchFriend.firstName} ${searchFriend.lastName}`} newMessage={`${searchFriend.phoneNumber}`} />
+                        
+                        <button title={`Click to add friend request`} onClick={handleAddFriendRequest}>
+                          <UserPlus />
+                        </button>
+                      </div>
+                    ) :
+                  (
+                    <>No user found</>
+                  )
+              }
 
-              </div>
+            </div>
           </>
+        )
+      }
+
+      {/* LIST REQUEST SEND */}
+      {
+        activeIndex === 2 && (
+          <div className={`
+            flex-1 flex flex-col w-full gap-5 overflow-scroll
+          `}>
+
+            {
+              friendRequestSends.map((e, i) => (
+                <button key={i} title={`Open Conversation`} onClick={handleOpenChats}>
+                  <Friend name={`${e.firstName} ${e.lastName}`} newMessage={``} />
+                </button>
+              ))
+            }
+
+          </div>
+        )
+      }
+
+      {/* LIST REQUEST GET */}
+      {
+        activeIndex === 3 && (
+          <></>
+        )
+      }
+
+      {/* CREATE GROUP */}
+      {
+        activeIndex === 4 && (
+          <></>
         )
       }
 
@@ -406,7 +530,7 @@ function PersonalInfor(
     textColor: string,
     iconColor: string,
     iconSize: number,
-    user: any
+    user: USER_INTERFACE
   }
 
 ) {
@@ -662,11 +786,16 @@ function PersonalInfor(
   );
 }
 
+interface USER_INTERFACE {
+  phoneNumber: string, 
+  firstName: string, 
+  lastName: string, 
+  requestSends: string[], 
+  requestGets: string[]
+}
+
 export default function MainPage(): ReactElement {
   const [currentTab, setCurrentTab] = useState(`FRIENDS`);
-  const [currentSmallTab, setCurrentSmallTab] = useState(`FRIENDS`);
-  const [searchFriendPhoneNumber, setSearchFriendPhoneNumber] = useState(``);
-  const [searchFriend, setSearchFriend] = useState<{phoneNumber: string} | null>(null);
   const { state } = useLocation();
   const navigate = useNavigate();
   const user = state ? state.user.data ? state.user.data : {} : {};
@@ -692,53 +821,6 @@ export default function MainPage(): ReactElement {
     }
   });
 
-  const handleAddFriendRequest = async () => {
-    if (searchFriend === null)
-      return;
-
-    const response = await UserServices.addFriendRequest(user.phoneNumber, searchFriend!.phoneNumber);
-
-    switch (response.status) {
-      case status.INTERNAL_SERVER_ERROR:
-        alert`Internal Server Error`;
-        break;
-      case status.NO_CONTENT:
-        alert`No content`;
-        break;
-      case status.CONFLICT:
-        alert`Conflict`;
-        break;
-      case status.OK:
-        alert`Add Friend Request Successfully!`;
-        setSearchFriend(null);
-        break;
-    }
-  }
-
-  const handleChangeSearchFriendPhoneNumber = (e: BaseSyntheticEvent) => {
-    setSearchFriendPhoneNumber(e.target.value);
-  }
-
-  const handleSearchFriendPhoneNumber = async () => {
-    setSearchFriend(null);
-
-    if (searchFriendPhoneNumber === ``)
-      return;
-    
-    const respsone: SERVER_RESPONSE = await UserServices.getUser(searchFriendPhoneNumber);
-
-    setSearchFriendPhoneNumber(``);
-
-    switch (respsone.status) {
-      case status.INTERNAL_SERVER_ERROR:
-        break;
-      case status.NO_CONTENT:
-        break;
-      case status.OK:
-        setSearchFriend(respsone.data.data);
-        break;
-    }
-  }
 
   const handleOpenFriends = () => {
     setCurrentTab(`FRIENDS`);
@@ -756,30 +838,6 @@ export default function MainPage(): ReactElement {
     setCurrentTab(`PERSONAL_INFO`);
   }
 
-  const handleOpenSmallTabFriends = () => {
-    setSearchFriend(null);
-    setCurrentSmallTab(`FRIENDS`);
-  }
-
-  const handleOpenSmallTabSearchFriend = () => {
-    setSearchFriend(null);
-    setCurrentSmallTab(`SEARCH_FRIEND`);
-  }
-
-  const handleOpenSmallTabListRequestSend = () => {
-    setSearchFriend(null);
-    setCurrentSmallTab(`LIST_REQUEST_SEND`);
-  }
-
-  const handleOpenSmallTabListRequestGet = () => {
-    setSearchFriend(null);
-    setCurrentSmallTab(`LIST_REQUEST_GET`);
-  }
-
-  const handleOpenSmallTabCreateGroup = () => {
-    setSearchFriend(null);
-    setCurrentSmallTab(`CREATE_GROUP`);
-  }
 
   const handleLogOut = () => {
     if (window.confirm(`Are you sure you want to log out?`))
@@ -830,18 +888,7 @@ export default function MainPage(): ReactElement {
                 textColor={textColor}
                 iconColor={iconColor}
                 iconSize={iconSize}
-                currentSmallTab={currentSmallTab}
-                searchFriendPhoneNumber={searchFriendPhoneNumber}
-                searchFriend={searchFriend}
                 user={user}
-                handleAddFriendRequest={handleAddFriendRequest}
-                handleChangeSearchFriendPhoneNumber={handleChangeSearchFriendPhoneNumber}
-                handleSearchFriendPhoneNumber={handleSearchFriendPhoneNumber}
-                handleOpenSmallTabFriends={handleOpenSmallTabFriends}
-                handleOpenSmallTabSearchFriend={handleOpenSmallTabSearchFriend}
-                handleOpenSmallTabListRequestSend={handleOpenSmallTabListRequestSend}
-                handleOpenSmallTabListRequestGet={handleOpenSmallTabListRequestGet}
-                handleOpenSmallTabCreateGroup={handleOpenSmallTabCreateGroup}
                 handleOpenChats={handleOpenChats}
               />, 
               <Chats
@@ -867,18 +914,7 @@ export default function MainPage(): ReactElement {
               textColor={textColor}
               iconColor={iconColor}
               iconSize={iconSize}
-              currentSmallTab={currentSmallTab}
-              searchFriendPhoneNumber={searchFriendPhoneNumber}
-              searchFriend={searchFriend}
               user={user}
-              handleAddFriendRequest={handleAddFriendRequest}
-              handleChangeSearchFriendPhoneNumber={handleChangeSearchFriendPhoneNumber}
-              handleSearchFriendPhoneNumber={handleSearchFriendPhoneNumber}
-              handleOpenSmallTabFriends={handleOpenSmallTabFriends}
-              handleOpenSmallTabSearchFriend={handleOpenSmallTabSearchFriend}
-              handleOpenSmallTabListRequestSend={handleOpenSmallTabListRequestSend}
-              handleOpenSmallTabListRequestGet={handleOpenSmallTabListRequestGet}
-              handleOpenSmallTabCreateGroup={handleOpenSmallTabCreateGroup}
               handleOpenChats={handleOpenChats}
             /> :
             currentTab === `CHATS` ?
