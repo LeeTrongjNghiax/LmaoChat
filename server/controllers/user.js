@@ -155,11 +155,40 @@ const addFriendRequest = async (req, res) => {
   }
 }
 
+const removeFriendRequest = async (req, res) => {
+  const phoneNumberSend = req.params.phoneNumberSend;
+  const phoneNumberGet = req.params.phoneNumberGet;
+
+  try {
+    const RESULT = await USER_REPOSITORY.removeFriendRequest({ phoneNumberSend, phoneNumberGet });
+  
+    let status = STATUS_OK;
+    let message = "Remove friend request sucessfully!";
+
+    if (RESULT === undefined) {
+      status = STATUS_NO_CONTENT;
+      message = "User send friend request or user get friend request does not exist";
+    }
+
+    if (RESULT === null) {
+      status = STATUS_CONFLICT;
+      message = "User receive friend request do not have friend request from user send friend request";
+    }
+
+    sendJsonResponse(res, status, message, RESULT);
+  } catch (error) {
+    console.error("User Controller: Error remove friend request: " + error);
+
+    sendJsonResponse(res, STATUS_INTERNAL_SERVER_ERROR, error, undefined);
+  }
+}
+
 module.exports = {
   getUser, 
   getUsers, 
   addUser, 
   login, 
   updateUser, 
-  addFriendRequest
+  addFriendRequest, 
+  removeFriendRequest
 }

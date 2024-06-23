@@ -153,13 +153,34 @@ const addFriendRequest = async (phoneNumberSend: string, phoneNumberGet: string)
     return sendErrorMessage(result);
   }
 };
+
+const removeFriendRequest = async (phoneNumberSend: string, phoneNumberGet: string) => {
+  try {
+    const response = await axios.get(
+      `${api_host}/api/users/removeFriendRequest/${phoneNumberSend}/${phoneNumberGet}`
+    );
+
+    return {
+      status: response.status, 
+      data: response.data
+    }
+  } catch (error) {
+    const result: string = getError(error)!;
+
+    console.error(`User Service: Remove friend request error: ${result}`);
+
+    return sendErrorMessage(result);
+  }
+};
+
 const UserServices = {
   getUser, 
   getUsers, 
   addUser, 
   login, 
   updateUser, 
-  addFriendRequest
+  addFriendRequest, 
+  removeFriendRequest
 }
 
 export default UserServices;

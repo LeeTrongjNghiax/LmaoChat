@@ -134,11 +134,43 @@ const addFriendRequest = async ({ phoneNumberSend, phoneNumberGet }) => {
   }
 }
 
+const removeFriendRequest = async ({ phoneNumberSend, phoneNumberGet }) => {
+  try {
+    if (phoneNumberSend === phoneNumberGet)
+      return null;
+
+    const USER_ADD_FRIEND_REQUEST = await USER.findOne( { phoneNumber: phoneNumberSend }).exec();
+    const USER_RECEIVE_FRIEND_REQUEST = await USER.findOne( { phoneNumber: phoneNumberGet }).exec();
+
+    if (!USER_ADD_FRIEND_REQUEST)
+      return undefined;
+
+    if (!USER_RECEIVE_FRIEND_REQUEST)
+      return undefined;
+
+    if (!USER_ADD_FRIEND_REQUEST.requestSends.includes(phoneNumberGet))
+      return null;
+
+    if (!USER_RECEIVE_FRIEND_REQUEST.requestGets.includes(phoneNumberSend))
+      return null;
+
+    USER_ADD_FRIEND_REQUEST.requestSends = USER_ADD_FRIEND_REQUEST.requestSends.filter(phoneNumber => phoneNumber !== phoneNumberGet);
+    USER_ADD_FRIEND_REQUEST.save();
+
+    USER_RECEIVE_FRIEND_REQUEST.requestGets = USER_RECEIVE_FRIEND_REQUEST.requestGets.filter(phoneNumber => phoneNumber !== phoneNumberSend); USER_RECEIVE_FRIEND_REQUEST.save();
+
+    return USER_RECEIVE_FRIEND_REQUEST;
+  } catch (error) {
+    console.error("User Repository: Error remove friend request: " + error);
+    throw new Error("User Repository: Error remove friend request: " + error);
+  }
+}
 module.exports = {
   getUser, 
   getUsers, 
   addUser, 
   login, 
   updateUser, 
-  addFriendRequest
+  addFriendRequest, 
+  removeFriendRequest
 }

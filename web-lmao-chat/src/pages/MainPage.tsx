@@ -1,6 +1,6 @@
 import { BaseSyntheticEvent, ChangeEventHandler, MouseEventHandler, ReactElement, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { MessageCircle, UserPlus, UserSearch, Users, Settings, LogOut, Search, Phone, Video, MoreHorizontal, SmilePlus, Mic, Paperclip, Send, ImagePlus, Save, User, ListEnd, ListStart } from "lucide-react";
+import { MessageCircle, UserPlus, UserSearch, Users, Settings, LogOut, Search, Phone, Video, MoreHorizontal, SmilePlus, Mic, Paperclip, Send, ImagePlus, Save, User, ListEnd, ListStart, Check, X } from "lucide-react";
 
 import AvatarFallback from "../components/AvatarFallback.tsx";
 import ChangeThemeButton from "../components/ChangeThemeButton.tsx";
@@ -123,6 +123,30 @@ function Friends(
         setSearchFriend(null);
         break;
     }
+
+    getFriendRequestSend();
+  }
+
+  const handleRemoveFriendRequest = async (phoneNumber: string) => {
+    const response = await UserServices.removeFriendRequest(user.phoneNumber, phoneNumber);
+
+    switch (response.status) {
+      case status.INTERNAL_SERVER_ERROR:
+        alert`Internal Server Error`;
+        break;
+      case status.NO_CONTENT:
+        alert`No content`;
+        break;
+      case status.CONFLICT:
+        alert`Conflict`;
+        break;
+      case status.OK:
+        alert`Remove Friend Request Successfully!`;
+
+        break;
+    }
+
+    getFriendRequestSend();
   }
 
   const handleChangeSearchFriendPhoneNumber = (e: BaseSyntheticEvent) => {
@@ -164,16 +188,10 @@ function Friends(
         for (let i = 0; i < response.data.data.requestSends.length; i++) {
           const userReceiveFriendRequest: SERVER_RESPONSE = await UserServices.getUser(response.data.data.requestSends[i]);
 
-          console.log(userReceiveFriendRequest.data.data);
-          
           requestSends.push(userReceiveFriendRequest.data.data);
         }
 
         setFriendRequestSends(requestSends);
-
-        console.log(requestSends);
-        console.log(friendRequestSends);
-        
         break;
     }
   }
@@ -371,9 +389,13 @@ function Friends(
 
             {
               friendRequestSends.map((e, i) => (
-                <button key={i} title={`Open Conversation`} onClick={handleOpenChats}>
+                <div key={i} className={`flex items-center justify-between`}>
                   <Friend name={`${e.firstName} ${e.lastName}`} newMessage={``} />
-                </button>
+
+                  <button title={`Click to remove friend request`} onClick={()=> handleRemoveFriendRequest(e.phoneNumber)}>
+                    <X color={iconColor} size={iconSize} /> 
+                  </button>
+                </div>
               ))
             }
 
