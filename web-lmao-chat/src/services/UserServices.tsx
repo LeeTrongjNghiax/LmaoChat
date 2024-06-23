@@ -173,6 +173,24 @@ const removeFriendRequest = async (phoneNumberSend: string, phoneNumberGet: stri
   }
 };
 
+const acceptFriend = async (phoneNumberSend: string, phoneNumberGet: string) => {
+  try {
+    const response = await axios.get(
+      `${api_host}/api/users/acceptFriend/${phoneNumberSend}/${phoneNumberGet}`
+    );
+
+    return {
+      status: response.status, 
+      data: response.data
+    }
+  } catch (error) {
+    const result: string = getError(error)!;
+
+    console.error(`User Service: Accept friend error: ${result}`);
+
+    return sendErrorMessage(result);
+  }
+};
 const UserServices = {
   getUser, 
   getUsers, 
@@ -180,7 +198,8 @@ const UserServices = {
   login, 
   updateUser, 
   addFriendRequest, 
-  removeFriendRequest
+  removeFriendRequest, 
+  acceptFriend
 }
 
 export default UserServices;

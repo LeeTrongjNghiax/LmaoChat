@@ -1,4 +1,4 @@
-import { BaseSyntheticEvent, ChangeEventHandler, MouseEventHandler, ReactElement, useEffect, useState } from "react";
+import { BaseSyntheticEvent, MouseEventHandler, ReactElement, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { MessageCircle, UserPlus, UserSearch, Users, Settings, LogOut, Search, Phone, Video, MoreHorizontal, SmilePlus, Mic, Paperclip, Send, ImagePlus, Save, User, ListEnd, ListStart, Check, X } from "lucide-react";
 
@@ -94,12 +94,17 @@ function Friends(
   const [activeIndex, setActiveIndex] = useState(0);
   const [searchFriendPhoneNumber, setSearchFriendPhoneNumber] = useState(``);
   const [searchFriend, setSearchFriend] = useState<USER_INTERFACE | null>(null);
-  const [friends, getFriends] = useState<USER_INTERFACE[]>([]);
+  const [friends, setFriends] = useState<USER_INTERFACE[]>([]);
   const [friendRequestSends, setFriendRequestSends] = useState<USER_INTERFACE[]>([]);
   const [friendRequestGets, setFriendRequestGets] = useState<USER_INTERFACE[]>([]);
+  const socket = GlobalVariables.socket;
 
   const handleSetActiveIndex = (i: number) => {
     setActiveIndex(i);
+  }
+
+  const handleChangeSearchFriendPhoneNumber = (e: BaseSyntheticEvent) => {
+    setSearchFriendPhoneNumber(e.target.value);
   }
 
   const handleAddFriendRequest = async () => {
@@ -124,7 +129,7 @@ function Friends(
         break;
     }
 
-    getFriendRequestSend();
+    socket.emit(`User get updated user`, { data: user.phoneNumber });
   }
 
   const handleRemoveFriendRequest = async (phoneNumber: string) => {
@@ -146,11 +151,31 @@ function Friends(
         break;
     }
 
-    getFriendRequestSend();
+    socket.emit(`User get updated user`, { data: user.phoneNumber });
   }
 
-  const handleChangeSearchFriendPhoneNumber = (e: BaseSyntheticEvent) => {
-    setSearchFriendPhoneNumber(e.target.value);
+  const phoneNumbersToUsers = async (arr: string[]) => {
+    let result: USER_INTERFACE[] = [];
+    
+    for (let i = 0; i < arr.length; i++) {
+      const response: SERVER_RESPONSE = await UserServices.getUser(arr[i]);
+
+      result.push(response.data.data);
+    }
+
+    return result;
+  }
+
+  const phoneNumbersToFriends = async (arr: [{ phoneNumber: string }]) => {
+    let result: USER_INTERFACE[] = [];
+    
+    for (let i = 0; i < arr.length; i++) {
+      const response: SERVER_RESPONSE = await UserServices.getUser(arr[i].phoneNumber);
+
+      result.push(response.data.data);
+    }
+
+    return result;
   }
 
   const handleSearchFriendPhoneNumber = async () => {
@@ -174,31 +199,67 @@ function Friends(
     }
   }
 
-  const getFriendRequestSend = async () => {
-    const response: SERVER_RESPONSE = await UserServices.getUser(user.phoneNumber);
+  const handleAcceptFriend = async (phoneNumber: string) => {
+    if (phoneNumber === null)
+      return;
+
+    const response = await UserServices.acceptFriend(phoneNumber, user.phoneNumber);
 
     switch (response.status) {
       case status.INTERNAL_SERVER_ERROR:
+        alert`Internal Server Error`;
         break;
       case status.NO_CONTENT:
+        alert`No content`;
+        break;
+      case status.CONFLICT:
+        alert`Conflict`;
         break;
       case status.OK:
-        let requestSends: USER_INTERFACE[] = [];
-       
-        for (let i = 0; i < response.data.data.requestSends.length; i++) {
-          const userReceiveFriendRequest: SERVER_RESPONSE = await UserServices.getUser(response.data.data.requestSends[i]);
-
-          requestSends.push(userReceiveFriendRequest.data.data);
-        }
-
-        setFriendRequestSends(requestSends);
+        alert`Accept Friend Request Successfully!`;
+        setSearchFriend(null);
         break;
     }
+
+    socket.emit(`User get updated user`, { data: user.phoneNumber });
+  }
+
+  const handleRemoveFriend = async (phoneNumber: string) => {
+    const response = await UserServices.removeFriendRequest(phoneNumber, user.phoneNumber);
+
+    switch (response.status) {
+      case status.INTERNAL_SERVER_ERROR:
+        alert`Internal Server Error`;
+        break;
+      case status.NO_CONTENT:
+        alert`No content`;
+        break;
+      case status.CONFLICT:
+        alert`Conflict`;
+        break;
+      case status.OK:
+        alert`Remove Friend Successfully!`;
+
+        break;
+    }
+
+    socket.emit(`User get updated user`, { data: user.phoneNumber });
   }
 
   useEffect(() => {
-    getFriendRequestSend();
-  }, []);
+    socket.emit(`User get updated user`, { data: user.phoneNumber });
+
+    socket.on(`Server: User get updated user`, async data => {
+      let requestSends = await phoneNumbersToUsers(data.requestSends);
+      setFriendRequestSends(requestSends);
+
+      let requestGets = await phoneNumbersToUsers(data.requestGets);
+      setFriendRequestGets(requestGets);
+
+      let listFriends = await phoneNumbersToFriends(data.friends);
+      setFriends(listFriends);
+    });
+  }, [socket]);
 
   return (
     <div
@@ -295,17 +356,15 @@ function Friends(
               flex-1 flex flex-col w-full gap-5 overflow-scroll
             `}>
 
-              {/* <button title={`Open Conversation`} onClick={handleOpenChats}>
-                <Friend name={`Lmao Lmao`} newMessage={``} />
-              </button> */}
-
-            {/* {
-              friendRequestSends.map((e, i) => (
-                <button key={i} title={`Open Conversation`} onClick={handleOpenChats}>
-                  <Friend name={`${e.firstName} ${e.lastName}`} newMessage={``} />
-                </button>
-              ))
-            } */}
+            {
+                friends.map((e, i) => {
+                  return (
+                    <button key={i} title={`Open Conversation`} onClick={handleOpenChats}>
+                      <Friend name={`${e.firstName} ${e.lastName}`} newMessage={``} />
+                    </button>
+                  )
+                })
+            }
 
             </div>
           </>
@@ -406,7 +465,29 @@ function Friends(
       {/* LIST REQUEST GET */}
       {
         activeIndex === 3 && (
-          <></>
+          <div className={`
+            flex-1 flex flex-col w-full gap-5 overflow-scroll
+          `}>
+
+            {
+              friendRequestGets.map((e, i) => (
+                <div key={i} className={`flex items-center justify-between`}>
+                  <Friend name={`${e.firstName} ${e.lastName}`} newMessage={``} />
+
+                  <div className={`flex items-center gap-5`}>
+                    <button title={`Click to remove friend request`} onClick={()=> handleAcceptFriend(e.phoneNumber)}>
+                      <Check color={iconColor} size={iconSize} /> 
+                    </button>
+
+                    <button title={`Click to remove friend request`} onClick={()=> handleRemoveFriend(e.phoneNumber)}>
+                      <X color={iconColor} size={iconSize} /> 
+                    </button>
+                  </div>
+                </div>
+              ))
+            }
+
+          </div>
         )
       }
 
@@ -828,7 +909,6 @@ export default function MainPage(): ReactElement {
   } = useWindowDimensions();
   let direction: number;
   const socket = GlobalVariables.socket;
-  const status = GlobalVariables.status;
 
   const {
     backgroundColor,

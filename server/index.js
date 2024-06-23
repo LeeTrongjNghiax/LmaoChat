@@ -43,6 +43,13 @@ io.on("connection", socket => {
     users.push(USER);
   });
 
+  socket.on("User get updated user", async ({ data }) => {
+    console.log(`Socket: User get updated user`);
+
+    const USER = await USER_REPOSITORY.getUser({ phoneNumber: data });
+    socket.emit("Server: User get updated user", USER);
+  });
+
   socket.on("User Leave", async ({ data }) => {
     const REMOVED_INDEX = users.map(user => user.phoneNumber).indexOf(data);
     ~REMOVED_INDEX && users.splice(REMOVED_INDEX, 1);
