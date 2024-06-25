@@ -52,6 +52,11 @@ io.on("connection", socket => {
     });
   });
 
+  socket.on(`Send message`, msg => {
+    console.log(`Socket: send message`);
+    console.log(msg);
+  });
+
   socket.on("User Leave", async (phoneNumber) => {
     const REMOVED_INDEX = users.map(user => user.phoneNumber).indexOf(phoneNumber);
     ~REMOVED_INDEX && users.splice(REMOVED_INDEX, 1);

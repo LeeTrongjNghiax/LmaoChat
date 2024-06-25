@@ -88,7 +88,7 @@ function Friends(
     iconColor: string,
     iconSize: number,
     user: USER_INTERFACE, 
-    handleOpenChats: MouseEventHandler<HTMLButtonElement>, 
+    handleOpenChats: (friend: USER_INTERFACE) => any, 
   } 
 ) {
   const status = GlobalVariables.status;
@@ -281,6 +281,14 @@ function Friends(
           let listFriends = await phoneNumbersToFriends(response.data.data.friends);
           setFriends(listFriends);
 
+          for (let i = 0; i < response.data.data.friends.length; i++) {
+            console.log(`Create Room ${response.data.data.friends[i].relationshipId}`);
+
+            socket.on(`Get message from ${response.data.data.friends[i].relationshipId}`, msg => {
+              console.log(`Message`);
+            }); 
+          }
+
           setSearchFriend(null);
           break;
       }
@@ -392,7 +400,7 @@ function Friends(
 
             {
               friends.map((e, i) => (
-                <button key={i} title={`Open Conversation`} onClick={handleOpenChats}>
+                <button key={i} title={`Open Conversation`} onClick={() => handleOpenChats(e)}>
                   <Friend name={`${e.firstName} ${e.lastName}`} newMessage={``} />
                 </button>
               ))
@@ -537,12 +545,14 @@ function Friends(
 }
 
 function Chats(
-  { backgroundColor, textColor, iconColor, iconSize } :
+  { backgroundColor, textColor, iconColor, iconSize, user, currentFriend } :
   {
     backgroundColor: string,
     textColor: string,
     iconColor: string,
-    iconSize: number
+    iconSize: number, 
+    user: USER_INTERFACE, 
+    currentFriend: USER_INTERFACE | null
   }
 ) {
   return (
@@ -563,7 +573,7 @@ function Chats(
 
         <div className={`flex flex-col`}>
           {/* Name */}
-          <p className={`font-bold text-xl`}>Lmao Lmao</p>
+          <p className={`font-bold text-xl`}>{currentFriend?.firstName + ` ` + currentFriend?.lastName}</p>
 
           {/* New Message */}
           <p>Hey</p>
@@ -939,6 +949,7 @@ interface FRIEND {
 
 export default function MainPage(): ReactElement {
   const [currentTab, setCurrentTab] = useState(`FRIENDS`);
+  const [currentFriend, setCurrentFriend] = useState<USER_INTERFACE | null>(null);
   const { state } = useLocation();
   const navigate = useNavigate();
   const user = state ? state.user.data ? state.user.data : {} : {};
@@ -969,7 +980,8 @@ export default function MainPage(): ReactElement {
     setCurrentTab(`FRIENDS`);
   }
 
-  const handleOpenChats = () => {
+  const handleOpenChats = (friend: USER_INTERFACE) => {
+    setCurrentFriend(friend);
     setCurrentTab(`CHATS`);
   }
 
@@ -991,6 +1003,47 @@ export default function MainPage(): ReactElement {
   else
     direction = 1;
 
+  const sideBarTab = <Sidebar
+    direction={direction}
+    backgroundColor={backgroundColor}
+    textColor={textColor}
+    iconColor={iconColor}
+    iconSize={iconSize}
+    user={user}
+    handleOpenFriends={handleOpenFriends}
+    handleLogOut={handleLogOut}
+    handleOpenSetting={handleOpenSetting} handleOpenPersonalInfo={handleOpenPersonalInfo}
+  />
+
+  const friendsTab = <Friends
+    key={`Friends`}
+    direction={direction}
+    backgroundColor={backgroundColor}
+    textColor={textColor}
+    iconColor={iconColor}
+    iconSize={iconSize}
+    user={user}
+    handleOpenChats={handleOpenChats}
+  />
+
+  const chatTabs = <Chats
+    key={`Chats`}
+    backgroundColor={backgroundColor}
+    textColor={textColor}
+    iconColor={iconColor}
+    iconSize={iconSize}
+    user={user}
+    currentFriend={currentFriend}
+  />
+
+  const personalInfoTab = <PersonalInfor
+    backgroundColor={backgroundColor}
+    textColor={textColor}
+    iconColor={iconColor}
+    iconSize={iconSize}
+    user={user}
+  />
+
   return (
     <div
       className={`
@@ -1006,73 +1059,19 @@ export default function MainPage(): ReactElement {
         background: chatBackgroundColor
       }}
     >
-
-      <Sidebar
-        direction={direction}
-        backgroundColor={backgroundColor}
-        textColor={textColor}
-        iconColor={iconColor}
-        iconSize={iconSize}
-        user={user}
-        handleOpenFriends={handleOpenFriends}
-        handleLogOut={handleLogOut}
-        handleOpenSetting={handleOpenSetting} handleOpenPersonalInfo={handleOpenPersonalInfo}
-      />
+      {sideBarTab}
 
       {
         direction === 0 ?
+
           currentTab === `CHATS` || currentTab === 'FRIENDS' ?
-            ([
-              <Friends
-                key={`Friends`}
-                direction={direction}
-                backgroundColor={backgroundColor}
-                textColor={textColor}
-                iconColor={iconColor}
-                iconSize={iconSize}
-                user={user}
-                handleOpenChats={handleOpenChats}
-              />, 
-              <Chats
-                key={`Chats`}
-                backgroundColor={backgroundColor}
-                textColor={textColor}
-                iconColor={iconColor}
-                iconSize={iconSize}
-              />
-            ]) :
-            <PersonalInfor
-              backgroundColor={backgroundColor}
-              textColor={textColor}
-              iconColor={iconColor}
-              iconSize={iconSize}
-              user={user}
-            />
-          : 
+            ([friendsTab, chatTabs]) :
+            personalInfoTab : 
+          
           currentTab === `FRIENDS` ?
-            <Friends
-              direction={direction}
-              backgroundColor={backgroundColor}
-              textColor={textColor}
-              iconColor={iconColor}
-              iconSize={iconSize}
-              user={user}
-              handleOpenChats={handleOpenChats}
-            /> :
+            friendsTab :
             currentTab === `CHATS` ?
-              <Chats
-                backgroundColor={backgroundColor}
-                textColor={textColor}
-                iconColor={iconColor}
-                iconSize={iconSize}
-              /> :
-              <PersonalInfor
-                backgroundColor={backgroundColor}
-                textColor={textColor}
-                iconColor={iconColor}
-                iconSize={iconSize}
-                user={user}
-              />
+              chatTabs : personalInfoTab
       }
 
     </div>
