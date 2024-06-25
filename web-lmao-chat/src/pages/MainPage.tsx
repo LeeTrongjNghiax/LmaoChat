@@ -12,6 +12,7 @@ import GlobalStyles from "../GlobalStyles.js";
 import ExportColor, { GlobalVariables } from "../GlobalVariables.js";
 import UserServices from "../services/UserServices.tsx";
 import SERVER_RESPONSE from "../interfaces/ServerResponse.tsx";
+import NotificationBadge from "../components/NotificationBadge.tsx";
 
 function Sidebar(
   { direction, backgroundColor, textColor, iconColor, iconSize, user, handleOpenFriends, handleOpenSetting, handleLogOut, handleOpenPersonalInfo } :
@@ -324,12 +325,20 @@ function Friends(
         </button>
 
         {/* List request send */}
-        <button title={`Click to view list friend request you had sent`} className={``} onClick={() => handleSetActiveIndex(2)}>
+        <button title={`Click to view list friend request you had sent`} className={`relative`} onClick={() => handleSetActiveIndex(2)}>
+          {
+            friendRequestSends.length > 0 &&
+              <NotificationBadge quantity={friendRequestSends.length} />
+          }
           <ListStart id={`LIST_REQUEST_SEND`} size={iconSize} color={iconColor} />
         </button>
 
         {/* List request get */}
-        <button title={`Click to view list friend request you had get`} className={``} onClick={() => handleSetActiveIndex(3)}>
+        <button title={`Click to view list friend request you had get`} className={`relative`} onClick={() => handleSetActiveIndex(3)}>
+          {
+            friendRequestGets.length > 0 &&
+              <NotificationBadge quantity={friendRequestGets.length} />
+          }
           <ListEnd id={`LIST_REQUEST_GET`} size={iconSize} color={iconColor} />
         </button>
 
