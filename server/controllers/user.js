@@ -1,4 +1,5 @@
 const { USER_REPOSITORY } = require("../repositories/index");
+const jwt = require("jsonwebtoken");
 
 const STATUS_OK = 200;
 const STATUS_CREATED = 201;
@@ -6,6 +7,8 @@ const STATUS_ACCEPTED = 202;
 const STATUS_NO_CONTENT = 204;
 const STATUS_CONFLICT = 409;
 const STATUS_INTERNAL_SERVER_ERROR = 500;
+
+require("dotenv").config();
 
 const sendJsonResponse = (res, status, message, data) => 
   res.status( status ).json({
@@ -82,6 +85,22 @@ const addUser = async (req, res) => {
   }
 }
 
+function authenticateToken(req, res, next) {
+  const AUTH_HEADER = req.headers["authorization"];
+  const TOKEN = AUTH_HEADER && AUTH_HEADER.split(" ")[1];
+
+  if (TOKEN === null)
+    return res.sendStatus(401);
+
+  jwt.verify(TOKEN, process.env.ACCESS, (err, user) => {
+    if (err)
+      return res.sendStatus;
+
+    req.user = user;
+    next();
+  });
+}
+
 const login = async (req, res) => {
   const { phoneNumber, password } = req.body;
 
@@ -96,6 +115,7 @@ const login = async (req, res) => {
       message = "Login user failed!";
     }
 
+    // const ACCESS_TOKEN = jwt.sign(FOUND_USER, process.env.ACCESS_TOKEN_SECRET);
     sendJsonResponse(res, status, message, FOUND_USER);
   } catch (error) {
     console.error("User Controller: Error login user: " + error);

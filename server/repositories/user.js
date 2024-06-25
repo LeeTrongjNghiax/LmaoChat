@@ -1,5 +1,7 @@
 const { USER } = require("../modals/index");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+
 
 const getUser = async ({ phoneNumber }) => {
   try {
@@ -52,15 +54,16 @@ const addUser = async ({ phoneNumber, firstName, lastName, password }) => {
 
 const login = async ({ phoneNumber, password }) => {
   try {
-    const FOUND_USER = await USER.findOne( { phoneNumber }).exec();
+    const FOUND_USER = await USER.findOne({ phoneNumber }).exec();
 
     if (!FOUND_USER)
       return FOUND_USER;
     
     const RESULT = await bcrypt.compare(password, FOUND_USER.password);
 
-    if (RESULT)
+    if (RESULT) {
       return FOUND_USER;
+    }
     
     return null;
   } catch (error) {

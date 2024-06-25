@@ -34,21 +34,22 @@ app.get("/", (req, res) => {
 let users = [];
 
 io.on("connection", socket => {
-  console.log("Socket: A user connected");
+  console.log(`Socket: ${socket.id} connected`);
 
   socket.on("User Join", async ({ data }) => {
     console.log(`Socket: ${data} had login`);
 
     const USER = await USER_REPOSITORY.getUser({ phoneNumber: data });
     users.push(USER);
+
+    socket.on(`${data} get updated`, async ({ phoneNumberSend, phoneNumberGet }) => {
+      console.log(`Socket: ${data} get updated`);
+
+      io.emit(`Server: ${phoneNumberSend} get updated`);
+      io.emit(`Server: ${phoneNumberGet} get updated`);
+    });
   });
 
-  socket.on("User get updated user", async ({ data }) => {
-    console.log(`Socket: User get updated user`);
-
-    const USER = await USER_REPOSITORY.getUser({ phoneNumber: data });
-    socket.emit("Server: User get updated user", USER);
-  });
 
   socket.on("User Leave", async ({ data }) => {
     const REMOVED_INDEX = users.map(user => user.phoneNumber).indexOf(data);

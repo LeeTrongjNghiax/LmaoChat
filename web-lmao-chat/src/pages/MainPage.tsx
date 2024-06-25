@@ -129,7 +129,10 @@ function Friends(
         break;
     }
 
-    socket.emit(`User get updated user`, { data: user.phoneNumber });
+    socket.emit(`${user.phoneNumber} get updated`, {
+      phoneNumberSend: user.phoneNumber, 
+      phoneNumberGet: searchFriend!.phoneNumber
+    });
   }
 
   const handleRemoveFriendRequest = async (phoneNumber: string) => {
@@ -147,11 +150,13 @@ function Friends(
         break;
       case status.OK:
         alert`Remove Friend Request Successfully!`;
-
         break;
     }
 
-    socket.emit(`User get updated user`, { data: user.phoneNumber });
+    socket.emit(`${user.phoneNumber} get updated`, {
+      phoneNumberSend: user.phoneNumber, 
+      phoneNumberGet: phoneNumber
+    });
   }
 
   const phoneNumbersToUsers = async (arr: string[]) => {
@@ -221,7 +226,10 @@ function Friends(
         break;
     }
 
-    socket.emit(`User get updated user`, { data: user.phoneNumber });
+    socket.emit(`${user.phoneNumber} get updated`, {
+      phoneNumberSend: user.phoneNumber, 
+      phoneNumberGet: phoneNumber
+    });
   }
 
   const handleRemoveFriend = async (phoneNumber: string) => {
@@ -243,21 +251,40 @@ function Friends(
         break;
     }
 
-    socket.emit(`User get updated user`, { data: user.phoneNumber });
+    socket.emit(`${user.phoneNumber} get updated`, {
+      phoneNumberSend: user.phoneNumber, 
+      phoneNumberGet: phoneNumber
+    });
   }
 
   useEffect(() => {
-    socket.emit(`User get updated user`, { data: user.phoneNumber });
+    socket.emit(`${user.phoneNumber} get updated`, { data: user.phoneNumber });
 
-    socket.on(`Server: User get updated user`, async data => {
-      let requestSends = await phoneNumbersToUsers(data.requestSends);
-      setFriendRequestSends(requestSends);
+    socket.on(`Server: ${user.phoneNumber} get updated`, async () => {
+      console.log(`${user.phoneNumber} get updated`);
 
-      let requestGets = await phoneNumbersToUsers(data.requestGets);
-      setFriendRequestGets(requestGets);
+      const response: SERVER_RESPONSE = await UserServices.getUser(user.phoneNumber);
 
-      let listFriends = await phoneNumbersToFriends(data.friends);
-      setFriends(listFriends);
+      switch (response.status) {
+        case status.INTERNAL_SERVER_ERROR:
+          alert`Internal Server Error`;
+          break;
+        case status.NO_CONTENT:
+          alert`No content`;
+          break;
+        case status.OK:
+          let requestSends = await phoneNumbersToUsers(response.data.data.requestSends);
+          setFriendRequestSends(requestSends);
+
+          let requestGets = await phoneNumbersToUsers(response.data.data.requestGets);
+          setFriendRequestGets(requestGets);
+
+          let listFriends = await phoneNumbersToFriends(response.data.data.friends);
+          setFriends(listFriends);
+
+          setSearchFriend(null);
+          break;
+      }
     });
   }, [socket]);
 
