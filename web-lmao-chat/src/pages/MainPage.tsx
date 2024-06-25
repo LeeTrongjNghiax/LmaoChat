@@ -451,7 +451,10 @@ function Friends(
             `}>
               {
                 searchFriend !== null ? 
-                  searchFriend.requestGets.some((phoneNumber: string) => phoneNumber === user.phoneNumber) || searchFriend.phoneNumber === user.phoneNumber ?
+                  searchFriend.requestGets.some((phoneNumber: string) => phoneNumber === user.phoneNumber) ||
+                  searchFriend.requestSends.some((phoneNumber: string) => phoneNumber === user.phoneNumber) ||
+                  searchFriend.friends.some((phoneNumber: string) => phoneNumber === user.phoneNumber) ||
+                  searchFriend.phoneNumber === user.phoneNumber ?
                     (
                       <Friend name={`${searchFriend.firstName} ${searchFriend.lastName}`} newMessage={`${searchFriend.phoneNumber}`} />
                     ) :
@@ -929,7 +932,8 @@ interface USER_INTERFACE {
   firstName: string, 
   lastName: string, 
   requestSends: string[], 
-  requestGets: string[]
+  requestGets: string[], 
+  friends: string[], 
 }
 
 export default function MainPage(): ReactElement {
