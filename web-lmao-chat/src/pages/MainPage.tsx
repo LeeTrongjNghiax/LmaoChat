@@ -95,9 +95,10 @@ function Friends(
   const [activeIndex, setActiveIndex] = useState(0);
   const [searchFriendPhoneNumber, setSearchFriendPhoneNumber] = useState(``);
   const [searchFriend, setSearchFriend] = useState<USER_INTERFACE | null>(null);
-  const [friends, setFriends] = useState<USER_INTERFACE[]>([]);
   const [friendRequestSends, setFriendRequestSends] = useState<USER_INTERFACE[]>([]);
   const [friendRequestGets, setFriendRequestGets] = useState<USER_INTERFACE[]>([]);
+  const [friends, setFriends] = useState<USER_INTERFACE[]>([]);
+  const [rooms, setRooms] = useState<string[]>([]);
   const socket = GlobalVariables.socket;
 
   const handleSetActiveIndex = (i: number) => {
@@ -258,8 +259,6 @@ function Friends(
   }
 
   useEffect(() => {
-    socket.emit(`${user.phoneNumber} get updated`, [user.phoneNumber]);
-
     socket.on(`Server: ${user.phoneNumber} get updated`, async () => {
       console.log(`${user.phoneNumber} get updated`);
 
@@ -286,7 +285,7 @@ function Friends(
           break;
       }
     });
-  }, [socket]);
+  }, []);
 
   return (
     <div
@@ -392,13 +391,11 @@ function Friends(
             `}>
 
             {
-                friends.map((e, i) => {
-                  return (
-                    <button key={i} title={`Open Conversation`} onClick={handleOpenChats}>
-                      <Friend name={`${e.firstName} ${e.lastName}`} newMessage={``} />
-                    </button>
-                  )
-                })
+              friends.map((e, i) => (
+                <button key={i} title={`Open Conversation`} onClick={handleOpenChats}>
+                  <Friend name={`${e.firstName} ${e.lastName}`} newMessage={``} />
+                </button>
+              ))
             }
 
             </div>
@@ -443,7 +440,6 @@ function Friends(
                 <Search size={iconSize} color={iconColor} />
               </button>
             </div>
-
 
             {/* Searched Friend */}
             <div className={`
@@ -513,7 +509,7 @@ function Friends(
                   <Friend name={`${e.firstName} ${e.lastName}`} newMessage={``} />
 
                   <div className={`flex items-center gap-5`}>
-                    <button title={`Click to remove friend request`} onClick={()=> handleAcceptFriend(e.phoneNumber)}>
+                    <button title={`Click to accept friend request`} onClick={()=> handleAcceptFriend(e.phoneNumber)}>
                       <Check color={iconColor} size={iconSize} /> 
                     </button>
 
@@ -952,8 +948,6 @@ export default function MainPage(): ReactElement {
     height: number
   } = useWindowDimensions();
   let direction: number;
-  const socket = GlobalVariables.socket;
-
   const {
     backgroundColor,
     chatBackgroundColor, 
@@ -961,12 +955,15 @@ export default function MainPage(): ReactElement {
     textColor,
   } = ExportColor();
 
-  useEffect(() => {
-    return () => {
-      socket.emit("User Leave", { data: user.phoneNumber });
-    }
-  });
+  const socket = GlobalVariables.socket;
 
+  useEffect(() => {
+    socket.emit(`User Join`, user.phoneNumber);
+
+    return () => {
+      socket.emit("User Leave", user.phoneNumber);
+    }
+  }, []);
 
   const handleOpenFriends = () => {
     setCurrentTab(`FRIENDS`);
@@ -983,7 +980,6 @@ export default function MainPage(): ReactElement {
   const handleOpenPersonalInfo = () => {
     setCurrentTab(`PERSONAL_INFO`);
   }
-
 
   const handleLogOut = () => {
     if (window.confirm(`Are you sure you want to log out?`))

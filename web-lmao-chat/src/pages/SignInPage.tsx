@@ -19,7 +19,6 @@ export default function SignInPage(): ReactElement {
   const { state } = useLocation();
   const styles = GlobalStyles();
   const status = GlobalVariables.status;
-  const socket = GlobalVariables.socket;
   
   const {
     backgroundColor,
@@ -103,7 +102,6 @@ export default function SignInPage(): ReactElement {
       case status.OK:
         setError(null);
         alert`Sign in successfully!`;
-        socket.emit(`User Join`, { data: phoneNumber });
         navigate(`/MainPage`, { state: { user: response.data } });
     }
   }

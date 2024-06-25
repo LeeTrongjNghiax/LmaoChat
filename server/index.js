@@ -36,25 +36,27 @@ let users = [];
 io.on("connection", socket => {
   console.log(`Socket: ${socket.id} connected`);
 
-  socket.on("User Join", async ({ data }) => {
-    console.log(`Socket: ${data} had login`);
+  socket.on("User Join", async ( phoneNumber ) => {
+    console.log(`Socket: ${phoneNumber} had login`);
 
-    const USER = await USER_REPOSITORY.getUser({ phoneNumber: data });
+    const USER = await USER_REPOSITORY.getUser({ phoneNumber });
     users.push(USER);
 
-    socket.on(`${data} get updated`, async phoneNumbers => {
-      console.log(`Socket: ${data} get updated`);
+    socket.emit(`Server: ${phoneNumber} get updated`);
+
+    socket.on(`${phoneNumber} get updated`, async phoneNumbers => {
+      console.log(`Socket: ${phoneNumber} get updated`);
 
       for (let i = 0; i < phoneNumbers.length; i++)
         io.emit(`Server: ${phoneNumbers[i]} get updated`);
     });
   });
 
-  socket.on("User Leave", async ({ data }) => {
-    const REMOVED_INDEX = users.map(user => user.phoneNumber).indexOf(data);
+  socket.on("User Leave", async (phoneNumber) => {
+    const REMOVED_INDEX = users.map(user => user.phoneNumber).indexOf(phoneNumber);
     ~REMOVED_INDEX && users.splice(REMOVED_INDEX, 1);
 
-    console.log(`Socket: ${data} had leave`);
+    console.log(`Socket: ${phoneNumber} had leave`);
   });
 
   socket.on("disconnect", () => {
