@@ -42,14 +42,13 @@ io.on("connection", socket => {
     const USER = await USER_REPOSITORY.getUser({ phoneNumber: data });
     users.push(USER);
 
-    socket.on(`${data} get updated`, async ({ phoneNumberSend, phoneNumberGet }) => {
+    socket.on(`${data} get updated`, async phoneNumbers => {
       console.log(`Socket: ${data} get updated`);
 
-      io.emit(`Server: ${phoneNumberSend} get updated`);
-      io.emit(`Server: ${phoneNumberGet} get updated`);
+      for (let i = 0; i < phoneNumbers.length; i++)
+        io.emit(`Server: ${phoneNumbers[i]} get updated`);
     });
   });
-
 
   socket.on("User Leave", async ({ data }) => {
     const REMOVED_INDEX = users.map(user => user.phoneNumber).indexOf(data);
@@ -59,11 +58,11 @@ io.on("connection", socket => {
   });
 
   socket.on("disconnect", () => {
-    console.log("Socket: A user disconnected");
+    console.log(`Socket: ${socket.id} disconnected`);
   });
 });
 
 server.listen(port, async () => {
   await connect();
-  console.log("Server: server running on port " + port);
+  console.log(`Server: server running on port ${port}`);
 });

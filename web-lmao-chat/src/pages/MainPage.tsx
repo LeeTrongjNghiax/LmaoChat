@@ -129,10 +129,10 @@ function Friends(
         break;
     }
 
-    socket.emit(`${user.phoneNumber} get updated`, {
-      phoneNumberSend: user.phoneNumber, 
-      phoneNumberGet: searchFriend!.phoneNumber
-    });
+    socket.emit(`${user.phoneNumber} get updated`, [
+      user.phoneNumber, 
+      searchFriend!.phoneNumber
+    ]);
   }
 
   const handleRemoveFriendRequest = async (phoneNumber: string) => {
@@ -153,10 +153,10 @@ function Friends(
         break;
     }
 
-    socket.emit(`${user.phoneNumber} get updated`, {
-      phoneNumberSend: user.phoneNumber, 
-      phoneNumberGet: phoneNumber
-    });
+    socket.emit(`${user.phoneNumber} get updated`, [
+      user.phoneNumber, 
+      phoneNumber
+    ]);
   }
 
   const phoneNumbersToUsers = async (arr: string[]) => {
@@ -226,10 +226,10 @@ function Friends(
         break;
     }
 
-    socket.emit(`${user.phoneNumber} get updated`, {
-      phoneNumberSend: user.phoneNumber, 
-      phoneNumberGet: phoneNumber
-    });
+    socket.emit(`${user.phoneNumber} get updated`, [
+      user.phoneNumber, 
+      phoneNumber
+    ]);
   }
 
   const handleRemoveFriend = async (phoneNumber: string) => {
@@ -247,18 +247,17 @@ function Friends(
         break;
       case status.OK:
         alert`Remove Friend Successfully!`;
-
         break;
     }
 
-    socket.emit(`${user.phoneNumber} get updated`, {
-      phoneNumberSend: user.phoneNumber, 
-      phoneNumberGet: phoneNumber
-    });
+    socket.emit(`${user.phoneNumber} get updated`, [
+      user.phoneNumber, 
+      phoneNumber
+    ]);
   }
 
   useEffect(() => {
-    socket.emit(`${user.phoneNumber} get updated`, { data: user.phoneNumber });
+    socket.emit(`${user.phoneNumber} get updated`, [user.phoneNumber]);
 
     socket.on(`Server: ${user.phoneNumber} get updated`, async () => {
       console.log(`${user.phoneNumber} get updated`);
