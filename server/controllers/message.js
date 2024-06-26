@@ -39,9 +39,6 @@ const getMessagesFromRoom = async (req, res) => {
   try {
     const {roomId} = req.body;
 
-    console.log("Controller");
-    console.log(roomId);
-      
     const FOUND_MESSAGES = await MESSAGE_REPOSITORY.getMessagesFromRoom({ roomId });
 
     let status = STATUS_OK;

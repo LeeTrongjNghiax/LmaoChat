@@ -12,8 +12,6 @@ const getMessage = async ({ content }) => {
 
 const getMessagesFromRoom = async ({ roomId }) => {
   try {
-    console.log(roomId);
-
     const FOUND_MESSAGES = await MESSAGE.find({ 
       roomId: roomId
      }).exec();
