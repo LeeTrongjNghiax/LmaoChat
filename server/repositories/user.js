@@ -1,7 +1,5 @@
 const { USER } = require("../modals/index");
 const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
-
 
 const getUser = async ({ phoneNumber }) => {
   try {

@@ -7,7 +7,7 @@ import ExportColor from "../GlobalVariables";
 interface Props extends PropsWithChildren<any>{
   dir?: string, 
   name: string, 
-  dateSent: string, 
+  dateSent?: string, 
   content: string
 }
 

@@ -1,5 +1,4 @@
-const USER = require("./User")
+const USER = require(`./User`);
+const MESSAGE = require(`./Message`)
 
-module.exports = {
-  USER
-}
+module.exports = { USER, MESSAGE }

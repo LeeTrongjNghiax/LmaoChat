@@ -18,14 +18,15 @@ const io = new Server(server, {
   }
 });
 const cors = require("cors");
-const { USER_ROUTER } = require("./routers/index");
-const { USER_REPOSITORY } = require("./repositories");
+const { USER_ROUTER, MESSAGE_ROUTER } = require("./routers/index");
+const { USER_REPOSITORY, MESSAGE_REPOSITORY } = require("./repositories");
 
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 app.use("/api/users", USER_ROUTER);
+app.use("/api/messages", MESSAGE_ROUTER);
 
 app.get("/", (req, res) => {
   res.send("<h1>Lmao</h1>")
@@ -52,9 +53,9 @@ io.on("connection", socket => {
     });
   });
 
-  socket.on(`Send message`, msg => {
+  socket.on(`Send message`, ({roomId, userSend, content}) => {
     console.log(`Socket: send message`);
-    console.log(msg);
+    io.emit(`Get message from ${roomId}`, {roomId, userSend, content});
   });
 
   socket.on("User Leave", async (phoneNumber) => {
