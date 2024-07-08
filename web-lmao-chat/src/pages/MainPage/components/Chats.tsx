@@ -14,6 +14,8 @@ function Chats(
     currentFriend: USER_INTERFACE | null
   }
 ) {
+  console.log("%cChats", "color: yellow; fontWeight: bold");
+
   const [textMessage, setTextMessage] = useState(``);
   const [messages, setMessages] = useState<MESSAGE_INTERFACE[]>([]);
   const socket = GlobalVariables.socket;
@@ -61,7 +63,6 @@ function Chats(
     // getMessages();
   }, [messages]);
 
-  console.log("Chats 2")
   // getMessages();
 
   return (

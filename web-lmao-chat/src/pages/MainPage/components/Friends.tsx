@@ -1,4 +1,4 @@
-import { BaseSyntheticEvent, useEffect, useState } from "react";
+import { BaseSyntheticEvent, memo, useEffect, useState } from "react";
 import { UserPlus, UserSearch, Users, Search,  User, ListEnd, ListStart, Check, X } from "lucide-react";
 
 import { UserServices } from "../../../services";
@@ -8,7 +8,7 @@ import { Friend, NotificationBadge } from "./";
 import { FRIEND_INTERFACE, USER_INTERFACE } from "../interfaces";
 import ExportColor, { GlobalVariables } from "../../../GlobalVariables";
 
-export default function Friends(
+function Friends(
   { direction, user, handleOpenChats } :
   {
     direction: number,
@@ -16,6 +16,8 @@ export default function Friends(
     handleOpenChats: (friend: USER_INTERFACE) => any, 
   } 
 ) {
+  console.log("%cFriends", "color: royalBlue; fontWeight: bold");
+
   const status = GlobalVariables.status;
   const [activeIndex, setActiveIndex] = useState(0);
   const [searchFriendPhoneNumber, setSearchFriendPhoneNumber] = useState(``);
@@ -27,7 +29,6 @@ export default function Friends(
   const socket = GlobalVariables.socket;
   const {
     backgroundColor,
-    chatBackgroundColor, 
     iconColor,
     textColor,
   } = ExportColor();
@@ -194,6 +195,8 @@ export default function Friends(
   }
 
   useEffect(() => {
+    console.log("Friends Use effect");
+
     socket.on(`Server: ${user.phoneNumber} get updated`, async () => {
       console.log(`${user.phoneNumber} get updated`);
 
@@ -227,7 +230,11 @@ export default function Friends(
           break;
       }
     });
-  });
+
+    return () => {
+      console.log("Friends Leave");
+    }
+  }, []);
 
   return (
     <div
@@ -482,3 +489,5 @@ export default function Friends(
     </div>
   );
 }
+
+export default Friends;

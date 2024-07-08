@@ -1,4 +1,4 @@
-import { MouseEventHandler } from "react";
+import { memo, MouseEventHandler } from "react";
 import { MessageCircle, Settings, LogOut } from "lucide-react";
 
 import { AvatarFallback } from "./";
@@ -7,7 +7,7 @@ import { ChangeThemeButton, Logo } from "../../../components";
 import { USER_INTERFACE } from "../interfaces";
 import ExportColor from "../../../GlobalVariables";
 
-export default function Sidebar(
+function Sidebar(
   { direction, user, handleOpenFriends, handleOpenSetting, handleLogOut, handleOpenPersonalInfo } :
   {
     direction: number,
@@ -18,9 +18,10 @@ export default function Sidebar(
     handleOpenPersonalInfo: MouseEventHandler<HTMLButtonElement>
   }
 ) {
+  console.log("%cSidebar", "color: lime; fontWeight: bold");
+
   const {
     backgroundColor,
-    chatBackgroundColor, 
     iconColor,
     textColor,
   } = ExportColor();
@@ -75,3 +76,5 @@ export default function Sidebar(
     </div>
   );
 }
+
+export default memo(Sidebar);

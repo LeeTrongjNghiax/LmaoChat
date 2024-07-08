@@ -10,6 +10,8 @@ export default function PersonalInfor (
   { user } :
   { user: USER_INTERFACE }
 ) {
+  console.log("%cPersonalInfo", "color: orange; fontWeight: bold");
+
   const styles = GlobalStyles();
   const {
     backgroundColor,

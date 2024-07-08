@@ -1,4 +1,4 @@
-import { ReactElement, useEffect, useState } from "react";
+import { ReactElement, useCallback, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import { Chats, Friends, PersonalInfor, Sidebar } from "./components";
@@ -8,6 +8,8 @@ import ExportColor, { GlobalVariables } from "../../GlobalVariables.js";
 import { USER_INTERFACE } from './interfaces'
 
 export default function MainPage(): ReactElement {
+  console.log("%cMain", "color: red; fontWeight: bold");
+
   const [currentTab, setCurrentTab] = useState(`FRIENDS`);
   const [currentFriend, setCurrentFriend] = useState<USER_INTERFACE | null>(null);
   const { state } = useLocation();
@@ -28,26 +30,40 @@ export default function MainPage(): ReactElement {
     socket.emit(`User Join`, user.phoneNumber);
 
     return () => {
+      console.log("Leave Main Page");
+      
       socket.emit("User Leave", user.phoneNumber);
     }
-  });
+  }, []);
 
-  const handleOpenFriends = () => {
-    setCurrentTab(`FRIENDS`);
-  }
+  const handleOpenFriends = useCallback(
+    () => {
+      setCurrentTab(`FRIENDS`);
+    }, 
+    [setCurrentTab]
+  )
 
-  const handleOpenChats = (friend: USER_INTERFACE) => {
-    setCurrentFriend(friend);
-    setCurrentTab(`CHATS`);
-  }
+  const handleOpenChats = useCallback(
+    (friend: USER_INTERFACE) => {
+      setCurrentFriend(friend);
+      setCurrentTab(`CHATS`);
+    }, 
+    [setCurrentFriend, setCurrentTab]
+  )
 
-  const handleOpenSetting = () => {
-    setCurrentTab(`SETTING`);
-  }
+  const handleOpenSetting = useCallback(
+    () => {
+      setCurrentTab(`SETTING`);
+    }, 
+    [setCurrentTab]
+  )
 
-  const handleOpenPersonalInfo = () => {
-    setCurrentTab(`PERSONAL_INFO`);
-  }
+  const handleOpenPersonalInfo = useCallback(
+    () => {
+      setCurrentTab(`PERSONAL_INFO`);
+    }, 
+    [setCurrentTab]
+  )
 
   const handleLogOut = () => {
     if (window.confirm(`Are you sure you want to log out?`))
@@ -64,7 +80,8 @@ export default function MainPage(): ReactElement {
     user={user}
     handleOpenFriends={handleOpenFriends}
     handleLogOut={handleLogOut}
-    handleOpenSetting={handleOpenSetting} handleOpenPersonalInfo={handleOpenPersonalInfo}
+    handleOpenSetting={handleOpenSetting}
+    handleOpenPersonalInfo={handleOpenPersonalInfo}
   />
 
   const friendsTab = <Friends
