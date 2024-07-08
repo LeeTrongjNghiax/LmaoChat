@@ -3,6 +3,7 @@
 # variables
 /server/.env
 /web-lmao-chat/src/ConfigVariables.js
+/web-lmao-chat/.env
 
 # dependencies
 /server/node_modules

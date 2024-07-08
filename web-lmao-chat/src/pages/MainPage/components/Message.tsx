@@ -1,8 +1,8 @@
 import { PropsWithChildren, ReactElement, useState } from "react";
 import { MoreVertical, SmilePlus, MessageSquareReply, MessageSquareShare, MessageSquareOff, MessageSquareX } from "lucide-react";
 
-import AvatarFallback from "./AvatarFallback.tsx";
-import ExportColor from "../GlobalVariables";
+import { AvatarFallback } from "./";
+import ExportColor from "../../../GlobalVariables.js";
 
 interface Props extends PropsWithChildren<any>{
   dir?: string, 

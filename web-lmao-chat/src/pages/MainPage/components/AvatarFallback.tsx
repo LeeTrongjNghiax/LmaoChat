@@ -1,6 +1,6 @@
 import { PropsWithChildren, ReactElement } from "react";
 
-import ExportColor from "../GlobalVariables";
+import ExportColor from "../../../GlobalVariables";
 
 interface Props extends PropsWithChildren<any> {
   name?: string, 

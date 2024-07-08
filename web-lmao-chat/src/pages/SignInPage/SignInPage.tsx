@@ -2,10 +2,9 @@ import { BaseSyntheticEvent, ReactElement, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Eye, EyeOff, LoaderCircle } from "lucide-react";
 
-import Logo from "../../components/Logo.tsx";
-import Navbar from "../../components/Navbar.tsx";
-import SERVER_RESPONSE from "../../interfaces/ServerResponse.tsx";
-import userService from "../../services/UserServices.tsx";
+import { Logo, Navbar } from "../../components";
+import { SERVER_RESPONSE } from "../../interfaces";
+import { UserServices } from "../../services";
 import GlobalStyles from "../../GlobalStyles.js";
 import ExportColor, { GlobalVariables } from "../../GlobalVariables.js";
 
@@ -88,7 +87,7 @@ export default function SignInPage(): ReactElement {
 
     setLoading(`LOAD`);
 
-    const response: SERVER_RESPONSE = await userService.login(phoneNumber, password);
+    const response: SERVER_RESPONSE = await UserServices.login(phoneNumber, password);
 
     setLoading(`NOT_LOAD`);
 

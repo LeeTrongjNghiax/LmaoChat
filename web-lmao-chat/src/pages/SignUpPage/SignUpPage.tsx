@@ -2,10 +2,9 @@ import { BaseSyntheticEvent, ReactElement, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Eye, EyeOff, LoaderCircle } from "lucide-react";
 
-import Logo from "../../components/Logo.tsx";
-import Navbar from "../../components/Navbar.tsx";
-import SERVER_RESPONSE from "../../interfaces/ServerResponse.tsx";
-import userService from "../../services/UserServices.tsx";
+import { Logo, Navbar } from "../../components";
+import { SERVER_RESPONSE } from "../../interfaces";
+import { UserServices } from "../../services";
 import GlobalStyles from "../../GlobalStyles.js";
 import ExportColor, { GlobalVariables } from "../../GlobalVariables.js";
 
@@ -96,7 +95,7 @@ export default function SignUpPage(): ReactElement {
     if (handleVerification()) {
       setLoading(`LOAD`);
 
-      const response: SERVER_RESPONSE = await userService.addUser(phoneNumber, firstName, lastName, password);
+      const response: SERVER_RESPONSE = await UserServices.addUser(phoneNumber, firstName, lastName, password);
 
       setLoading(`NOT_LOAD`);
 

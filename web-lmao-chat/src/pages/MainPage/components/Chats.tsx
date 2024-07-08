@@ -1,33 +1,12 @@
 import { BaseSyntheticEvent, useEffect, useState } from "react";
 import { Phone, Video, MoreHorizontal, SmilePlus, Mic, Paperclip, Send } from "lucide-react";
+
+import { Message, AvatarFallback } from "./";
+import { MessageServices } from "../../../services";
 import { GlobalVariables } from "../../../GlobalVariables";
-import SERVER_RESPONSE from "../../../interfaces/ServerResponse";
-import Message from "../../../components/Message";
-import AvatarFallback from "../../../components/AvatarFallback";
-import MessageServices from "../../../services/MessageServices";
 
-interface USER_INTERFACE {
-  roomId?: string, 
-  phoneNumber: string, 
-  firstName: string, 
-  lastName: string, 
-  requestSends: string[], 
-  requestGets: string[], 
-  friends: FRIEND[], 
-}
-
-interface FRIEND {
-  phoneNumber: string, 
-  relationshipId: string
-}
-
-interface MESSAGE {
-  roomId?: string, 
-  userSend: string, 
-  // messageId: string, 
-  content: string, 
-  dateCreate?: string
-}
+import { MESSAGE_INTERFACE, USER_INTERFACE } from "../interfaces";
+import { SERVER_RESPONSE } from "../../../interfaces";
 
 export default function Chats(
   { backgroundColor, textColor, iconColor, iconSize, user, currentFriend } :
@@ -41,7 +20,7 @@ export default function Chats(
   }
 ) {
   const [textMessage, setTextMessage] = useState(``);
-  const [messages, setMessages] = useState<MESSAGE[]>([]);
+  const [messages, setMessages] = useState<MESSAGE_INTERFACE[]>([]);
   const socket = GlobalVariables.socket;
 
   const handleChangeTextMessage = (e: BaseSyntheticEvent) => {
@@ -65,7 +44,7 @@ export default function Chats(
   const handleSendMessage = async () => {
     console.log(`Handle send message`);
 
-    const message: MESSAGE = {
+    const message: MESSAGE_INTERFACE = {
       roomId: currentFriend!.roomId, 
       userSend: user.phoneNumber, 
       content: textMessage, 
@@ -78,9 +57,10 @@ export default function Chats(
   useEffect(() => {
     console.log(`Chats`);
     
-    getMessages();
+    // getMessages();
   }, []);
 
+  // getMessages();
 
   return (
     <div
@@ -130,9 +110,7 @@ export default function Chats(
             <div className={`w-full p-1.5 flex flex-col flex-1 gap-1.5 overflow-y-scroll`}>
               {
                 messages.map((e, i) => 
-                  e.userSend === user.phoneNumber ?
-                    <Message key={i} name={`${user.firstName} ${user.lastName}`} dateSent={e.dateCreate} content={e.content} /> :
-                    <Message key={i} dir={`ltr`} name={`${user.firstName} ${user.lastName}`} dateSent={e.dateCreate} content={e.content} />
+                  <Message key={i} dir={e.userSend === user.phoneNumber ? "rtl" : "ltr"} name={`${user.firstName} ${user.lastName}`} dateSent={e.dateCreate} content={e.content} />
                 )
               }
 

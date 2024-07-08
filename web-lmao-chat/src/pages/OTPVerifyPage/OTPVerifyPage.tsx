@@ -3,9 +3,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { LoaderCircle } from "lucide-react"
 import { ConfirmationResult, RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 
-import Logo from "../../components/Logo.tsx";
-import Navbar from "../../components/Navbar.tsx";
-import userServices from "../../services/UserServices.tsx";
+import { Logo, Navbar } from "../../components";
+import { UserServices } from "../../services";
 import ConfigVariables from "../../ConfigVariables.js";
 import GlobalStyles from "../../GlobalStyles.js";
 import ExportColor, { GlobalVariables } from "../../GlobalVariables.js";
@@ -60,7 +59,7 @@ export default function OTPVerifyPage(): ReactElement {
   }
 
   const checkIfUserExist = async () => {
-    const response: SERVER_RESPONSE = await userServices.getUser(phoneNumber);
+    const response: SERVER_RESPONSE = await UserServices.getUser(phoneNumber);
 
     switch (response.status) {
       case status.NO_CONTENT:

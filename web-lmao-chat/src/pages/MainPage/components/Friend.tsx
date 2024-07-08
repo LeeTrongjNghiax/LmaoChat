@@ -1,6 +1,6 @@
 import { ReactElement } from "react";
 
-import AvatarFallback from "./AvatarFallback.tsx";
+import { AvatarFallback } from "./";
 
 export default function Friend(
   { name, newMessage } : { name: string, newMessage: string }
