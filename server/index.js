@@ -41,8 +41,8 @@ io.on("connection", socket => {
   socket.on("User Join", async ( phoneNumber ) => {
     console.log(`Socket: ${phoneNumber} had login`);
 
-    const USER = await USER_REPOSITORY.getUser({ phoneNumber });
-    users.push(USER);
+    // const USER = await USER_REPOSITORY.getUser({ phoneNumber });
+    // users.push(USER);
 
     socket.emit(`Server: ${phoneNumber} get updated`);
 

@@ -5,15 +5,12 @@ import { AvatarFallback } from "./";
 import { ChangeThemeButton, Logo } from "../../../components";
 
 import { USER_INTERFACE } from "../interfaces";
+import ExportColor from "../../../GlobalVariables";
 
 export default function Sidebar(
-  { direction, backgroundColor, textColor, iconColor, iconSize, user, handleOpenFriends, handleOpenSetting, handleLogOut, handleOpenPersonalInfo } :
+  { direction, user, handleOpenFriends, handleOpenSetting, handleLogOut, handleOpenPersonalInfo } :
   {
     direction: number,
-    backgroundColor: string,
-    textColor: string,
-    iconColor: string,
-    iconSize: number,
     user: USER_INTERFACE,
     handleOpenFriends: MouseEventHandler<HTMLButtonElement>, 
     handleOpenSetting: MouseEventHandler<HTMLButtonElement>,
@@ -21,6 +18,14 @@ export default function Sidebar(
     handleOpenPersonalInfo: MouseEventHandler<HTMLButtonElement>
   }
 ) {
+  const {
+    backgroundColor,
+    chatBackgroundColor, 
+    iconColor,
+    textColor,
+  } = ExportColor();
+  const iconSize = 30;
+
   return (
     <div
       className={`

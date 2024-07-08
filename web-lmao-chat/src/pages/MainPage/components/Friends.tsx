@@ -6,16 +6,12 @@ import { SERVER_RESPONSE } from "../../../interfaces";
 import { Friend, NotificationBadge } from "./";
 
 import { FRIEND_INTERFACE, USER_INTERFACE } from "../interfaces";
-import { GlobalVariables } from "../../../GlobalVariables";
+import ExportColor, { GlobalVariables } from "../../../GlobalVariables";
 
 export default function Friends(
-  { direction, backgroundColor, textColor, iconColor, iconSize, user,  handleOpenChats } :
+  { direction, user, handleOpenChats } :
   {
     direction: number,
-    backgroundColor: string,
-    textColor: string,
-    iconColor: string,
-    iconSize: number,
     user: USER_INTERFACE, 
     handleOpenChats: (friend: USER_INTERFACE) => any, 
   } 
@@ -29,6 +25,13 @@ export default function Friends(
   const [friends, setFriends] = useState<USER_INTERFACE[]>([]);
   // const [rooms, setRooms] = useState<string[]>([]);
   const socket = GlobalVariables.socket;
+  const {
+    backgroundColor,
+    chatBackgroundColor, 
+    iconColor,
+    textColor,
+  } = ExportColor();
+  const iconSize = 30;
 
   const handleSetActiveIndex = (i: number) => {
     setActiveIndex(i);

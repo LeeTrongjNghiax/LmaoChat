@@ -1,20 +1,15 @@
-import { BaseSyntheticEvent, useEffect, useState } from "react";
+import { BaseSyntheticEvent, memo, useEffect, useState } from "react";
 import { Phone, Video, MoreHorizontal, SmilePlus, Mic, Paperclip, Send } from "lucide-react";
 
 import { Message, AvatarFallback } from "./";
 import { MessageServices } from "../../../services";
-import { GlobalVariables } from "../../../GlobalVariables";
+import ExportColor, { GlobalVariables } from "../../../GlobalVariables";
 
 import { MESSAGE_INTERFACE, USER_INTERFACE } from "../interfaces";
 import { SERVER_RESPONSE } from "../../../interfaces";
 
-export default function Chats(
-  { backgroundColor, textColor, iconColor, iconSize, user, currentFriend } :
-  {
-    backgroundColor: string,
-    textColor: string,
-    iconColor: string,
-    iconSize: number, 
+function Chats(
+  { user, currentFriend } : {
     user: USER_INTERFACE, 
     currentFriend: USER_INTERFACE | null
   }
@@ -22,6 +17,12 @@ export default function Chats(
   const [textMessage, setTextMessage] = useState(``);
   const [messages, setMessages] = useState<MESSAGE_INTERFACE[]>([]);
   const socket = GlobalVariables.socket;
+  const {
+    backgroundColor,
+    iconColor,
+    textColor,
+  } = ExportColor();
+  const iconSize = 30;
 
   const handleChangeTextMessage = (e: BaseSyntheticEvent) => {
     setTextMessage(e.target.value);
@@ -58,8 +59,9 @@ export default function Chats(
     console.log(`Chats`);
     
     // getMessages();
-  }, []);
+  }, [messages]);
 
+  console.log("Chats 2")
   // getMessages();
 
   return (
@@ -173,3 +175,5 @@ export default function Chats(
     </div>
   );
 }
+
+export default memo(Chats);
