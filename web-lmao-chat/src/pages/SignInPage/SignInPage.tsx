@@ -2,12 +2,12 @@ import { BaseSyntheticEvent, ReactElement, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Eye, EyeOff, LoaderCircle } from "lucide-react";
 
-import Logo from "../components/Logo.tsx";
-import Navbar from "../components/Navbar.tsx";
-import SERVER_RESPONSE from "../interfaces/ServerResponse.tsx";
-import userService from "../services/UserServices.tsx";
-import GlobalStyles from "../GlobalStyles.js";
-import ExportColor, { GlobalVariables } from "../GlobalVariables";
+import Logo from "../../components/Logo.tsx";
+import Navbar from "../../components/Navbar.tsx";
+import SERVER_RESPONSE from "../../interfaces/ServerResponse.tsx";
+import userService from "../../services/UserServices.tsx";
+import GlobalStyles from "../../GlobalStyles.js";
+import ExportColor, { GlobalVariables } from "../../GlobalVariables.js";
 
 export default function SignInPage(): ReactElement {
   const [phoneNumber, setPhoneNumber] = useState(``);

@@ -1,9 +1,9 @@
 import { ReactElement } from "react";
 import { useRouteError } from "react-router-dom";
 
-import Navbar from "../components/Navbar.tsx";
-import RouteError from "../interfaces/RouteError.tsx";
-import ExportColor from "../GlobalVariables.js";
+import Navbar from "../../components/Navbar.tsx";
+import RouteError from "../../interfaces/RouteError.tsx";
+import ExportColor from "../../GlobalVariables.js";
 
 export default function ErrorPage(): ReactElement {
   const error = useRouteError() as RouteError;

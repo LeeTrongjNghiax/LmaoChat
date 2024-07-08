@@ -2,31 +2,27 @@ import { BaseSyntheticEvent, ReactElement, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Eye, EyeOff, LoaderCircle } from "lucide-react";
 
-import Logo from "../components/Logo.tsx";
-import Navbar from "../components/Navbar.tsx";
-import SERVER_RESPONSE from "../interfaces/ServerResponse.tsx";
-import userService from "../services/UserServices.tsx";
-import GlobalStyles from "../GlobalStyles.js";
-import ExportColor, { GlobalVariables } from "../GlobalVariables.js";
+import Logo from "../../components/Logo.tsx";
+import Navbar from "../../components/Navbar.tsx";
+import SERVER_RESPONSE from "../../interfaces/ServerResponse.tsx";
+import userService from "../../services/UserServices.tsx";
+import GlobalStyles from "../../GlobalStyles.js";
+import ExportColor, { GlobalVariables } from "../../GlobalVariables.js";
 
-export default function ResetPasswordPage(): ReactElement {
-  const [password, setPassword] = useState(``);
-  const [repeatedPassword, setRepeatedPassword] = useState(``);
+export default function SignUpPage(): ReactElement {
+  const [firstName, setFirstName] = useState(`Le`);
+  const [lastName, setLastName] = useState(`Nghia`);
+  const [password, setPassword] = useState(`11111111`);
   const [showPassword, setShowPassword] = useState(false);
+  const [repeatedPassword, setRepeatedPassword] = useState(`11111111`);
   const [showRepeatedPassword, setShowRepeatedPassword] = useState(false);
   const [error, setError] = useState<string | null>(``);
   const [loading, setLoading] = useState(``);
-  const navigate = useNavigate();
   const { state } = useLocation();
+  const phoneNumber = state ? state.phoneNumber : ``;
+  const navigate = useNavigate();
   const styles = GlobalStyles();
   const status = GlobalVariables.status;
-  let phoneNumber: string;
-
-  if (state != null)
-    if ( Object.hasOwn(state, `phoneNumber`) )
-      phoneNumber = state.phoneNumber
-    else
-      phoneNumber = `0932659945`
 
   const {
     backgroundColor,
@@ -34,6 +30,14 @@ export default function ResetPasswordPage(): ReactElement {
     iconColor,
     textColor,
   } = ExportColor();
+
+  const handleFirstName = (e: BaseSyntheticEvent) => {
+    setFirstName(e.target.value)
+  }
+
+  const handleLastName = (e: BaseSyntheticEvent) => {
+    setLastName(e.target.value)
+  }
 
   const handleChangePassword = (e: BaseSyntheticEvent) => {
     setPassword(e.target.value)
@@ -43,7 +47,35 @@ export default function ResetPasswordPage(): ReactElement {
     setRepeatedPassword(e.target.value)
   }
 
+  const handleShowPassword = () => {
+    setShowPassword(!showPassword);
+  }
+
+  const handleShowRepeatedPassword = () => {
+    setShowRepeatedPassword(!showRepeatedPassword);
+  }
+
   const handleVerification = () => {
+    if (!firstName) {
+      setError(`First name must not be null`);
+      return false;
+    }
+
+    if ( !firstName.match(/^[A-Z][a-z]*$/) ) {
+      setError(`First name must start with uppercase character and cannot contain numbers`);
+      return false;
+    }
+
+    if (!lastName) {
+      setError(`Last name must not be null`);
+      return false;
+    }
+
+    if ( !lastName.match(/^[A-Z][a-z]*$/) ) {
+      setError(`Last name must start with uppercase character and cannot contain numbers`);
+      return false;
+    }
+
     const passwordMinCharacters = 8;
     if ( !(password.length >= passwordMinCharacters) ) {
       setError(`Password must have at least ${passwordMinCharacters} characters`);
@@ -57,14 +89,14 @@ export default function ResetPasswordPage(): ReactElement {
 
     return true;
   }
-
-  const handleResetPassword = async () => {
+  
+  const handleSignUp = async () => {
     setError(null);
-
+    
     if (handleVerification()) {
       setLoading(`LOAD`);
 
-      const response: SERVER_RESPONSE = await userService.updateUser(phoneNumber, password, null, null);
+      const response: SERVER_RESPONSE = await userService.addUser(phoneNumber, firstName, lastName, password);
 
       setLoading(`NOT_LOAD`);
 
@@ -72,14 +104,20 @@ export default function ResetPasswordPage(): ReactElement {
         case status.INTERNAL_SERVER_ERROR:
           setError(`Internal Server Error`);
           break;
-        case status.OK:
+        case status.CONFLICT:
+          setError(`Cannot sign up new user. Existing user with number ${phoneNumber}`);
+          break;
+        case status.ACCEPTED:
+          setError(`Sign up failed!`);
+          break;
+        case status.CREATED:
           setError(null);
-          alert`Reset password successfully!`;
+          alert`Sign Up successfully!`;
           navigate(`/`, { state: { phoneNumber, password } });
       }
     }
   }
-
+  
   return (
     <div
       className={`
@@ -88,7 +126,7 @@ export default function ResetPasswordPage(): ReactElement {
       `}
       style={{
         background: backgroundColor
-      }}  
+      }}
     >
       <Navbar />
 
@@ -108,14 +146,131 @@ export default function ResetPasswordPage(): ReactElement {
             `}
             style={{
               color: textColor
-            }}  
+            }}
           >
-            Reset password of your Lmao Chat account
+            Sign up to your Lmao Chat account
           </h2>
         </div>
 
         <div className={`mt-10 sm:mx-auto sm:max-w-sm`}>
           <div id={`form`} className={`space-y-6`}>
+
+            {/* Phone Number block */}
+            <div>
+
+              {/* Phone Number label */}
+              <label
+                htmlFor={`phoneNumber`}
+                className={`
+                  transition duration-[500] 
+                  block text-sm font-medium leading-6 select-none
+                `}
+                style={{
+                  color: textColor
+                }}
+              >
+                Phone Number
+              </label>
+
+              {/* Phone Number input */}
+              <div className={`mt-2`}>
+                <input
+                  id={`phoneNumber`}
+                  name={`phoneNumber`}
+                  type={`tel`}
+                  autoComplete={`tel`}
+                  placeholder={`Your Phone Number`}
+                  value={phoneNumber}
+                  readOnly
+                  className={`
+                    transition duration-[500] 
+                    placeholder:text-gray-400
+                    block w-full rounded-md border-0 p-1.5 ring-1 ring-gray-300 sm:text-sm sm:leading-6 select-none
+                  `}
+                  style={
+                    styles.input
+                  }
+                />
+              </div>
+            </div>
+            
+            {/* First Name block */}
+            <div>
+
+              {/* First Name label */}
+              <label
+                htmlFor={`firstName`}
+                className={`
+                  transition duration-[500] 
+                  block text-sm font-medium leading-6 select-none
+                `}
+                style={{
+                  color: textColor
+                }}
+              >
+                First Name
+              </label>
+
+              {/* First Name input */}
+              <div className={`mt-2`}>
+                <input
+                  id={`firstName`}
+                  name={`firstName`}
+                  type={`text`}
+                  autoComplete={`name`}
+                  placeholder={`Your First Name`}
+                  value={firstName}
+                  onChange={handleFirstName}
+                  className={`
+                    transition duration-[500] 
+                    placeholder:text-gray-400
+                    block w-full rounded-md border-0 p-1.5 ring-1 ring-gray-300 sm:text-sm sm:leading-6 select-none
+                  `}
+                  style={
+                    styles.input
+                  }
+                />
+              </div>
+            </div>
+
+            {/* Last Name block */}
+            <div>
+
+              {/* Last Name label */}
+              <label
+                htmlFor={`lastName`}
+                className={`
+                  transition duration-[500] 
+                  block text-sm font-medium leading-6 select-none
+                `}
+                style={{
+                  color: textColor
+                }}
+              >
+                Last Name
+              </label>
+
+              {/* Last Name input */}
+              <div className={`mt-2`}>
+                <input
+                  id={`lastName`}
+                  name={`lastName`}
+                  type={`text`}
+                  autoComplete={`name`}
+                  placeholder={`Your Last Name`}
+                  value={lastName}
+                  onChange={handleLastName}
+                  className={`
+                    transition duration-[500] 
+                    placeholder:text-gray-400
+                    block w-full rounded-md border-0 p-1.5 ring-1 ring-gray-300 sm:text-sm sm:leading-6 select-none
+                  `}
+                  style={
+                    styles.input
+                  }
+                />
+              </div>
+            </div>
 
             {/* Password block */}
             <div>
@@ -158,7 +313,7 @@ export default function ResetPasswordPage(): ReactElement {
                 />
 
                 <button
-                  onClick={() => setShowPassword(!showPassword)}
+                  onClick={handleShowPassword}
                   title={`Toggle Password`}
                 >
                   {
@@ -169,7 +324,7 @@ export default function ResetPasswordPage(): ReactElement {
                 </button>
               </div>
             </div>
-            
+
             {/* Repeated Password block */}
             <div>
 
@@ -184,7 +339,7 @@ export default function ResetPasswordPage(): ReactElement {
                   color: textColor
                 }}
               >
-                Repeat Password
+                Repeated Password
               </label>
 
               {/* Repeated Password input */}
@@ -211,7 +366,7 @@ export default function ResetPasswordPage(): ReactElement {
                 />
 
                 <button
-                  onClick={() => setShowRepeatedPassword(!showRepeatedPassword)}
+                  onClick={handleShowRepeatedPassword}
                   title={`Toggle Repeated Password`}
                 >
                   {
@@ -233,9 +388,9 @@ export default function ResetPasswordPage(): ReactElement {
               loading === `LOAD` ?
                 <div className={`flex gap-1.5 items-center justify-center`}>
                   <LoaderCircle className={`animate-spin`} size={20} color={iconColor} />
-                    
+
                   <p style={{color: textColor}}>
-                    Please wait while we reset password of your Lmao Chat account
+                    Please wait while we sign up to your Lmao Chat account
                   </p>
                 </div> :
                 <></>
@@ -244,7 +399,8 @@ export default function ResetPasswordPage(): ReactElement {
             {/* Submit button */}
             <div>
               <button
-                onClick={handleResetPassword}
+                // type="submit"
+                onClick={handleSignUp}
                 className={`
                 text-white 
                   px-3 py-1.5 text-sm font-semibold leading-6 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 select-none
@@ -253,9 +409,9 @@ export default function ResetPasswordPage(): ReactElement {
                 style={{
                   background: buttonColor
                 }}
-                title={`Reset Password`}
+                title={`Sign Up`}
               >
-                Reset Password
+                Sign up
               </button>
             </div>
             

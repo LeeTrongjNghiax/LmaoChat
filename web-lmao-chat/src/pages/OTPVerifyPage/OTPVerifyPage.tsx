@@ -3,14 +3,14 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { LoaderCircle } from "lucide-react"
 import { ConfirmationResult, RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 
-import Logo from "../components/Logo.tsx";
-import Navbar from "../components/Navbar.tsx";
-import userServices from "../services/UserServices.tsx";
-import ConfigVariables from "../ConfigVariables.js";
-import GlobalStyles from "../GlobalStyles.js";
-import ExportColor, { GlobalVariables } from "../GlobalVariables.js";
+import Logo from "../../components/Logo.tsx";
+import Navbar from "../../components/Navbar.tsx";
+import userServices from "../../services/UserServices.tsx";
+import ConfigVariables from "../../ConfigVariables.js";
+import GlobalStyles from "../../GlobalStyles.js";
+import ExportColor, { GlobalVariables } from "../../GlobalVariables.js";
 
-import SERVER_RESPONSE from "../interfaces/ServerResponse.tsx";
+import SERVER_RESPONSE from "../../interfaces/ServerResponse.tsx";
 
 export default function OTPVerifyPage(): ReactElement {
   const [phoneNumber, setPhoneNumber] = useState(``);

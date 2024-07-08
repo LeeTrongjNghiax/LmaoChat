@@ -28,7 +28,6 @@ const addMessage = async ({ roomId, userSend, content }) => {
       roomId, 
       userSend, 
       content, 
-      dateCreate: new Date().toLocaleString(), 
       status: "ACTIVE", 
       reacts: [], 
     });

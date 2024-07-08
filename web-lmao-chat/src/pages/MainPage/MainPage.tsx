@@ -2,18 +2,19 @@ import { BaseSyntheticEvent, MouseEventHandler, ReactElement, useEffect, useStat
 import { useLocation, useNavigate } from "react-router-dom";
 import { MessageCircle, UserPlus, UserSearch, Users, Settings, LogOut, Search, Phone, Video, MoreHorizontal, SmilePlus, Mic, Paperclip, Send, ImagePlus, Save, User, ListEnd, ListStart, Check, X } from "lucide-react";
 
-import AvatarFallback from "../components/AvatarFallback.tsx";
-import ChangeThemeButton from "../components/ChangeThemeButton.tsx";
-import Friend from "../components/Friend.tsx";
-import Logo from "../components/Logo.tsx";
-import Message from "../components/Message.tsx";
-import useWindowDimensions from "../hooks/useWindowDimensions.js";
-import GlobalStyles from "../GlobalStyles.js";
-import ExportColor, { GlobalVariables } from "../GlobalVariables.js";
-import UserServices from "../services/UserServices.tsx";
-import SERVER_RESPONSE from "../interfaces/ServerResponse.tsx";
-import NotificationBadge from "../components/NotificationBadge.tsx";
-import MessageServices from "../services/MessageServices.tsx";
+import AvatarFallback from "../../components/AvatarFallback.tsx";
+import ChangeThemeButton from "../../components/ChangeThemeButton.tsx";
+import Friend from "../../components/Friend.tsx";
+import Logo from "../../components/Logo.tsx";
+import Message from "../../components/Message.tsx";
+import useWindowDimensions from "../../hooks/useWindowDimensions.js";
+import GlobalStyles from "../../GlobalStyles.js";
+import ExportColor, { GlobalVariables } from "../../GlobalVariables.js";
+import UserServices from "../../services/UserServices.tsx";
+import SERVER_RESPONSE from "../../interfaces/ServerResponse.tsx";
+import NotificationBadge from "../../components/NotificationBadge.tsx";
+import MessageServices from "../../services/MessageServices.tsx";
+import Chats from "./components/Chats.tsx";
 
 function Sidebar(
   { direction, backgroundColor, textColor, iconColor, iconSize, user, handleOpenFriends, handleOpenSetting, handleLogOut, handleOpenPersonalInfo } :
@@ -289,19 +290,6 @@ function Friends(
             console.log(`Create Room ${response.data.data.friends[i].relationshipId}`);
 
             socket.on(`Get message from ${response.data.data.friends[i].relationshipId}`, async (message) => {
-              const response: SERVER_RESPONSE = await MessageServices.addMessage(
-                message.roomId,
-                message.userSend,
-                message.content
-              );
-
-              switch (response.status) {
-                case status.INTERNAL_SERVER_ERROR:
-                  break;
-                case status.OK:
-                  console.log(response.data.data);
-                  break;
-              }
             }); 
           }
 
@@ -561,166 +549,6 @@ function Friends(
         )
       }
 
-    </div>
-  );
-}
-
-function Chats(
-  { backgroundColor, textColor, iconColor, iconSize, user, currentFriend } :
-  {
-    backgroundColor: string,
-    textColor: string,
-    iconColor: string,
-    iconSize: number, 
-    user: USER_INTERFACE, 
-    currentFriend: USER_INTERFACE | null
-  }
-) {
-  const [textMessage, setTextMessage] = useState(``);
-  const [messages, setMessages] = useState<MESSAGE[]>([]);
-  const socket = GlobalVariables.socket;
-
-  const handleChangeTextMessage = (e: BaseSyntheticEvent) => {
-    setTextMessage(e.target.value);
-  }
-
-  const getMessages = async () => {
-    if (currentFriend === null) return;
-
-    const response: SERVER_RESPONSE = await MessageServices.getMessagesFromRoom(currentFriend!.roomId);
-
-    setMessages(response.data.data)
-  }
-
-  const handleSendMessage = async () => {
-    console.log(`Handle send message`);
-
-    const message: MESSAGE = {
-      roomId: currentFriend!.roomId, 
-      userSend: user.phoneNumber, 
-      content: textMessage, 
-    } 
-
-    socket.emit(`Send message`, message);
-    setTextMessage(``);
-  }
-
-  useEffect(() => {
-  }, []);
-
-  getMessages();
-  return (
-    <div
-      className={`
-        transition duration-[500]
-        rounded-3xl m-1 flex flex-1 flex-col gap-5 items-center text-sm font-medium leading-6 select-none p-5 overflow-y-scroll
-      `}
-      style={{
-        background: backgroundColor, 
-        color: textColor
-      }}
-    >
-      {
-        currentFriend !== null ? (
-          <>
-            {/* Header */}
-            <div className={`flex gap-5 w-full items-center`}>
-              <AvatarFallback />
-
-              <div className={`flex flex-col`}>
-                {/* Name */}
-                <p className={`font-bold text-xl`}>{currentFriend?.firstName + ` ` + currentFriend?.lastName}</p>
-
-                {/* New Message */}
-                <p>{currentFriend.roomId}</p>
-              </div>
-
-              <div className={`flex gap-5 ml-auto`}>
-                {/* Call */}
-                <button title={`Click to call with current friend`}>
-                  <Phone size={iconSize} color={iconColor} />
-                </button>
-
-                {/* Video */}
-                <button title={`Click to call video with current friend`}>
-                  <Video size={iconSize} color={iconColor} />
-                </button>
-
-                {/* More */}
-                <button title={`Click to see more information`}>
-                  <MoreHorizontal size={iconSize} color={iconColor} />
-                </button>
-              </div>
-            </div>
-
-            {/* Chat History */}
-            <div className={`w-full p-1.5 flex flex-col flex-1 gap-1.5 overflow-y-scroll`}>
-              {
-                messages.map((e, i) => 
-                  // e.userSend === user.phoneNumber ?
-                    // (<Message key={i} name={`${user.firstName} ${user.lastName}`} dateSent={e.dateCreate} content={e.content} />) :
-                    <Message key={i} dir={`ltr`} name={`${user.firstName} ${user.lastName}`} dateSent={e.dateCreate} content={e.content} />
-                )
-              }
-
-              {/* Message 1 */}
-              <Message name={`Le Trong Nghia`} dateSent={`${new Date().toLocaleString()}`} content={`Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey`} />
-
-              {/* Message 2 */}
-              <Message dir={`ltr`} name={`Lmao Lmao`} dateSent={`${new Date().toLocaleString()}`} content={`Hello`} />
-            </div>
-
-            {/* Chat input */}
-            <div className={`w-full flex gap-5 items-center`}>
-
-              {/* Text message input */}
-              <div className={`flex flex-1 p-1.5 rounded-md ring-1 ring-gray-300 gap-1.5`}>
-                <input
-                  name={`message`}
-                  type={`text`}
-                  autoComplete={``}
-                  placeholder={`Write your message here`}
-                  value={textMessage}
-                  onChange={handleChangeTextMessage}
-                  required
-                  className={`
-                    transition duration-[500] 
-                    placeholder:text-gray-400
-                    w-full sm:text-sm select-none focus:outline-none
-                  `}
-                  style={{
-                    background: backgroundColor, 
-                    color: textColor, 
-                    colorScheme: `dark`
-                  }}
-                />
-              </div>
-
-              {/* Emoji */}
-              <button title={`Click to add emoji to your message`}>
-                <SmilePlus size={iconSize} color={iconColor} />
-              </button>
-
-              {/* Voice */}
-              <button title={`Click to send audio message`}>
-                <Mic size={iconSize} color={iconColor} />
-              </button>
-
-              {/* Send file */}
-              <button title={`Click to send file from your computer`}>
-                <Paperclip size={iconSize} color={iconColor} />
-              </button>
-
-              {/* Send */}
-              <button title={`Click to send your message`} onClick={handleSendMessage}>
-                <Send size={iconSize} color={iconColor} />
-              </button>
-            </div>
-          </>
-        ) : (
-          <div>Open up some conversation to start messaging</div>
-        )
-      }
     </div>
   );
 }
@@ -1001,14 +829,6 @@ interface USER_INTERFACE {
 interface FRIEND {
   phoneNumber: string, 
   relationshipId: string
-}
-
-interface MESSAGE {
-  roomId?: string, 
-  userSend: string, 
-  // messageId: string, 
-  content: string, 
-  dateCreate?: string
 }
 
 export default function MainPage(): ReactElement {

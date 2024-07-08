@@ -20,6 +20,7 @@ const io = new Server(server, {
 const cors = require("cors");
 const { USER_ROUTER, MESSAGE_ROUTER } = require("./routers/index");
 const { USER_REPOSITORY, MESSAGE_REPOSITORY } = require("./repositories");
+const { MESSAGE_CONTROLLER } = require("./controllers");
 
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
@@ -53,9 +54,17 @@ io.on("connection", socket => {
     });
   });
 
-  socket.on(`Send message`, ({roomId, userSend, content}) => {
+  socket.on(`Send message`, async ({roomId, userSend, content}) => {
     console.log(`Socket: send message`);
-    io.emit(`Get message from ${roomId}`, {roomId, userSend, content});
+    console.log(`Get message from ${roomId} ${ userSend }, ${ content }`);
+    
+    const NEW_MESSAGE = await MESSAGE_REPOSITORY.addMessage({
+      roomId,
+      userSend,
+      content
+    });
+
+    io.emit(`Get message from room ${roomId}`);
   });
 
   socket.on("User Leave", async (phoneNumber) => {

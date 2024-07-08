@@ -40,9 +40,6 @@ const getMessage = async (content: string) => {
 
 const getMessagesFromRoom = async (roomId?: string) => {
   try {
-
-    console.log(roomId);
-    
     const response = await axios.post(
       `${api_host}/api/${domain}/getMessagesFromRoom`, {
         roomId

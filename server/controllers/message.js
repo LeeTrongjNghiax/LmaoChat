@@ -57,7 +57,7 @@ const getMessagesFromRoom = async (req, res) => {
   }
 }
 
-const addMessage = async (req, res) => {
+const addMessage = async (req, res) => {  
   const { roomId, userSend, content } = req.body;
 
   try {
