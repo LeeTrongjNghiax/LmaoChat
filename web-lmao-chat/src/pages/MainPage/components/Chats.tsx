@@ -1,4 +1,4 @@
-import { BaseSyntheticEvent, memo, useEffect, useState } from "react";
+import { BaseSyntheticEvent, memo, useEffect, useRef, useState } from "react";
 import { Phone, Video, MoreHorizontal, SmilePlus, Mic, Paperclip, Send } from "lucide-react";
 
 import { Message, AvatarFallback } from "./";
@@ -25,6 +25,8 @@ function Chats(
     textColor,
   } = ExportColor();
   const iconSize = 30;
+
+  const messagesEndRef = useRef<null | HTMLDivElement>(null);
 
   const handleChangeTextMessage = (e: BaseSyntheticEvent) => {
     setTextMessage(e.target.value);
@@ -57,13 +59,27 @@ function Chats(
     setTextMessage(``);
   }
 
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
+  }
+
   useEffect(() => {
-    console.log(`Chats`);
-    
-    // getMessages();
+    if (currentFriend !== null) {
+      console.log(`Get message from room ${currentFriend!.roomId}`);
+      socket.on(`Get message from room ${currentFriend!.roomId}`, async () => {
+        const response: SERVER_RESPONSE = await MessageServices.getMessagesFromRoom(currentFriend!.roomId);
+        setMessages(response.data.data);
+      });
+    }
+
+    return () => {
+      setMessages([]);
+    }
   }, [messages]);
 
-  // getMessages();
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
 
   return (
     <div
@@ -120,6 +136,8 @@ function Chats(
               {/* <Message name={`Le Trong Nghia`} dateSent={`${new Date().toLocaleString()}`} content={`Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey Hey`} />
 
               <Message dir={`ltr`} name={`Lmao Lmao`} dateSent={`${new Date().toLocaleString()}`} content={`Hello`} /> */}
+
+              <div ref={messagesEndRef}></div>
             </div>
 
             {/* Chat input */}

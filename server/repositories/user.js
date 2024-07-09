@@ -203,9 +203,6 @@ const acceptFriend = async ({ phoneNumberSend, phoneNumberGet }) => {
     });
     USER_RECEIVE_FRIEND_REQUEST.save();
 
-    console.log(USER_ADD_FRIEND_REQUEST);
-    console.log(USER_RECEIVE_FRIEND_REQUEST);
-
     return USER_RECEIVE_FRIEND_REQUEST;
   } catch (error) {
     console.error("User Repository: Error accept friend: " + error);

@@ -1,4 +1,4 @@
-import { BaseSyntheticEvent, memo, useEffect, useState } from "react";
+import { BaseSyntheticEvent, Dispatch, SetStateAction, useEffect, useState } from "react";
 import { UserPlus, UserSearch, Users, Search,  User, ListEnd, ListStart, Check, X } from "lucide-react";
 
 import { UserServices } from "../../../services";
@@ -9,10 +9,16 @@ import { FRIEND_INTERFACE, USER_INTERFACE } from "../interfaces";
 import ExportColor, { GlobalVariables } from "../../../GlobalVariables";
 
 function Friends(
-  { direction, user, handleOpenChats } :
+  { direction, user, friendRequestSends, setFriendRequestSends, friendRequestGets, setFriendRequestGets, friends, setFriends, handleOpenChats } :
   {
     direction: number,
-    user: USER_INTERFACE, 
+      user: USER_INTERFACE, 
+    friendRequestSends: USER_INTERFACE[], 
+    setFriendRequestSends: Dispatch<SetStateAction<USER_INTERFACE[]>>, 
+    friendRequestGets: USER_INTERFACE[], 
+    setFriendRequestGets: Dispatch<SetStateAction<USER_INTERFACE[]>>,
+    friends: USER_INTERFACE[], 
+    setFriends: Dispatch<SetStateAction<USER_INTERFACE[]>>,
     handleOpenChats: (friend: USER_INTERFACE) => any, 
   } 
 ) {
@@ -22,9 +28,6 @@ function Friends(
   const [activeIndex, setActiveIndex] = useState(0);
   const [searchFriendPhoneNumber, setSearchFriendPhoneNumber] = useState(``);
   const [searchFriend, setSearchFriend] = useState<USER_INTERFACE | null>(null);
-  const [friendRequestSends, setFriendRequestSends] = useState<USER_INTERFACE[]>([]);
-  const [friendRequestGets, setFriendRequestGets] = useState<USER_INTERFACE[]>([]);
-  const [friends, setFriends] = useState<USER_INTERFACE[]>([]);
   // const [rooms, setRooms] = useState<string[]>([]);
   const socket = GlobalVariables.socket;
   const {
@@ -193,48 +196,6 @@ function Friends(
       phoneNumber
     ]);
   }
-
-  useEffect(() => {
-    console.log("Friends Use effect");
-
-    socket.on(`Server: ${user.phoneNumber} get updated`, async () => {
-      console.log(`${user.phoneNumber} get updated`);
-
-      const response: SERVER_RESPONSE = await UserServices.getUser(user.phoneNumber);
-
-      switch (response.status) {
-        case status.INTERNAL_SERVER_ERROR:
-          alert`Internal Server Error`;
-          break;
-        case status.NO_CONTENT:
-          alert`No content`;
-          break;
-        case status.OK:
-          let requestSends = await phoneNumbersToUsers(response.data.data.requestSends);
-          setFriendRequestSends(requestSends);
-
-          let requestGets = await phoneNumbersToUsers(response.data.data.requestGets);
-          setFriendRequestGets(requestGets);
-
-          let listFriends = await phoneNumbersToFriends(response.data.data.friends);
-          setFriends(listFriends);
-
-          for (let i = 0; i < response.data.data.friends.length; i++) {
-            console.log(`Create Room ${response.data.data.friends[i].relationshipId}`);
-
-            socket.on(`Get message from ${response.data.data.friends[i].relationshipId}`, async (message) => {
-            }); 
-          }
-
-          setSearchFriend(null);
-          break;
-      }
-    });
-
-    return () => {
-      console.log("Friends Leave");
-    }
-  }, []);
 
   return (
     <div
